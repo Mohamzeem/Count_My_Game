@@ -1,12 +1,10 @@
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
-import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:count_my_game/Core/Widgets/text_form_field.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +16,6 @@ class LoginBodyWithEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AuthController>(
-      init: AuthController(),
       builder: (controller) => Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: ListView(
@@ -76,19 +73,7 @@ class LoginBodyWithEmail extends StatelessWidget {
             ),
             SizedBox(height: 40.h),
             CustomButton(
-              onPressed: () {
-                if (controller.emailController.text == '') {
-                  CustomLoading.toast(
-                      text: 'Email is required',
-                      toastPosition: EasyLoadingToastPosition.center);
-                } else if (controller.passwordController.text == '') {
-                  CustomLoading.toast(
-                      text: 'Password is required',
-                      toastPosition: EasyLoadingToastPosition.center);
-                } else {
-                  controller.logIn();
-                }
-              },
+              onPressed: () => controller.logInFunction(),
               text: 'Sign In',
               width: double.infinity,
               height: 45,

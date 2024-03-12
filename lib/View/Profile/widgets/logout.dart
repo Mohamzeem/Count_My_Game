@@ -3,8 +3,9 @@ import 'package:count_my_game/Core/Widgets/custom_dialog.dart';
 import 'package:count_my_game/View/Profile/widgets/settings_item.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class LogOut extends StatelessWidget {
+class LogOut extends GetWidget<AuthController> {
   const LogOut({
     super.key,
   });
@@ -19,7 +20,7 @@ class LogOut extends StatelessWidget {
         textButton1: 'Yes',
         textButton2: 'No',
         onPressed: () {
-          AuthController().logOut();
+          controller.logOut();
         },
       ),
       icon: Icons.logout_outlined,

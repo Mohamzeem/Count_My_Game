@@ -32,9 +32,7 @@ class ProfileImage extends StatelessWidget {
           side: const BorderSide(color: AppColors.kWhite),
         ),
         child: GetBuilder<AuthController>(
-          // init: SettingsController(),
           builder: (controller) => CustomCachedImage(
-            // photoUrl: controller.auth.currentUser!.photoURL!,
             photoUrl: controller.offlineProfile.isPhoto,
             height: 150,
             width: 150,

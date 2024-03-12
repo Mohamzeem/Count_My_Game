@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Services/pref_key.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
@@ -7,13 +8,17 @@ import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_strings.dart';
 import 'package:count_my_game/Models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class AuthController extends GetxController {
   // AuthController();
+  final FirebaseStorage _fireStorage = FirebaseStorage.instance;
   final _storage = GetStorage();
   final _fireStore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -21,9 +26,11 @@ class AuthController extends GetxController {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final RxString _name = "".obs;
+  final RxString _userName = "".obs;
   final RxString _email = "".obs;
   final RxString _password = "".obs;
+
+  final RxString _userPhoto = ''.obs;
   bool _isFirstTime = true;
   bool _showPassword = true;
   final Rx<UserModel> _offlineProfile = const UserModel().obs;
@@ -42,7 +49,7 @@ class AuthController extends GetxController {
 
   String get name => nameController.text;
   set name(String val) {
-    nameController.text = _name.value;
+    nameController.text = _userName.value;
     update();
   }
 
@@ -58,10 +65,28 @@ class AuthController extends GetxController {
     update();
   }
 
+  String get newName => nameController.text;
+  set newName(String value) {
+    nameController.text = _userName.value;
+    update();
+  }
+
+  String get newPassword => passwordController.text;
+  set newPassword(String value) {
+    passwordController.text = _password.value;
+    update();
+  }
+
+  String get newPhoto => _userPhoto.value;
+  set newPhoto(String value) {
+    _userPhoto.value = value;
+    update();
+  }
+
   @override
   void onInit() async {
     super.onInit();
-    await getOfflineProfile();
+    await _getOfflineProfile();
     _showConnectionStatus();
   }
 
@@ -79,7 +104,7 @@ class AuthController extends GetxController {
     passwordController.clear();
   }
 
-  Future logIn() async {
+  Future _logIn() async {
     try {
       CustomLoading.show();
       await _auth
@@ -91,11 +116,10 @@ class AuthController extends GetxController {
         bool isConnected = await _checkInternet();
         if (isConnected) {
           await _getProfile();
-          await getOfflineProfile();
+          await _getOfflineProfile();
         } else {
-          await getOfflineProfile();
+          await _getOfflineProfile();
         }
-        _clearCons();
         CustomLoading.dismiss();
         Get.offNamed(AppRoute.homeView);
       }).then(
@@ -120,6 +144,20 @@ class AuthController extends GetxController {
     } catch (e) {
       CustomLoading.toast(text: e.toString());
     }
+  }
+
+  void logInFunction() {
+    String msg = '';
+    if (emailController.text == '') {
+      msg = 'Email is required';
+    } else if (passwordController.text == '') {
+      msg = 'Password is required';
+    } else {
+      _logIn();
+      _clearCons();
+    }
+    CustomLoading.toast(
+        text: msg, toastPosition: EasyLoadingToastPosition.center);
   }
 
   Future register() async {
@@ -170,6 +208,8 @@ class AuthController extends GetxController {
         .doc(_auth.currentUser!.uid)
         .get();
     final user = UserModel.fromJson(result.data()!);
+    newPhoto = user.photo!;
+    newName = user.name!;
     final data = jsonEncode(user.toJson());
     _storage.write(PrefKeys.profile, data);
     // SharedPref().setString(PrefKeys.profile, data);
@@ -182,7 +222,7 @@ class AuthController extends GetxController {
     return user;
   }
 
-  Future<UserModel> getOfflineProfile() async {
+  Future<UserModel> _getOfflineProfile() async {
     final result = _storage.read(PrefKeys.profile);
     // final result = SharedPref().getString(PrefKeys.profile);
     final data = jsonDecode(result!);
@@ -206,7 +246,11 @@ class AuthController extends GetxController {
           _storage.remove(PrefKeys.profile);
           Get.offNamed(AppRoute.emailLogInView);
         })
-        .then((value) => CustomLoading.toast(text: 'Logged Out Successfully'))
+        .then(
+          (value) => CustomLoading.toast(
+              text: 'Logged Out Successfully',
+              toastPosition: EasyLoadingToastPosition.bottom),
+        )
         .onError(
           (error, stackTrace) => CustomLoading.toast(text: error.toString()),
         );
@@ -228,6 +272,117 @@ class AuthController extends GetxController {
     }).onError(
       (error, stackTrace) => CustomLoading.toast(text: error.toString()),
     );
+  }
+
+  Future setProfileImage() async {
+    ImagePicker imagePicker = ImagePicker();
+
+    final image = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      _uploadImage(
+        file: File(image.path),
+        userId: FirebaseAuth.instance.currentUser!.uid,
+      );
+    }
+  }
+
+  Future _uploadImage({
+    required File file,
+    required String userId,
+  }) async {
+    CustomLoading.show();
+    final String imagePath = file.path.split('.').last;
+    final ref = _fireStorage
+        .ref('ProfileImages')
+        .child('$userId/${DateTime.now().millisecondsSinceEpoch}.$imagePath');
+
+    await ref.putFile(file);
+    final String imageUrl = await ref.getDownloadURL();
+
+    await _auth.currentUser!.updatePhotoURL(imageUrl);
+    await _fireStore
+        .collection(AppStrings.usersCollection)
+        .doc(userId)
+        .update({'photo': imageUrl}).then((value) async {
+      await _getProfile();
+      await _getOfflineProfile();
+    });
+    CustomLoading.toast(
+        text: 'Image changed successfully',
+        toastPosition: EasyLoadingToastPosition.bottom);
+  }
+
+  Future _changeUserName({required String userName}) async {
+    CustomLoading.show();
+    await _auth.currentUser!.updateDisplayName(userName);
+    await _fireStore
+        .collection(AppStrings.usersCollection)
+        .doc(_auth.currentUser!.uid)
+        .update({'name': userName}).then((value) async {
+      await _getProfile();
+      await _getOfflineProfile();
+    }).whenComplete(
+      () => CustomLoading.toast(text: 'Success, $userName updated'),
+    );
+  }
+
+  void changeUserNameFunction() {
+    if (nameController.text.isEmpty) {
+      CustomLoading.toast(
+          text: 'Please enter a your user name',
+          toastPosition: EasyLoadingToastPosition.center);
+    } else {
+      _changeUserName(userName: nameController.text);
+      Get.back();
+      nameController.clear();
+    }
+  }
+
+  void changePasswordFunction() {
+    if (passwordController.text.isEmpty) {
+      CustomLoading.toast(
+          text: 'Please enter your password',
+          toastPosition: EasyLoadingToastPosition.center);
+    } else {
+      _changePassword();
+    }
+  }
+
+  Future _changePassword() async {
+    bool isConnected = await _checkInternet();
+    if (isConnected) {
+      CustomLoading.show();
+      await _auth.currentUser!
+          .updatePassword(newPassword)
+          .whenComplete(() {
+            Get.back();
+            CustomLoading.toast(text: 'Password Changed Successfully');
+            _auth.signOut();
+            passwordController.clear();
+            Get.offNamed(AppRoute.emailLogInView);
+          })
+          .onError((error, stackTrace) =>
+              CustomLoading.toast(text: error.toString()))
+          .then((value) {
+            CustomLoading.toast(text: 'Logged out, Please log in again');
+          });
+    } else {
+      CustomLoading.toast(text: 'No internet connection');
+    }
+  }
+
+  Future changeEmail({required String email}) async {
+    bool isConnected = await _checkInternet();
+    if (isConnected) {
+      CustomLoading.show();
+      await _auth.currentUser!.verifyBeforeUpdateEmail(email);
+      await _fireStore
+          .collection(AppStrings.usersCollection)
+          .doc(_auth.currentUser!.uid)
+          .update({'email': email}).whenComplete(
+              () => CustomLoading.toast(text: 'Success, $email updated'));
+    }
+    CustomLoading.toast(text: 'No internet connection');
   }
 
   Future<bool> _checkInternet() async {

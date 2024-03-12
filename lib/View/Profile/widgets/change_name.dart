@@ -1,10 +1,10 @@
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/View/Profile/widgets/settings_item.dart';
-import 'package:count_my_game/View_Model/profile_controller.dart';
+import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ChangeName extends GetView<ProfileController> {
+class ChangeName extends GetView<AuthController> {
   const ChangeName({
     super.key,
   });
@@ -22,6 +22,7 @@ class ChangeName extends GetView<ProfileController> {
         prefixIcon: Icons.person,
         onPressedbutton: () => controller.changeUserNameFunction(),
         onTapSheetIcon: () => Get.back(),
+        suffixIconFunction: () {},
       ),
       icon: Icons.person_2_outlined,
       mainText: 'User Name',

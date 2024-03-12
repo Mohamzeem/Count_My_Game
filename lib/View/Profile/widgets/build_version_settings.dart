@@ -2,12 +2,12 @@ import 'package:count_my_game/Core/App/app_info.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:count_my_game/View/Profile/widgets/settings_item.dart';
-import 'package:count_my_game/View_Model/profile_controller.dart';
+import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BuildVerison extends GetWidget<ProfileController> {
+class BuildVerison extends GetWidget<AuthController> {
   const BuildVerison({
     super.key,
   });
@@ -18,7 +18,7 @@ class BuildVerison extends GetWidget<ProfileController> {
       onTap: () {
         // debugPrint('1 ${controller.newName}');
         // debugPrint('2 ${controller.userModel.value.id}');
-        // debugPrint('3 ${controller.userModel.value.isPhoto.toString}');
+        debugPrint('3 ${controller.offlineProfile.name}');
         debugPrint('3 ${FirebaseAuth.instance.currentUser!.photoURL}');
       },
       icon: Icons.verified_user_outlined,

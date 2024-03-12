@@ -1,6 +1,6 @@
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/View/Profile/widgets/settings_item.dart';
-import 'package:count_my_game/View_Model/profile_controller.dart';
+import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +11,7 @@ class ChangePassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ProfileController>(
+    return GetBuilder<AuthController>(
       builder: (controller) => ProfileItem(
         onTap: () => AppFunctions.showBtmSheetWithTextAndButton(
           obscureText: controller.showPassword,

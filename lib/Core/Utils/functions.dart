@@ -54,8 +54,8 @@ class AppFunctions {
     required void Function() onPressedbutton,
     required void Function() onTapSheetIcon,
     void Function()? suffixIconFunction,
-    bool? obscureText,
-    bool? suffixIconShow,
+    bool? obscureText = false,
+    bool? suffixIconShow = false,
   }) async {
     AppFunctions.showBtmSheet(
       isDismissible: true,
@@ -82,7 +82,7 @@ class AppFunctions {
         CustomTextFormField(
           obscureText: obscureText!,
           suffixIconShow: suffixIconShow!,
-          suffixIconFunction: suffixIconFunction,
+          suffixIconFunction: suffixIconFunction!,
           label: lable,
           maxLength: 50,
           controller: controller,
