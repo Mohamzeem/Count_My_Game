@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "135490803354",
+    "project_id": "countmygame-87e2b",
+    "storage_bucket": "countmygame-87e2b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:135490803354:android:3a60751c97d6114884b123",
+        "android_client_info": {
+          "package_name": "com.example.count_my_game"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNVqevz65I6GKDAZmKrWj2lM-n5-OK7PE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
