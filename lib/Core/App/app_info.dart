@@ -29,7 +29,8 @@ class MyApp {
 //~ screen utiles size
 class AppConfig {
   AppConfig();
-  final Size designSize = const Size(411.42857142857144, 867.4285714285714);
+  // final Size designSize = const Size(430.0, 867.4285714285714); //! android
+  final Size designSize = const Size(411.42857142857144, 932.0); //! ios
 }
 
 //~ to get system app info and app version build

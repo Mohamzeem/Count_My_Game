@@ -7,12 +7,12 @@ class LoginGoogleFacebook extends StatelessWidget {
   final bool? isLoading;
   final void Function() onPressed;
   const LoginGoogleFacebook({
-    Key? key,
+    super.key,
     required this.logo,
     required this.title,
     required this.onPressed,
     this.isLoading = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Utils/app_strings.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
@@ -29,7 +28,6 @@ class HomeController extends GetxController {
   List<String> numList = ['2', '3', '4'];
 
   void dropDownValue(String val) => selected.value = val;
-  bool get isCreated => _gameCreated.value;
 
   @override
   void dispose() {
@@ -47,6 +45,7 @@ class HomeController extends GetxController {
     teamFourController.clear();
   }
 
+  bool get isCreated => _gameCreated.value;
   set isCreated(bool val) {
     _gameCreated.value = val;
     update();

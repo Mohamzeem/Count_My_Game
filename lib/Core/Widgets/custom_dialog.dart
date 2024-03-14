@@ -73,7 +73,7 @@ class CustomDialog {
   }) async {
     showDialog(
       barrierDismissible: true,
-      barrierColor: Colors.transparent,
+      barrierColor: AppColors.mainColor.withOpacity(0.4),
       context: context,
       builder: (context) => AlertDialog(
         elevation: 10,

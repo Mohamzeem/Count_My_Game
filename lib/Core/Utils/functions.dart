@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
@@ -15,7 +14,7 @@ class AppFunctions {
       required List<Widget> body}) {
     return showModalBottomSheet(
       useSafeArea: true,
-      barrierColor: Colors.transparent,
+      barrierColor: AppColors.mainColor.withOpacity(0.4),
       isScrollControlled: true,
       isDismissible: isDismissible,
       elevation: 10,
@@ -51,14 +50,14 @@ class AppFunctions {
     required String buttonText,
     required IconData sheetIcon,
     required IconData prefixIcon,
-    required void Function() onPressedbutton,
-    required void Function() onTapSheetIcon,
-    void Function()? suffixIconFunction,
-    bool? obscureText = false,
-    bool? suffixIconShow = false,
+    required VoidCallback onPressedbutton,
+    required VoidCallback onTapSheetIcon,
+    VoidCallback? suffixIconFunction,
+    bool obscureText = false,
+    bool suffixIconShow = false,
   }) async {
     AppFunctions.showBtmSheet(
-      isDismissible: true,
+      isDismissible: false,
       context: context,
       body: [
         Row(
@@ -80,9 +79,9 @@ class AppFunctions {
         ),
         SizedBox(height: 10.h),
         CustomTextFormField(
-          obscureText: obscureText!,
-          suffixIconShow: suffixIconShow!,
-          suffixIconFunction: suffixIconFunction!,
+          obscureText: obscureText,
+          suffixIconShow: suffixIconShow,
+          suffixIconFunction: suffixIconFunction,
           label: lable,
           maxLength: 50,
           controller: controller,
@@ -101,7 +100,7 @@ class AppFunctions {
           backgroundColor: AppColors.mainColor,
           textColor: AppColors.secColor,
         ),
-        SizedBox(height: Platform.isIOS ? 10.h : 0.h),
+        // SizedBox(height: Platform.isIOS ? 0.h : 0.h),
       ],
     );
   }

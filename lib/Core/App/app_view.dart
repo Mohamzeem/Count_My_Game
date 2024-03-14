@@ -17,7 +17,8 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(AuthController(), permanent: true);
-
+    // print(MediaQuery.of(context).size.height);
+    // print(MediaQuery.of(context).size.width);
     return ScreenUtilInit(
       designSize: AppConfig().designSize,
       minTextAdapt: true,

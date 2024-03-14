@@ -10,7 +10,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final String label;
   final IconData prefixIcon;
-  final Function()? suffixIconFunction;
+  final VoidCallback? suffixIconFunction;
   final bool suffixIconShow;
   final bool obscureText;
   final TextInputType keyBoard;

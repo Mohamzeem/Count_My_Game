@@ -21,7 +21,10 @@ class ChangeName extends GetView<AuthController> {
         sheetIcon: Icons.close,
         prefixIcon: Icons.person,
         onPressedbutton: () => controller.changeUserNameFunction(),
-        onTapSheetIcon: () => Get.back(),
+        onTapSheetIcon: () {
+          Get.back();
+          controller.passwordController.clear();
+        },
         suffixIconFunction: () {},
       ),
       icon: Icons.person_2_outlined,

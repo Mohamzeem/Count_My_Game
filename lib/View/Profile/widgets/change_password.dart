@@ -15,7 +15,7 @@ class ChangePassword extends StatelessWidget {
       builder: (controller) => ProfileItem(
         onTap: () => AppFunctions.showBtmSheetWithTextAndButton(
           obscureText: controller.showPassword,
-          suffixIconShow: controller.showPassword,
+          suffixIconShow: true,
           context: context,
           controller: controller.passwordController,
           title: 'Enter your new password',
@@ -24,7 +24,10 @@ class ChangePassword extends StatelessWidget {
           sheetIcon: Icons.close,
           prefixIcon: Icons.lock,
           onPressedbutton: () => controller.changePasswordFunction(),
-          onTapSheetIcon: () => Get.back(),
+          onTapSheetIcon: () {
+            Get.back();
+            controller.passwordController.clear();
+          },
           suffixIconFunction: () =>
               controller.showPassword = !controller.showPassword,
         ),
