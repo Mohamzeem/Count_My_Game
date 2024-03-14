@@ -19,7 +19,7 @@ class CustomLoading {
       ..userInteractions = true
       ..dismissOnTap = true
       ..fontSize = 20
-      ..maskType = EasyLoadingMaskType.custom;
+      ..maskType = EasyLoadingMaskType.black;
   }
 
   static void show({String? text}) {

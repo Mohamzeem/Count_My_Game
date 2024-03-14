@@ -1,12 +1,12 @@
+import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
-import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:count_my_game/Core/Widgets/custom_text_button.dart';
 import 'package:count_my_game/Core/Widgets/text_form_field.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
+import 'package:count_my_game/View/Authentication/widgets/auth_app_bar.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -18,14 +18,14 @@ class RegisterBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AuthController>(
-      init: AuthController(),
       builder: (controller) => Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(
               parent: BouncingScrollPhysics()),
           children: [
-            SizedBox(height: 50.h),
+            const AuthAppBar(isArrowBack: true),
+            SizedBox(height: 10.h),
             //^ photo & title text
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -36,11 +36,11 @@ class RegisterBody extends StatelessWidget {
                   color: AppColors.mainColor,
                   scale: 3,
                 ),
-                Wrap(
+                const Wrap(
                   children: [
                     CustomText(
                       text: 'Count Your Games',
-                      color: AppColors.secColor,
+                      color: AppColors.mainColor,
                       fontWeight: FontWeight.w700,
                       fontSize: 40,
                     ),
@@ -50,16 +50,16 @@ class RegisterBody extends StatelessWidget {
             ),
             SizedBox(height: 50.h),
             //^ welcome text
-            CustomText(
+            const CustomText(
               text: 'Welcome,',
-              color: AppColors.secColor,
+              color: AppColors.mainColor,
               fontWeight: FontWeight.w500,
               fontSize: 25,
             ),
             //^ signin text
-            CustomText(
-              text: 'Sign in if you have account or create a new account.',
-              color: AppColors.secColor,
+            const CustomText(
+              text: 'Register if you have account or create a new account.',
+              color: AppColors.mainColor,
               fontWeight: FontWeight.w300,
               fontSize: 20,
             ),
@@ -92,34 +92,20 @@ class RegisterBody extends StatelessWidget {
               suffixIconFunction: () =>
                   controller.showPassword = !controller.showPassword,
             ),
+            //^ forgot password
             Align(
               alignment: Alignment.centerRight,
               child: CustomTextButton(
                 text: 'Forgot Password',
-                onPressed: () => controller.register(),
-                color: AppColors.secColor,
+                onPressed: () => Get.toNamed(AppRoute.forgotPasswordView),
+                color: AppColors.mainColor,
                 fontSize: 20,
               ),
             ),
             SizedBox(height: 10.h),
+            //^ create account btn
             CustomButton(
-              onPressed: () {
-                if (controller.nameController.text == '') {
-                  CustomLoading.toast(
-                      text: 'Name required',
-                      toastPosition: EasyLoadingToastPosition.center);
-                } else if (controller.passwordController.text == '') {
-                  CustomLoading.toast(
-                      text: 'Email required',
-                      toastPosition: EasyLoadingToastPosition.center);
-                } else if (controller.passwordController.text == '') {
-                  CustomLoading.toast(
-                      text: 'Password required',
-                      toastPosition: EasyLoadingToastPosition.center);
-                } else {
-                  controller.register();
-                }
-              },
+              onPressed: () => controller.registerFunction(),
               text: 'Create Account',
               width: double.infinity,
               height: 45,
@@ -127,20 +113,6 @@ class RegisterBody extends StatelessWidget {
               lastRadius: 5,
               fontSize: 25,
               backgroundColor: AppColors.mainColor,
-            ),
-            SizedBox(height: 20.h),
-            CustomButton(
-              onPressed: () {
-                Get.back();
-              },
-              text: 'Back',
-              width: double.infinity,
-              height: 45,
-              threeRadius: 5,
-              lastRadius: 5,
-              fontSize: 25,
-              backgroundColor: AppColors.secColor,
-              textColor: AppColors.kWhite,
             ),
           ],
         ),

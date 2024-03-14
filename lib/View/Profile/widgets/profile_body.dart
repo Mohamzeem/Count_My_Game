@@ -28,6 +28,8 @@ class ProfileBody extends StatelessWidget {
                 title: controller.offlineProfile.name!,
                 onTap: () {},
                 photoUrl: controller.offlineProfile.isPhoto,
+                isArrowBack: true,
+                isProfile: false,
               ),
             ),
             SizedBox(height: 20.h),

@@ -1,24 +1,17 @@
-import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
-import 'package:count_my_game/Core/Widgets/custom_cached_image.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CustomAppBar extends StatelessWidget {
+class AuthAppBar extends StatelessWidget {
   final String title;
-  final String photoUrl;
-  final void Function() onTap;
+  final bool isTitle;
   final bool isArrowBack;
-  final bool isProfile;
-
-  const CustomAppBar({
+  const AuthAppBar({
     super.key,
-    required this.title,
-    required this.onTap,
-    required this.photoUrl,
+    this.title = '',
+    this.isTitle = true,
     this.isArrowBack = false,
-    this.isProfile = false,
   });
 
   @override
@@ -35,12 +28,10 @@ class CustomAppBar extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: InkWell(
-                  onTap: () {
-                    isProfile ? Get.toNamed(AppRoute.profileView) : Get.back();
-                  },
-                  child: Center(
+                  onTap: () => Get.back(),
+                  child: const Center(
                     child: Icon(
-                      isProfile ? Icons.settings : Icons.arrow_back,
+                      Icons.arrow_back,
                       size: 25,
                       color: AppColors.kWhite,
                     ),
@@ -49,19 +40,12 @@ class CustomAppBar extends StatelessWidget {
               )
             : const SizedBox(height: 40, width: 40),
         CustomText(
-          text: title,
+          text: isTitle ? title : '',
           color: AppColors.mainColor,
-          fontSize: 22,
+          fontSize: 25,
           fontWeight: FontWeight.w700,
         ),
-        InkWell(
-          onTap: onTap,
-          child: CustomCachedImage(
-            height: 45,
-            width: 45,
-            photoUrl: photoUrl,
-          ),
-        ),
+        const SizedBox(height: 40, width: 40),
       ],
     );
   }

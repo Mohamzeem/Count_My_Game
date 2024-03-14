@@ -17,23 +17,21 @@ import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class AuthController extends GetxController {
-  // AuthController();
-  final FirebaseStorage _fireStorage = FirebaseStorage.instance;
+  final _fireStorage = FirebaseStorage.instance;
   final _storage = GetStorage();
   final _fireStore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
   final _checker = InternetConnectionChecker();
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final Rx<UserModel> _offlineProfile = const UserModel().obs;
   final RxString _userName = "".obs;
   final RxString _email = "".obs;
   final RxString _password = "".obs;
-
   final RxString _userPhoto = ''.obs;
   bool _isFirstTime = true;
   bool _showPassword = true;
-  final Rx<UserModel> _offlineProfile = const UserModel().obs;
 
   UserModel get offlineProfile => _offlineProfile.value;
   set offlineProfile(UserModel user) {
@@ -105,62 +103,55 @@ class AuthController extends GetxController {
   }
 
   Future _logIn() async {
-    try {
-      CustomLoading.show();
-      await _auth
-          .signInWithEmailAndPassword(
-        email: '${email.trim()}${AppStrings.defaultEmail}',
-        password: password,
-      )
-          .whenComplete(() async {
-        bool isConnected = await _checkInternet();
-        if (isConnected) {
-          await _getProfile();
-          await _getOfflineProfile();
-        } else {
-          await _getOfflineProfile();
-        }
-        CustomLoading.dismiss();
-        Get.offNamed(AppRoute.homeView);
-      }).then(
-        (value) {
-          CustomLoading.toast(text: 'Welcome ${value.user!.displayName!}');
-        },
-      ).onError(
-        (error, stackTrace) {
-          if (error.toString() == 'Null check operator used on a null value') {
-            CustomLoading.toast(text: 'Wrong email or password');
+    bool isConnected = await _checkInternet();
+    if (isConnected) {
+      try {
+        CustomLoading.show();
+        await _auth
+            .signInWithEmailAndPassword(
+          email: '${email.trim()}${AppStrings.defaultEmail}',
+          password: password,
+        )
+            .whenComplete(() async {
+          bool isConnected = await _checkInternet();
+          if (isConnected) {
+            await _getProfile();
+            await _getOfflineProfile();
           } else {
-            CustomLoading.toast(text: error.toString());
+            await _getOfflineProfile();
           }
-        },
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        CustomLoading.toast(text: 'No user found for that email');
-      } else if (e.code == 'wrong-password') {
-        CustomLoading.toast(text: 'Wrong password provided for that user');
+          CustomLoading.dismiss();
+          Get.offNamed(AppRoute.homeView);
+          _clearCons();
+        }).then(
+          (value) {
+            CustomLoading.toast(text: 'Welcome ${value.user!.displayName!}');
+          },
+        ).onError(
+          (error, stackTrace) {
+            if (error.toString() ==
+                'Null check operator used on a null value') {
+              CustomLoading.toast(text: 'Wrong email or password');
+            } else {
+              CustomLoading.toast(text: error.toString());
+            }
+          },
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          CustomLoading.toast(text: 'No user found for that email');
+        } else if (e.code == 'wrong-password') {
+          CustomLoading.toast(text: 'Wrong password provided for that user');
+        }
+      } catch (e) {
+        CustomLoading.toast(text: e.toString());
       }
-    } catch (e) {
-      CustomLoading.toast(text: e.toString());
-    }
-  }
-
-  void logInFunction() {
-    String msg = '';
-    if (emailController.text == '') {
-      msg = 'Email is required';
-    } else if (passwordController.text == '') {
-      msg = 'Password is required';
     } else {
-      _logIn();
-      _clearCons();
+      CustomLoading.toast(text: 'No internet connection');
     }
-    CustomLoading.toast(
-        text: msg, toastPosition: EasyLoadingToastPosition.center);
   }
 
-  Future register() async {
+  Future _register() async {
     try {
       CustomLoading.show();
       await FirebaseAuth.instance
@@ -236,56 +227,6 @@ class AuthController extends GetxController {
     return userProfile;
   }
 
-  Future logOut() async {
-    CustomLoading.show();
-    await _auth
-        .signOut()
-        .whenComplete(() {
-          CustomLoading.dismiss();
-          _storage.remove(PrefKeys.userId);
-          _storage.remove(PrefKeys.profile);
-          Get.offNamed(AppRoute.emailLogInView);
-        })
-        .then(
-          (value) => CustomLoading.toast(
-              text: 'Logged Out Successfully',
-              toastPosition: EasyLoadingToastPosition.bottom),
-        )
-        .onError(
-          (error, stackTrace) => CustomLoading.toast(text: error.toString()),
-        );
-  }
-
-  Future resetPassword(
-      {required String email, required BuildContext context}) async {
-    await FirebaseAuth.instance
-        .sendPasswordResetEmail(
-            email: '${email.trim()}${AppStrings.defaultEmail}')
-        .whenComplete(() {
-      CustomLoading.toast(text: 'Email sent Successfully, Check your email');
-      // Navigator.pushAndRemoveUntil(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => const LoginView(),
-      //     ),
-      //     (route) => false);
-    }).onError(
-      (error, stackTrace) => CustomLoading.toast(text: error.toString()),
-    );
-  }
-
-  Future setProfileImage() async {
-    ImagePicker imagePicker = ImagePicker();
-
-    final image = await imagePicker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      _uploadImage(
-        file: File(image.path),
-        userId: FirebaseAuth.instance.currentUser!.uid,
-      );
-    }
-  }
-
   Future _uploadImage({
     required File file,
     required String userId,
@@ -313,38 +254,19 @@ class AuthController extends GetxController {
   }
 
   Future _changeUserName({required String userName}) async {
-    CustomLoading.show();
-    await _auth.currentUser!.updateDisplayName(userName);
-    await _fireStore
-        .collection(AppStrings.usersCollection)
-        .doc(_auth.currentUser!.uid)
-        .update({'name': userName}).then((value) async {
-      await _getProfile();
-      await _getOfflineProfile();
-    }).whenComplete(
-      () => CustomLoading.toast(text: 'Success, $userName updated'),
-    );
-  }
-
-  void changeUserNameFunction() {
-    if (nameController.text.isEmpty) {
-      CustomLoading.toast(
-          text: 'Please enter a your user name',
-          toastPosition: EasyLoadingToastPosition.center);
-    } else {
-      _changeUserName(userName: nameController.text);
-      Get.back();
-      nameController.clear();
-    }
-  }
-
-  void changePasswordFunction() {
-    if (passwordController.text.isEmpty) {
-      CustomLoading.toast(
-          text: 'Please enter your password',
-          toastPosition: EasyLoadingToastPosition.center);
-    } else {
-      _changePassword();
+    bool isConnected = await _checkInternet();
+    if (isConnected) {
+      CustomLoading.show();
+      await _auth.currentUser!.updateDisplayName(userName);
+      await _fireStore
+          .collection(AppStrings.usersCollection)
+          .doc(_auth.currentUser!.uid)
+          .update({'name': userName}).then((value) async {
+        await _getProfile();
+        await _getOfflineProfile();
+      }).whenComplete(
+        () => CustomLoading.toast(text: 'Success, $userName updated'),
+      );
     }
   }
 
@@ -371,20 +293,6 @@ class AuthController extends GetxController {
     }
   }
 
-  Future changeEmail({required String email}) async {
-    bool isConnected = await _checkInternet();
-    if (isConnected) {
-      CustomLoading.show();
-      await _auth.currentUser!.verifyBeforeUpdateEmail(email);
-      await _fireStore
-          .collection(AppStrings.usersCollection)
-          .doc(_auth.currentUser!.uid)
-          .update({'email': email}).whenComplete(
-              () => CustomLoading.toast(text: 'Success, $email updated'));
-    }
-    CustomLoading.toast(text: 'No internet connection');
-  }
-
   Future<bool> _checkInternet() async {
     if (await _checker.hasConnection) {
       return true;
@@ -406,11 +314,73 @@ class AuthController extends GetxController {
     }
   }
 
-  void navigateByConnection() async {
-    final id = GetStorage().read(PrefKeys.userId);
-    // final id = SharedPref().getString(PrefKeys.userId);
+  Future logOut() async {
+    CustomLoading.show();
+    await _auth
+        .signOut()
+        .whenComplete(() {
+          CustomLoading.dismiss();
+          _storage.remove(PrefKeys.userId);
+          _storage.remove(PrefKeys.profile);
+          Get.offNamed(AppRoute.emailLogInView);
+        })
+        .then(
+          (value) => CustomLoading.toast(
+              text: 'Logged Out Successfully',
+              toastPosition: EasyLoadingToastPosition.bottom),
+        )
+        .onError(
+          (error, stackTrace) => CustomLoading.toast(text: error.toString()),
+        );
+  }
+
+  Future forgotPassword() async {
     bool isConnected = await _checkInternet();
-    debugPrint('offline id  $id');
+    if (isConnected) {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(
+              email: '${email.trim()}${AppStrings.defaultEmail}')
+          .whenComplete(() {
+        CustomLoading.toast(text: 'Email sent Successfully, Check your email');
+        Get.offNamed(AppRoute.emailLogInView);
+      }).onError(
+        (error, stackTrace) => CustomLoading.toast(text: error.toString()),
+      );
+    }
+  }
+
+  Future setProfileImage() async {
+    ImagePicker imagePicker = ImagePicker();
+    bool isConnected = await _checkInternet();
+    if (isConnected) {
+      final image = await imagePicker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        _uploadImage(
+          file: File(image.path),
+          userId: FirebaseAuth.instance.currentUser!.uid,
+        );
+      }
+    }
+  }
+
+  Future changeEmail({required String email}) async {
+    bool isConnected = await _checkInternet();
+    if (isConnected) {
+      CustomLoading.show();
+      await _auth.currentUser!.verifyBeforeUpdateEmail(email);
+      await _fireStore
+          .collection(AppStrings.usersCollection)
+          .doc(_auth.currentUser!.uid)
+          .update({'email': email}).whenComplete(
+              () => CustomLoading.toast(text: 'Success, $email updated'));
+    }
+    CustomLoading.toast(text: 'No internet connection');
+  }
+
+  void navigateByConnection() async {
+    // final id = GetStorage().read(PrefKeys.userId);
+    final id = offlineProfile.id;
+    bool isConnected = await _checkInternet();
     if (id == '' || id == null || id.isEmpty) {
       if (isConnected) {
         Get.offNamed(AppRoute.emailLogInView);
@@ -419,6 +389,67 @@ class AuthController extends GetxController {
       }
     } else {
       Get.offNamed(AppRoute.homeView);
+    }
+  }
+
+  void fromGuestToLoginIfConnected() async {
+    bool isConnected = await _checkInternet();
+    if (isConnected) {
+      Get.toNamed(AppRoute.emailLogInView);
+    } else {
+      CustomLoading.toast(
+          text: 'No internet connection',
+          toastPosition: EasyLoadingToastPosition.bottom);
+    }
+  }
+
+  void logInFunction() {
+    String msg = '';
+    if (emailController.text == '') {
+      msg = 'Email required';
+    } else if (passwordController.text == '') {
+      msg = 'Password required';
+    } else {
+      _logIn();
+    }
+    CustomLoading.toast(
+        text: msg, toastPosition: EasyLoadingToastPosition.center);
+  }
+
+  void registerFunction() {
+    String msg = '';
+    if (nameController.text == '') {
+      msg = 'Name required';
+    } else if (passwordController.text == '') {
+      msg = 'Email required';
+    } else if (passwordController.text == '') {
+      msg = 'Password required';
+    } else {
+      _register();
+    }
+    CustomLoading.toast(
+        text: msg, toastPosition: EasyLoadingToastPosition.center);
+  }
+
+  void changeUserNameFunction() {
+    if (nameController.text.isEmpty) {
+      CustomLoading.toast(
+          text: 'Please enter a your user name',
+          toastPosition: EasyLoadingToastPosition.center);
+    } else {
+      _changeUserName(userName: nameController.text);
+      Get.back();
+      nameController.clear();
+    }
+  }
+
+  void changePasswordFunction() {
+    if (passwordController.text.isEmpty) {
+      CustomLoading.toast(
+          text: 'Please enter your password',
+          toastPosition: EasyLoadingToastPosition.center);
+    } else {
+      _changePassword();
     }
   }
 }

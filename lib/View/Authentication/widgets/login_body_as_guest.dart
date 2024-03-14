@@ -1,12 +1,11 @@
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
-import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:count_my_game/Core/Widgets/text_form_field.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
+import 'package:count_my_game/View/Authentication/widgets/auth_app_bar.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -24,7 +23,8 @@ class LoginBodyAsGuest extends StatelessWidget {
           physics: const AlwaysScrollableScrollPhysics(
               parent: BouncingScrollPhysics()),
           children: [
-            SizedBox(height: 50.h),
+            const AuthAppBar(),
+            SizedBox(height: 10.h),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,30 +34,26 @@ class LoginBodyAsGuest extends StatelessWidget {
                   color: AppColors.mainColor,
                   scale: 3,
                 ),
-                Wrap(
-                  children: [
-                    CustomText(
-                      text: 'Count Your Games',
-                      color: AppColors.secColor,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 40,
-                    ),
-                  ],
+                const CustomText(
+                  text: 'Count Your Games',
+                  color: AppColors.mainColor,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 40,
                 ),
               ],
             ),
             SizedBox(height: 50.h),
-            CustomText(
+            const CustomText(
               text: 'Welcome,',
-              color: AppColors.secColor,
+              color: AppColors.mainColor,
               fontWeight: FontWeight.w500,
               fontSize: 25,
             ),
-            CustomText(
+            const CustomText(
               text:
                   'We here because your internet is off, You can login with local Database',
-              color: AppColors.secColor,
-              fontWeight: FontWeight.w400,
+              color: AppColors.mainColor,
+              fontWeight: FontWeight.w500,
               fontSize: 18,
             ),
             SizedBox(height: 10.h),
@@ -70,19 +66,7 @@ class LoginBodyAsGuest extends StatelessWidget {
             SizedBox(height: 10.h),
             SizedBox(height: 10.h),
             CustomButton(
-              onPressed: () {
-                if (controller.emailController.text == '') {
-                  CustomLoading.toast(
-                      text: 'Email is required',
-                      toastPosition: EasyLoadingToastPosition.center);
-                } else if (controller.passwordController.text == '') {
-                  CustomLoading.toast(
-                      text: 'Password is required',
-                      toastPosition: EasyLoadingToastPosition.center);
-                } else {
-                  //  controller. _clearCons();
-                }
-              },
+              onPressed: () {},
               text: 'Start Count Your Games',
               width: double.infinity,
               height: 45,
@@ -98,31 +82,42 @@ class LoginBodyAsGuest extends StatelessWidget {
                 text: 'OR',
                 fontWeight: FontWeight.w600,
                 fontSize: 25,
+                color: AppColors.kWhite,
               ),
             ),
             const Align(
               alignment: Alignment.center,
               child: CustomText(
                 text:
-                    'Turn on Your Internet and Create Account to save Your games score',
-                fontWeight: FontWeight.w400,
+                    'Turn on Your Internet and Create Account to save Your games score, or log in if you have one',
+                fontWeight: FontWeight.w500,
                 fontSize: 18,
-                // textAlign: TextAlign.center,
+                color: AppColors.mainColor,
               ),
             ),
             SizedBox(height: 10.h),
             CustomButton(
-              onPressed: () {
-                Get.offNamed(AppRoute.emailLogInView);
-              },
+              onPressed: () => Get.toNamed(AppRoute.registrationView),
               text: 'Create Account',
               width: double.infinity,
               height: 45,
               threeRadius: 5,
               lastRadius: 5,
               fontSize: 25,
-              backgroundColor: AppColors.secColor,
-              textColor: AppColors.kWhite,
+              backgroundColor: AppColors.kWhite,
+              textColor: AppColors.mainColor,
+            ),
+            SizedBox(height: 10.h),
+            CustomButton(
+              onPressed: () => controller.fromGuestToLoginIfConnected(),
+              text: 'Log In',
+              width: double.infinity,
+              height: 45,
+              threeRadius: 5,
+              lastRadius: 5,
+              fontSize: 25,
+              backgroundColor: AppColors.kWhite,
+              textColor: AppColors.mainColor,
             ),
           ],
         ),

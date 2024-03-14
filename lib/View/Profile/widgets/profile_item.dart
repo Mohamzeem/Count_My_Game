@@ -29,7 +29,7 @@ class ProfileItem extends StatelessWidget {
         child: Card(
           surfaceTintColor: Colors.transparent,
           elevation: 5,
-          color: AppColors.mainBGColor,
+          color: AppColors.kWhite,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Row(

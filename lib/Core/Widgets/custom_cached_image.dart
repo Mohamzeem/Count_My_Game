@@ -10,12 +10,14 @@ class CustomCachedImage extends StatelessWidget {
   final Widget? child;
   final double? width;
   final double? height;
+  final BoxShape shape;
   const CustomCachedImage({
     super.key,
     required this.photoUrl,
     this.child = const SizedBox.shrink(),
     this.width = 40,
     this.height = 40,
+    this.shape = BoxShape.circle,
   });
 
   @override
@@ -34,9 +36,9 @@ class CustomCachedImage extends StatelessWidget {
           width: width!.w,
           height: height!.h,
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: AppColors.mainColor,
-            border: Border.all(width: 0.5, color: AppColors.mainColor),
+            shape: shape,
+            // color: AppColors.mainColor,
+            // border: Border.all(width: 0.5, color: AppColors.mainColor,),
             image: DecorationImage(
               image: imageProvider,
               fit: BoxFit.fill,

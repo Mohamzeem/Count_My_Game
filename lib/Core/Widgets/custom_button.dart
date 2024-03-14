@@ -13,7 +13,6 @@ class CustomButton extends StatelessWidget {
   final double? fontSize;
   final Color? backgroundColor;
   final Color? textColor;
-
   final TextAlign? textAlign;
   final double? loadingWidth;
   final double? loadingHeight;
@@ -40,13 +39,14 @@ class CustomButton extends StatelessWidget {
       width: width.w,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor ?? AppColors.kBlack,
+          elevation: 5,
+          backgroundColor: backgroundColor ?? AppColors.mainColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(threeRadius ?? 20),
-              topRight: Radius.circular(threeRadius ?? 20),
-              bottomRight: Radius.circular(threeRadius ?? 20),
-              bottomLeft: Radius.circular(lastRadius ?? 0),
+              topLeft: Radius.circular(threeRadius ?? 10),
+              topRight: Radius.circular(threeRadius ?? 10),
+              bottomRight: Radius.circular(threeRadius ?? 10),
+              bottomLeft: Radius.circular(lastRadius ?? 10),
             ),
           ),
         ),

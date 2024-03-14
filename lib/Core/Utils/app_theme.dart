@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 ThemeData appTheme() {
   return ThemeData(
-    scaffoldBackgroundColor: AppColors.kWhite,
+    scaffoldBackgroundColor: AppColors.kBackGround,
     useMaterial3: true,
     fontFamily: MyApp.appFont,
   );

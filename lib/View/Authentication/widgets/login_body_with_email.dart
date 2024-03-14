@@ -1,8 +1,10 @@
+import 'package:count_my_game/Core/Widgets/custom_app_bar.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:count_my_game/Core/Widgets/text_form_field.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
+import 'package:count_my_game/View/Authentication/widgets/auth_app_bar.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +24,8 @@ class LoginBodyWithEmail extends StatelessWidget {
           physics: const AlwaysScrollableScrollPhysics(
               parent: BouncingScrollPhysics()),
           children: [
-            SizedBox(height: 50.h),
+            const AuthAppBar(),
+            SizedBox(height: 10.h),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -32,26 +35,26 @@ class LoginBodyWithEmail extends StatelessWidget {
                   color: AppColors.mainColor,
                   scale: 3,
                 ),
-                CustomText(
+                const CustomText(
                   text: 'Count Your Games',
-                  color: AppColors.secColor,
+                  color: AppColors.mainColor,
                   fontWeight: FontWeight.w700,
                   fontSize: 40,
                 ),
               ],
             ),
             SizedBox(height: 50.h),
-            CustomText(
+            const CustomText(
               text: 'Welcome,',
-              color: AppColors.secColor,
+              color: AppColors.mainColor,
               fontWeight: FontWeight.w500,
               fontSize: 25,
             ),
-            CustomText(
-              text: 'Sign in if you have account or create a new account.',
-              color: AppColors.secColor,
-              fontWeight: FontWeight.w300,
-              fontSize: 20,
+            const CustomText(
+              text: 'Log in if you have account or create a new account.',
+              color: AppColors.mainColor,
+              fontWeight: FontWeight.w500,
+              fontSize: 18,
             ),
             SizedBox(height: 20.h),
             CustomTextFormField(
@@ -74,7 +77,7 @@ class LoginBodyWithEmail extends StatelessWidget {
             SizedBox(height: 40.h),
             CustomButton(
               onPressed: () => controller.logInFunction(),
-              text: 'Sign In',
+              text: 'Log In',
               width: double.infinity,
               height: 45,
               threeRadius: 5,
@@ -91,8 +94,8 @@ class LoginBodyWithEmail extends StatelessWidget {
               threeRadius: 5,
               lastRadius: 5,
               fontSize: 25,
-              backgroundColor: AppColors.secColor,
-              textColor: AppColors.kWhite,
+              backgroundColor: AppColors.kWhite,
+              textColor: AppColors.mainColor,
             ),
           ],
         ),

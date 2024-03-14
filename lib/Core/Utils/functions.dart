@@ -22,9 +22,9 @@ class AppFunctions {
       context: context,
       builder: (context) {
         return Container(
-          decoration: BoxDecoration(
-              color: AppColors.mainBGColor,
-              borderRadius: const BorderRadius.all(Radius.circular(20))),
+          decoration: const BoxDecoration(
+              color: AppColors.kWhite,
+              borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Padding(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -88,6 +88,7 @@ class AppFunctions {
           controller: controller,
           keyBoard: TextInputType.emailAddress,
           prefixIcon: prefixIcon,
+          filled: AppColors.kGrey200,
         ),
         SizedBox(height: 10.h),
         CustomButton(

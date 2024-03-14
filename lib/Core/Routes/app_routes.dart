@@ -10,7 +10,7 @@ class AppRoute {
   // static const controlView = '/controlView';
   // static const groupsView = '/groupsView';
   // static const groupsRoomView = '/groupsRoomView';
-  static const settingsView = '/settingsView';
+  static const profileView = '/settingsView';
   // static const createGroupsView = '/createGroupsView';
   // static const groupDetailsView = '/groupDetailsView';
 }

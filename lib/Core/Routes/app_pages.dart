@@ -41,7 +41,7 @@ class AppPages {
       page: () => const RegisterView(),
     ),
     GetPage(
-      name: AppRoute.settingsView,
+      name: AppRoute.profileView,
       page: () => const ProfileView(),
     ),
     // GetPage(

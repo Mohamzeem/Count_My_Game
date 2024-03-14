@@ -1,5 +1,5 @@
 import 'package:count_my_game/Core/Utils/functions.dart';
-import 'package:count_my_game/View/Profile/widgets/settings_item.dart';
+import 'package:count_my_game/View/Profile/widgets/profile_item.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -1,4 +1,5 @@
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
+import 'package:count_my_game/View/Authentication/widgets/auth_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
@@ -29,24 +30,21 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: ListView(
         children: [
-          SizedBox(height: 20.h),
-          Center(
-            child: CustomText(
-              text: 'Forgot Password',
-              fontSize: 28,
-              fontWeight: FontWeight.w600,
-              color: AppColors.secColor,
-            ),
+          const AuthAppBar(
+            isArrowBack: true,
+            isTitle: true,
+            title: 'Forgot Password',
           ),
+          SizedBox(height: 10.h),
           Image.asset(
             'assets/images/domino.png',
             scale: 2,
           ),
           // SizedBox(height: 20.h),
-          CustomText(
+          const CustomText(
             text: 'Please enter your Email',
             fontSize: 22,
-            color: AppColors.secColor,
+            color: AppColors.mainColor,
           ),
           SizedBox(height: 10.h),
           CustomTextFormField(
@@ -56,7 +54,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
             keyBoard: TextInputType.emailAddress,
             prefixIcon: Icons.email,
           ),
-          SizedBox(height: 20.h),
+          SizedBox(height: 40.h),
           CustomButton(
             onPressed: () {
               if (emailController.text == '') {
@@ -74,18 +72,6 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
             lastRadius: 5,
             fontSize: 25,
             backgroundColor: AppColors.mainColor,
-          ),
-          SizedBox(height: 20.h),
-          CustomButton(
-            onPressed: () => Navigator.of(context).pop(),
-            text: 'Back',
-            width: double.infinity,
-            height: 45,
-            threeRadius: 5,
-            lastRadius: 5,
-            fontSize: 25,
-            textColor: AppColors.kWhite,
-            backgroundColor: AppColors.secColor,
           ),
         ],
       ),

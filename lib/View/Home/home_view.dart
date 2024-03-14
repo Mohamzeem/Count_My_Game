@@ -1,34 +1,14 @@
-import 'package:count_my_game/Core/Routes/app_routes.dart';
-import 'package:count_my_game/Core/Widgets/custom_app_bar.dart';
-import 'package:count_my_game/Core/Widgets/custom_text.dart';
-import 'package:count_my_game/View_Model/auth_controller.dart';
+import 'package:count_my_game/View/Home/widgets/home_body.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: GetBuilder<AuthController>(
-        builder: (controller) => Scaffold(
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.h),
-            child: Column(
-              children: [
-                CustomAppBar(
-                  title: 'Hello, ${controller.offlineProfile.name}',
-                  onTap: () => Get.toNamed(AppRoute.settingsView),
-                  photoUrl: controller.offlineProfile.isPhoto,
-                  isArrowBack: false,
-                ),
-                CustomText(text: controller.offlineProfile.name!),
-              ],
-            ),
-          ),
-        ),
+    return const Scaffold(
+      body: SafeArea(
+        child: HomeBody(),
       ),
     );
 

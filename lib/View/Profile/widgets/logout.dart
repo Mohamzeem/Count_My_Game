@@ -1,6 +1,6 @@
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_dialog.dart';
-import 'package:count_my_game/View/Profile/widgets/settings_item.dart';
+import 'package:count_my_game/View/Profile/widgets/profile_item.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

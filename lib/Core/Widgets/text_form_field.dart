@@ -1,8 +1,10 @@
-import 'package:count_my_game/Core/Widgets/custom_text.dart';
-import 'package:count_my_game/Core/Utils/app_colors.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'package:count_my_game/Core/Utils/app_colors.dart';
+import 'package:count_my_game/Core/Widgets/custom_text.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final TextEditingController? controller;
@@ -13,24 +15,24 @@ class CustomTextFormField extends StatelessWidget {
   final bool obscureText;
   final TextInputType keyBoard;
   final int maxLength;
+  final Color filled;
   const CustomTextFormField({
     super.key,
     this.controller,
     required this.label,
-    // required this.hint,
-    required this.keyBoard,
-    this.suffixIconShow = false,
-    this.maxLength = 6,
-    this.obscureText = false,
-    this.suffixIconFunction,
     required this.prefixIcon,
+    this.suffixIconFunction,
+    this.suffixIconShow = false,
+    this.obscureText = false,
+    required this.keyBoard,
+    this.maxLength = 6,
+    this.filled = AppColors.kWhite,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      // autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: keyBoard,
       inputFormatters: [LengthLimitingTextInputFormatter(maxLength)],
       cursorColor: AppColors.mainColor,
@@ -38,9 +40,9 @@ class CustomTextFormField extends StatelessWidget {
       obscureText: obscureText,
       maxLines: 1,
       style: const TextStyle(
-        fontSize: 22,
-        color: AppColors.kBlack,
-      ),
+          fontSize: 20,
+          color: AppColors.mainColor,
+          fontWeight: FontWeight.w500),
       decoration: InputDecoration(
         prefixIcon: Icon(
           prefixIcon,
@@ -60,17 +62,17 @@ class CustomTextFormField extends StatelessWidget {
                       ))
             : const SizedBox(),
         contentPadding: EdgeInsets.symmetric(horizontal: 10.w),
-        fillColor: AppColors.kGrey,
+        fillColor: filled,
         filled: true,
         label: CustomText(
           text: label,
-          color: AppColors.secColor,
+          color: AppColors.mainColor,
           fontSize: 20,
         ),
         border: OutlineInputBorder(
-            borderSide: BorderSide(width: 0.5, color: AppColors.kGrey)),
+            borderSide: BorderSide(width: 0.5, color: AppColors.kGrey200)),
         enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 0.5, color: AppColors.kGrey)),
+            borderSide: BorderSide(width: 0.5, color: AppColors.kGrey200)),
         focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(width: 0.5, color: AppColors.mainColor)),
         errorBorder: const OutlineInputBorder(
