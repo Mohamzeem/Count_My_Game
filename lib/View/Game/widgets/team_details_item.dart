@@ -1,19 +1,23 @@
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Utils/app_strings.dart';
+import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_cached_image.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
-import 'package:count_my_game/View/Home/widgets/game_text_field.dart';
+import 'package:count_my_game/View/Game/widgets/game_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class TeamDetailsItem extends StatelessWidget {
-  final TextEditingController controller;
+  final TextEditingController nameController;
+  final TextEditingController emailController;
   final String teamNum;
 
   final String photoUrl;
   const TeamDetailsItem({
     super.key,
-    required this.controller,
+    required this.nameController,
+    required this.emailController,
     required this.teamNum,
     required this.photoUrl,
   });
@@ -31,13 +35,59 @@ class TeamDetailsItem extends StatelessWidget {
         ),
         SizedBox(height: 5.h),
         //^ team name field
-        GameTextField(
-          lable: 'Team Name',
-          keyBoard: TextInputType.name,
-          height: 40,
-          width: 170,
-          controller: controller,
-          maxLength: 12,
+        SizedBox(
+          width: 170.w,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GameTextField(
+                lable: 'Team Name',
+                keyBoard: TextInputType.name,
+                height: 40,
+                width: 135,
+                controller: nameController,
+                maxLength: 9,
+              ),
+              // SizedBox(width: 10.w),
+              InkWell(
+                onTap: () {
+                  AppFunctions.showBtmSheetWithTextAndButton(
+                    context: context,
+                    controller: emailController,
+                    title: 'Enter Email',
+                    lable: 'Email',
+                    buttonText: 'Add Team',
+                    sheetIcon: Icons.close,
+                    prefixIcon: Icons.person_2,
+                    onPressedbutton: () {},
+                    onTapSheetIcon: () => Get.back(),
+                  );
+                  // AppFunctions.showBtmSheet(
+                  //     isDismissible: true,
+                  //     context: context,
+                  //     body: [
+                  //       const CustomTextFormField(
+                  //         label: 'Email',
+                  //         prefixIcon: Icons.person_2,
+                  //         keyBoard: TextInputType.emailAddress,
+                  //       )
+                  //     ]);
+                },
+                child: Container(
+                  height: 40.h,
+                  decoration: const BoxDecoration(
+                    color: AppColors.mainColor,
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                  ),
+                  child: const Icon(
+                    Icons.person_2,
+                    color: AppColors.kWhite,
+                    size: 25,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
         SizedBox(height: 10.h),
         //^ photo

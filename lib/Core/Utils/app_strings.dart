@@ -16,7 +16,7 @@ class AppStrings {
   static const String chatCollection = 'Chat';
   static const String groupsCollection = 'Groups';
   static const String usersCollection = 'Users';
-  static const String messagesCollection = 'Messages';
+  static const String gamesCollection = 'Games';
   static String notificationsCollection = 'Notifications';
 
   //~ Agora

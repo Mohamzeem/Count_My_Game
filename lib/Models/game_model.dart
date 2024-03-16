@@ -1,92 +1,66 @@
-import 'package:count_my_game/Core/Utils/app_strings.dart';
+import 'package:count_my_game/Models/team_model.dart';
 import 'package:equatable/equatable.dart';
 
 class GameModel extends Equatable {
-  final List? members;
-  final String? lastMessageTime;
-  final String? lastMessage;
-  final String? createdAt;
   final String? id;
-  final String? senderId;
-  final String? senderName;
-  final String? senderPhoto;
-  final String? contactId;
-  final String? contactName;
-  final String? contactPhoto;
-
+  final String? name;
+  final List? members;
+  final int? maxScore;
+  final String? winner;
+  final String? createdAt;
+  final List<TeamModel>? teams;
+  final bool? isEnded;
   const GameModel({
-    this.members,
-    this.lastMessageTime,
-    this.lastMessage,
-    this.createdAt,
     this.id,
-    this.senderId,
-    this.senderName,
-    this.senderPhoto,
-    this.contactId,
-    this.contactName,
-    this.contactPhoto,
+    this.name,
+    this.members,
+    this.maxScore,
+    this.winner,
+    this.createdAt,
+    this.teams,
+    this.isEnded,
   });
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'members': members,
-      'lastMessageTime': lastMessageTime,
-      'lastMessage': lastMessage,
-      'createdAt': createdAt,
-      'id': id,
-      'senderId': senderId,
-      'senderName': senderName,
-      'senderPhoto': senderPhoto,
-      'contactId': contactId,
-      'contactName': contactName,
-      'contactPhoto': contactPhoto,
+    List<Map<String, dynamic>> teamsMapList =
+        teams!.map((team) => team.toMap()).toList();
+    return {
+      'id': id ?? "",
+      'name': name ?? "",
+      'members': members ?? [],
+      'maxScore': maxScore ?? 0,
+      'winner': winner ?? "",
+      'teams': teamsMapList,
+      'createdAt': createdAt ?? "",
+      'isEnded': isEnded ?? false,
     };
   }
 
   factory GameModel.fromMap(Map<String, dynamic> map) {
+    List<dynamic> teamsData = map['teams'];
+    List<TeamModel> teams =
+        teamsData.map((teamMap) => TeamModel.fromMap(teamMap)).toList();
     return GameModel(
-      members: map['members'] ?? [],
-      lastMessageTime: map['lastMessageTime'] ?? "",
-      lastMessage: map['lastMessage'] ?? "",
+      id: map['id'],
+      name: map['name'],
+      members: map['members'],
+      maxScore: map['maxScore'],
+      winner: map['winner'],
+      teams: teams,
       createdAt: map['createdAt'] ?? "",
-      id: map['id'] ?? "",
-      senderId: map['senderId'] ?? "",
-      senderName: map['senderName'] ?? "",
-      senderPhoto: map['senderPhoto'] ?? "",
-      contactId: map['contactId'] ?? "",
-      contactName: map['contactName'] ?? "",
-      contactPhoto: map['contactPhoto'] ?? "",
+      isEnded: map['isEnded'] ?? true,
     );
   }
   @override
   List<Object> get props {
     return [
-      members!,
-      lastMessageTime!,
-      lastMessage!,
-      createdAt!,
       id!,
-      senderId!,
-      senderName!,
-      senderPhoto!,
-      contactId!,
-      contactName!,
-      contactPhoto!,
+      name!,
+      members!,
+      maxScore!,
+      winner!,
+      teams!,
+      createdAt!,
     ];
-  }
-
-  String get isSenderPhoto {
-    if (senderPhoto!.isEmpty || senderPhoto == "") {
-      return AppStrings.defaultAppPhoto;
-    }
-    return senderPhoto!;
-  }
-
-  String get iscontactPhoto {
-    if (contactPhoto!.isEmpty || contactPhoto == "") {
-      return AppStrings.defaultAppPhoto;
-    }
-    return contactPhoto!;
   }
 }

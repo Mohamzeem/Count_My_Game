@@ -18,7 +18,8 @@ class BuildVerison extends GetWidget<AuthController> {
       onTap: () {
         // debugPrint('1 ${controller.newName}');
         // debugPrint('2 ${controller.userModel.value.id}');
-        debugPrint('3 ${controller.offlineProfile.name}');
+        debugPrint('1 ${controller.offlineProfile.name}');
+        debugPrint('2 ${controller.offlineProfile.id}');
         debugPrint('3 ${FirebaseAuth.instance.currentUser!.photoURL}');
       },
       icon: Icons.verified_user_outlined,

@@ -5,12 +5,12 @@ class AppRoute {
   static const forgotPasswordView = '/forgotPassword';
   static const registrationView = '/registrationView';
   static const homeView = '/homeView';
-  // static const chatRoomView = '/chatRoomView';
-  // static const contactsView = '/contactsView';
-  // static const controlView = '/controlView';
+  static const createdGameView = '/createdGameView';
+  static const historyGameView = '/historyGameView';
+  static const contactsView = '/contactsView';
   // static const groupsView = '/groupsView';
   // static const groupsRoomView = '/groupsRoomView';
-  static const profileView = '/settingsView';
+  static const profileView = '/profileView';
   // static const createGroupsView = '/createGroupsView';
   // static const groupDetailsView = '/groupDetailsView';
 }

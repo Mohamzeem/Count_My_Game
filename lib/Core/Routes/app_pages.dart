@@ -4,6 +4,9 @@ import 'package:count_my_game/View/Authentication/register_view.dart';
 import 'package:count_my_game/View/Authentication/forgot_password_view.dart';
 import 'package:count_my_game/View/Authentication/email_login_view.dart';
 import 'package:count_my_game/View/Authentication/guest_login_view.dart';
+import 'package:count_my_game/View/Contacts/contacts_view.dart';
+import 'package:count_my_game/View/Game/create_game_view.dart';
+import 'package:count_my_game/View/Game/history_game_view.dart';
 import 'package:count_my_game/View/Home/home_view.dart';
 import 'package:count_my_game/View/Profile/profile_view.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -21,12 +24,8 @@ class AppPages {
       page: () => const EmailLoginView(),
     ),
     GetPage(
-      name: AppRoute.homeView,
-      page: () => const HomeView(),
-    ),
-    GetPage(
-      name: AppRoute.emailLogInView,
-      page: () => const EmailLoginView(),
+      name: AppRoute.createdGameView,
+      page: () => const CreateGameView(),
     ),
     GetPage(
       name: AppRoute.guestLogInView,
@@ -43,6 +42,18 @@ class AppPages {
     GetPage(
       name: AppRoute.profileView,
       page: () => const ProfileView(),
+    ),
+    GetPage(
+      name: AppRoute.historyGameView,
+      page: () => const HistoryGameView(),
+    ),
+    GetPage(
+      name: AppRoute.contactsView,
+      page: () => const ContactsView(),
+    ),
+    GetPage(
+      name: AppRoute.homeView,
+      page: () => const HomeView(),
     ),
     // GetPage(
     //   name: AppRoute.groupDetailsView,

@@ -22,7 +22,7 @@ class ProfileBody extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            //^ hello + user name
+            //^ appbar
             GetBuilder<AuthController>(
               builder: (controller) => CustomAppBar(
                 title: controller.offlineProfile.name!,
