@@ -17,19 +17,19 @@ class HomeController extends GetxController {
   }
 
   List<Widget> icons = [
-    Icon(
+    const Icon(
       Icons.group,
-      color: AppColors.secColor,
+      color: AppColors.kWhite,
       size: 35,
     ),
-    Icon(
+    const Icon(
       Icons.history,
-      color: AppColors.secColor,
+      color: AppColors.kWhite,
       size: 35,
     ),
-    Icon(
+    const Icon(
       Icons.settings,
-      color: AppColors.secColor,
+      color: AppColors.kWhite,
       size: 35,
     ),
   ];

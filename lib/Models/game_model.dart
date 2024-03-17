@@ -8,7 +8,7 @@ class GameModel extends Equatable {
   final int? maxScore;
   final String? winner;
   final String? createdAt;
-  final List<TeamModel>? teams;
+  final List<TeamModel> teams;
   final bool? isEnded;
   const GameModel({
     this.id,
@@ -17,13 +17,12 @@ class GameModel extends Equatable {
     this.maxScore,
     this.winner,
     this.createdAt,
-    this.teams,
+    required this.teams,
     this.isEnded,
   });
 
   Map<String, dynamic> toMap() {
-    List<Map<String, dynamic>> teamsMapList =
-        teams!.map((team) => team.toMap()).toList();
+    List<dynamic> teamsMapList = teams.map((team) => team.toMap()).toList();
     return {
       'id': id ?? "",
       'name': name ?? "",
@@ -55,15 +54,6 @@ class GameModel extends Equatable {
     );
   }
   @override
-  List<Object> get props {
-    return [
-      id!,
-      name!,
-      members!,
-      maxScore!,
-      winner!,
-      teams!,
-      createdAt!,
-    ];
-  }
+  List<Object?> get props =>
+      [id, name, members, maxScore, winner, teams, createdAt];
 }

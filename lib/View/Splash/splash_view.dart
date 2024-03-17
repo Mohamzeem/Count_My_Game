@@ -23,9 +23,9 @@ class SplashView extends StatelessWidget {
                 color: AppColors.mainColor,
               ),
             ),
-            CustomText(
+            const CustomText(
               text: 'Count Your Game Score',
-              color: AppColors.secColor,
+              color: AppColors.kWhite,
               fontSize: 30,
               fontWeight: FontWeight.w600,
             ),

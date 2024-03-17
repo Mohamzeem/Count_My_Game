@@ -98,7 +98,7 @@ class AppFunctions {
           threeRadius: 10,
           lastRadius: 10,
           backgroundColor: AppColors.mainColor,
-          textColor: AppColors.secColor,
+          textColor: AppColors.kWhite,
         ),
         // SizedBox(height: Platform.isIOS ? 0.h : 0.h),
       ],

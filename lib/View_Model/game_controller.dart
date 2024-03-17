@@ -144,25 +144,24 @@ class GameController extends GetxController {
   }
 
   Stream<List<GameModel>> getPreviousGames() {
-    return _fireStore
-        .collection(AppStrings.gamesCollection)
-        // .where('members', arrayContains: _auth.currentUser!.uid)
-        .snapshots()
-        .map((event) => event.docs.map(
-              (e) {
-                final data = e.data();
-                return GameModel(
-                  id: data['id'],
-                  createdAt: data['createdAt'],
-                  name: data['name'],
-                  members: data['members'],
-                  maxScore: data['maxScore'],
-                  winner: data['winner'],
-                  teams: data['teams'],
-                  isEnded: data['isEnded'],
-                );
-              },
-            ).toList());
+    return _fireStore.collection(AppStrings.gamesCollection).snapshots().map(
+          (event) => event.docs.map(
+            (e) {
+              final data = e.data();
+
+              return GameModel(
+                id: data['id'],
+                createdAt: data['createdAt'],
+                name: data['name'],
+                members: data['members'],
+                maxScore: data['maxScore'],
+                winner: data['winner'],
+                teams: data['teams'],
+                isEnded: data['isEnded'],
+              );
+            },
+          ).toList(),
+        );
   }
 
   Stream<List<UserModel>> getUsers() {

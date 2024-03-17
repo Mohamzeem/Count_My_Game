@@ -14,11 +14,11 @@ class MyApp {
   static void setSystemUi() {
     if (Platform.isAndroid) {
       SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
-        statusBarColor: AppColors.kBackGround,
+        statusBarColor: AppColors.secColor,
         statusBarBrightness: Brightness.light,
         statusBarIconBrightness: Brightness.dark,
         systemNavigationBarDividerColor: Colors.transparent,
-        systemNavigationBarColor: AppColors.kBackGround,
+        systemNavigationBarColor: AppColors.secColor,
         systemNavigationBarIconBrightness: Brightness.dark,
       );
       SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);

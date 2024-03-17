@@ -31,11 +31,11 @@ class TeamModel extends Equatable {
 
   factory TeamModel.fromMap(Map<String, dynamic> map) {
     return TeamModel(
-      id: map['id'],
-      name: map['name'],
-      photo: map['photo'],
-      score: map['score'],
-      isWinner: map['isWinner'],
+      id: map['id'] ?? "",
+      name: map['name'] ?? "",
+      photo: map['photo'] ?? "",
+      score: map['score'] ?? "",
+      isWinner: map['isWinner'] ?? false,
     );
   }
 

@@ -11,10 +11,10 @@ class CustomLoading {
       ..indicatorSize = 40.0
       ..lineWidth = 2
       ..radius = 10.0
-      ..progressColor = AppColors.secColor
+      ..progressColor = AppColors.kWhite
       ..backgroundColor = AppColors.mainColor
-      ..indicatorColor = AppColors.secColor
-      ..textColor = AppColors.secColor
+      ..indicatorColor = AppColors.kWhite
+      ..textColor = AppColors.kWhite
       ..maskColor = Colors.transparent
       ..userInteractions = true
       ..dismissOnTap = true

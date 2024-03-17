@@ -73,12 +73,12 @@ class CustomDialog {
   }) async {
     showDialog(
       barrierDismissible: true,
-      barrierColor: AppColors.mainColor.withOpacity(0.4),
+      barrierColor: AppColors.mainColor.withOpacity(0.1),
       context: context,
       builder: (context) => AlertDialog(
         elevation: 10,
-        surfaceTintColor: backGroundColor ?? AppColors.secColor,
-        backgroundColor: backGroundColor ?? AppColors.secColor,
+        surfaceTintColor: backGroundColor ?? AppColors.kWhite,
+        backgroundColor: backGroundColor ?? AppColors.kWhite,
         title: Center(
           child: CustomText(
             text: textBody,
@@ -106,7 +106,7 @@ class CustomDialog {
                       surfaceTintColor: AppColors.kWhite,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100.0),
-                        side: BorderSide(color: AppColors.secColor),
+                        side: const BorderSide(color: AppColors.kWhite),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(10),
@@ -133,7 +133,7 @@ class CustomDialog {
                     surfaceTintColor: AppColors.kWhite,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(100.0),
-                      side: BorderSide(color: AppColors.secColor),
+                      side: const BorderSide(color: AppColors.kWhite),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(10),

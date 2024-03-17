@@ -20,7 +20,7 @@ class HomeView extends StatelessWidget {
               body: controller.getSelectedWidget(),
               bottomNavigationBar: CurvedNavigationBar(
                 backgroundColor: Colors.transparent,
-                color: AppColors.kBackGround, //todo color
+                color: AppColors.secColor, //todo color
                 animationDuration: const Duration(milliseconds: 300),
                 height: Platform.isAndroid ? 55 : 42,
                 buttonBackgroundColor: AppColors.mainColor,
