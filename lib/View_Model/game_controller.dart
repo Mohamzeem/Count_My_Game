@@ -4,6 +4,7 @@ import 'package:count_my_game/Core/Utils/app_strings.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Models/game_model.dart';
 import 'package:count_my_game/Models/team_model.dart';
+import 'package:count_my_game/Models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -140,6 +141,50 @@ class GameController extends GetxController {
       CustomLoading.dismiss();
       _clearCons();
     });
+  }
+
+  Stream<List<GameModel>> getPreviousGames() {
+    return _fireStore
+        .collection(AppStrings.gamesCollection)
+        // .where('members', arrayContains: _auth.currentUser!.uid)
+        .snapshots()
+        .map((event) => event.docs.map(
+              (e) {
+                final data = e.data();
+                return GameModel(
+                  id: data['id'],
+                  createdAt: data['createdAt'],
+                  name: data['name'],
+                  members: data['members'],
+                  maxScore: data['maxScore'],
+                  winner: data['winner'],
+                  teams: data['teams'],
+                  isEnded: data['isEnded'],
+                );
+              },
+            ).toList());
+  }
+
+  Stream<List<UserModel>> getUsers() {
+    return _fireStore
+        .collection(AppStrings.usersCollection)
+        // .where('members', arrayContains: _auth.currentUser!.uid)
+        .snapshots()
+        .map((event) => event.docs.map(
+              (e) {
+                final data = e.data();
+                return UserModel(
+                  id: data['id'],
+                  photo: data['photo'],
+                  name: data['name'],
+                  email: data['email'],
+                  mobileNum: data['mobileNum'],
+                  tokenFcm: data['tokenFcm'],
+                  isLoged: data['isLoged'],
+                  isOnline: data['isOnline'],
+                );
+              },
+            ).toList());
   }
 
   void createNewGameFunction() {

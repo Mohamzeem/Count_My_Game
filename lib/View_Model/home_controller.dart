@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   final auth = FirebaseAuth.instance;
-  int _index = 0;
+  int _index = 1;
 
   int get index => _index;
   set index(int value) {
@@ -18,19 +18,19 @@ class HomeController extends GetxController {
 
   List<Widget> icons = [
     Icon(
-      Icons.games,
-      color: AppColors.secColor,
-      size: 27,
-    ),
-    Icon(
       Icons.group,
       color: AppColors.secColor,
-      size: 27,
+      size: 35,
+    ),
+    Icon(
+      Icons.history,
+      color: AppColors.secColor,
+      size: 35,
     ),
     Icon(
       Icons.settings,
       color: AppColors.secColor,
-      size: 27,
+      size: 35,
     ),
   ];
 
@@ -38,10 +38,10 @@ class HomeController extends GetxController {
     Widget widget;
     switch (index) {
       case 0:
-        widget = const HistoryGameView();
+        widget = const ContactsView();
         break;
       case 1:
-        widget = const ContactsView();
+        widget = const HistoryGameView();
         break;
       case 2:
         widget = const ProfileView();

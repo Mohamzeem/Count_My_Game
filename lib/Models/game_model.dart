@@ -37,16 +37,19 @@ class GameModel extends Equatable {
   }
 
   factory GameModel.fromMap(Map<String, dynamic> map) {
-    List<dynamic> teamsData = map['teams'];
-    List<TeamModel> teams =
-        teamsData.map((teamMap) => TeamModel.fromMap(teamMap)).toList();
+    List<TeamModel> teamsList = [];
+    if (map['teams'] != null) {
+      List<dynamic> teamsData = map['teams'];
+      teamsList =
+          teamsData.map((teamMap) => TeamModel.fromMap(teamMap)).toList();
+    }
     return GameModel(
-      id: map['id'],
-      name: map['name'],
+      id: map['id'] ?? "",
+      name: map['name'] ?? "",
       members: map['members'],
-      maxScore: map['maxScore'],
-      winner: map['winner'],
-      teams: teams,
+      maxScore: map['maxScore'] ?? 0,
+      winner: map['winner'] ?? "",
+      teams: teamsList,
       createdAt: map['createdAt'] ?? "",
       isEnded: map['isEnded'] ?? true,
     );

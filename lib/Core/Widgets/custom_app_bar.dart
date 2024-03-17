@@ -3,6 +3,8 @@ import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_cached_image.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -48,11 +50,17 @@ class CustomAppBar extends StatelessWidget {
                 ),
               )
             : const SizedBox(height: 40, width: 40),
-        CustomText(
-          text: title,
-          color: AppColors.mainColor,
-          fontSize: 22,
-          fontWeight: FontWeight.w700,
+        SizedBox(
+          width: 270.w,
+          child: Center(
+            child: CustomText(
+              text: title,
+              color: AppColors.mainColor,
+              fontSize: 22,
+              fontWeight: FontWeight.w700,
+              textOverflow: TextOverflow.ellipsis,
+            ),
+          ),
         ),
         InkWell(
           onTap: onTap,

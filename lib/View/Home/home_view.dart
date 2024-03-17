@@ -10,22 +10,24 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        color: AppColors.kWhite,
-        child: GetBuilder<HomeController>(
-          builder: (controller) => Scaffold(
-            extendBody: true,
-            body: controller.getSelectedWidget(),
-            bottomNavigationBar: CurvedNavigationBar(
-              backgroundColor: Colors.transparent,
-              color: AppColors.mainColor,
-              animationDuration: const Duration(milliseconds: 300),
-              height: Platform.isAndroid ? 55 : 42,
-              buttonBackgroundColor: AppColors.mainColor,
-              index: controller.index,
-              onTap: (value) => controller.index = value,
-              items: controller.icons,
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          color: AppColors.kWhite,
+          child: GetBuilder<HomeController>(
+            builder: (controller) => Scaffold(
+              extendBody: true,
+              body: controller.getSelectedWidget(),
+              bottomNavigationBar: CurvedNavigationBar(
+                backgroundColor: Colors.transparent,
+                color: AppColors.kBackGround, //todo color
+                animationDuration: const Duration(milliseconds: 300),
+                height: Platform.isAndroid ? 55 : 42,
+                buttonBackgroundColor: AppColors.mainColor,
+                index: controller.index,
+                onTap: (value) => controller.index = value,
+                items: controller.icons,
+              ),
             ),
           ),
         ),

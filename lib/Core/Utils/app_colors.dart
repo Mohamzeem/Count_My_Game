@@ -14,6 +14,3 @@ class AppColors {
   static const Color kRed = Color(0xFFDD2828);
   static Color kGrey200 = Colors.grey.shade200;
 }
-
-//   #44494c         #1da6b6
- 
