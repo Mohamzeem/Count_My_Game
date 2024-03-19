@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
-import 'package:count_my_game/Core/Utils/app_strings.dart';
 import 'package:count_my_game/Core/Widgets/custom_cached_image.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 
@@ -53,11 +52,11 @@ class GameDetailsItem extends StatelessWidget {
                   Radius.circular(10),
                 ),
               ),
-              child: const Padding(
-                padding: EdgeInsets.all(5.0),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
                 child: CustomCachedImage(
                   shape: BoxShape.rectangle,
-                  photoUrl: AppStrings.defaultAppPhoto,
+                  photoUrl: photoUrl,
                   height: 170,
                   width: 100,
                 ),

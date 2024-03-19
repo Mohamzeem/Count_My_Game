@@ -6,8 +6,6 @@ import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Models/game_model.dart';
 import 'package:count_my_game/Models/team_model.dart';
 import 'package:count_my_game/Models/user_model.dart';
-import 'package:count_my_game/View/Game/result_view.dart';
-import 'package:count_my_game/View/Game/widgets/game_body.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -94,6 +92,11 @@ class GameController extends GetxController {
     update();
   }
 
+  set isCreated(bool val) {
+    _gameCreated.value = val;
+    update();
+  }
+
   @override
   void dispose() {
     teamOneController.dispose();
@@ -110,12 +113,9 @@ class GameController extends GetxController {
     teamTwoController.clear();
     teamThreeController.clear();
     teamFourController.clear();
-    maxScoreController.clear();
-  }
-
-  set isCreated(bool val) {
-    _gameCreated.value = val;
-    update();
+    // maxScoreController.clear();
+    newScoreController.clear();
+    emailController.clear();
   }
 
   Future _createGame(String idTwo, String idThree, String idFour) async {
@@ -169,13 +169,14 @@ class GameController extends GetxController {
       CustomLoading.toast(text: 'Max Score Required');
     } else {
       _createGame(idTwo, idThree, idFour);
-      _clearCons();
     }
   }
 
   Stream<List<GameModel>> getPreviousGames() {
     final result = FirebaseFirestore.instance
         .collection(AppStrings.gamesCollection)
+        .where('members', arrayContains: _auth.currentUser!.uid)
+        // .orderBy('createdAt', descending: true)
         .snapshots();
     return result.map((snapshot) {
       // Map each document snapshot into a GameModel object
@@ -214,16 +215,16 @@ class GameController extends GetxController {
     scoreListDTeam.clear();
   }
 
-  void gameEnded() {
-    if (teamAPoints.value == maxScore ||
-        teamBPoints.value == maxScore ||
-        teamCPoints.value == maxScore ||
-        teamDPoints.value == maxScore) {
-      const ResultBody();
-    } else {
-      GameBody();
-    }
-  }
+  // void gameEnded() {
+  //   if (teamAPoints.value == maxScore ||
+  //       teamBPoints.value == maxScore ||
+  //       teamCPoints.value == maxScore ||
+  //       teamDPoints.value == maxScore) {
+  //     const ResultBody();
+  //   } else {
+  //     const GameBody();
+  //   }
+  // }
 
   void incrementScore({required String team}) {
     if (newScoreController.text.isNotEmpty) {

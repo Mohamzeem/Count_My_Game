@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ class CreatedTeams extends GetWidget<GameController> {
 
   @override
   Widget build(BuildContext context) {
+    String userName = FirebaseAuth.instance.currentUser!.displayName!;
     return Column(
       children: [
         controller.selectedNum.value == '2'
@@ -20,6 +22,8 @@ class CreatedTeams extends GetWidget<GameController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TeamDetailsItem(
+                      initValue: userName,
+                      isUser: true,
                       emailController: controller.emailController,
                       photoUrl: '',
                       teamNum: '1',
@@ -43,6 +47,8 @@ class CreatedTeams extends GetWidget<GameController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             TeamDetailsItem(
+                              initValue: userName,
+                              isUser: true,
                               emailController: controller.emailController,
                               photoUrl: '',
                               teamNum: '1',
@@ -74,6 +80,8 @@ class CreatedTeams extends GetWidget<GameController> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 TeamDetailsItem(
+                                  isUser: true,
+                                  initValue: userName,
                                   emailController: controller.emailController,
                                   photoUrl: '',
                                   teamNum: '1',

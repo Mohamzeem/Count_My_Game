@@ -1,8 +1,10 @@
-import 'package:count_my_game/Core/Widgets/custom_text.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:count_my_game/Core/Utils/app_colors.dart';
+import 'package:count_my_game/Core/Widgets/custom_text.dart';
 
 class GameTextField extends StatelessWidget {
   final TextEditingController? controller;
@@ -12,16 +14,18 @@ class GameTextField extends StatelessWidget {
   final Color filled;
   final double height;
   final double width;
+  final bool isRead;
 
   const GameTextField({
     super.key,
     this.controller,
+    this.lable = '',
     required this.keyBoard,
     this.maxLength = 6,
     this.filled = AppColors.kWhite,
     required this.height,
     required this.width,
-    this.lable = '',
+    this.isRead = false,
   });
 
   @override
@@ -30,10 +34,9 @@ class GameTextField extends StatelessWidget {
       height: height.h,
       width: width.w,
       child: TextFormField(
+        readOnly: isRead,
         controller: controller,
-        inputFormatters: [
-          LengthLimitingTextInputFormatter(maxLength),
-        ],
+        inputFormatters: [LengthLimitingTextInputFormatter(maxLength)],
         keyboardType: keyBoard,
         cursorColor: AppColors.mainColor,
         textInputAction: TextInputAction.done,

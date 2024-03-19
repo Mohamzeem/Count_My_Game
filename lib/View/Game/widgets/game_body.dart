@@ -78,7 +78,7 @@ class GameBody extends GetWidget<GameController> {
                       const CustomText(
                         text: 'Double Click Team to Undo Last Added Score',
                         color: AppColors.kWhite,
-                        fontSize: 18,
+                        fontSize: 17,
                         fontWeight: FontWeight.w400,
                       ),
                     ],

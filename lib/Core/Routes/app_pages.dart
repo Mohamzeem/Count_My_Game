@@ -8,7 +8,6 @@ import 'package:count_my_game/View/Contacts/contacts_view.dart';
 import 'package:count_my_game/View/Game/create_game_view.dart';
 import 'package:count_my_game/View/Game/game_view.dart';
 import 'package:count_my_game/View/Game/history_game_view.dart';
-import 'package:count_my_game/View/Game/result_view.dart';
 import 'package:count_my_game/View/Home/home_view.dart';
 import 'package:count_my_game/View/Profile/profile_view.dart';
 import 'package:get/get_navigation/get_navigation.dart';

@@ -2,12 +2,10 @@ import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/View/Contacts/contacts_view.dart';
 import 'package:count_my_game/View/Game/history_game_view.dart';
 import 'package:count_my_game/View/Profile/profile_view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  final auth = FirebaseAuth.instance;
   int _index = 1;
 
   int get index => _index;

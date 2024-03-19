@@ -105,11 +105,11 @@ class CreateGameBody extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
               if (controller.isCreated) ...[const CreatedTeams()],
+              //^ create game btn
               if (controller.isCreated) ...[
                 CustomButton(
-                  onPressed: () => Get.toNamed(AppRoute.gameView),
-                  // controller.createGameFunction(
-                  //       idTwo: 'idTwo', idThree: 'idThree', idFour: 'idFour'),
+                  onPressed: () => controller.createGameFunction(
+                      idTwo: 'idTwo', idThree: 'idThree', idFour: 'idFour'),
                   text: 'Start Game',
                   width: double.infinity,
                   height: 50,

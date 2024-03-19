@@ -18,10 +18,9 @@ class PreviousGamesList extends StatelessWidget {
         stream: controller.getPreviousGames(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            final List<GameModel> gameList = snapshot.data!;
-            // ..sort(
-            //   (a, b) => a.createdAt!.compareTo(b.createdAt!),
-            // );
+            final List<GameModel> gameList = snapshot.data!
+              //^ arrange list by created time
+              ..sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
             return Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.h),
