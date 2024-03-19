@@ -26,10 +26,8 @@ class ProfileBody extends StatelessWidget {
             GetBuilder<AuthController>(
               builder: (controller) => CustomAppBar(
                 title: controller.offlineProfile.name!,
-                onTap: () {},
                 photoUrl: controller.offlineProfile.isPhoto,
-                isArrowBack: true,
-                isProfile: false,
+                isArrowBack: false,
               ),
             ),
             SizedBox(height: 20.h),

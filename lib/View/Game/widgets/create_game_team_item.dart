@@ -12,7 +12,6 @@ class TeamDetailsItem extends StatelessWidget {
   final TextEditingController nameController;
   final TextEditingController emailController;
   final String teamNum;
-
   final String photoUrl;
   const TeamDetailsItem({
     super.key,
@@ -62,16 +61,6 @@ class TeamDetailsItem extends StatelessWidget {
                     onPressedbutton: () {},
                     onTapSheetIcon: () => Get.back(),
                   );
-                  // AppFunctions.showBtmSheet(
-                  //     isDismissible: true,
-                  //     context: context,
-                  //     body: [
-                  //       const CustomTextFormField(
-                  //         label: 'Email',
-                  //         prefixIcon: Icons.person_2,
-                  //         keyBoard: TextInputType.emailAddress,
-                  //       )
-                  //     ]);
                 },
                 child: Container(
                   height: 40.h,
@@ -125,8 +114,8 @@ class TeamDetailsItem extends StatelessWidget {
                   child: CustomCachedImage(
                     shape: BoxShape.rectangle,
                     photoUrl: AppStrings.defaultAppPhoto,
-                    height: 170,
-                    width: 100,
+                    width: 170,
+                    height: 100,
                   ),
                 ),
         ),

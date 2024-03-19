@@ -7,9 +7,9 @@ class ContactsController extends GetxController {
     ContactsController();
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  // }
 }

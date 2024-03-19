@@ -29,11 +29,9 @@ class CreateGameBody extends StatelessWidget {
               //^ appbar
               GetBuilder<AuthController>(
                 builder: (controller) => CustomAppBar(
-                  title: 'Hello, ${controller.offlineProfile.name}',
-                  onTap: () => Get.toNamed(AppRoute.profileView),
+                  title: 'Create a new game',
                   photoUrl: controller.offlineProfile.isPhoto,
                   isArrowBack: true,
-                  isProfile: false,
                 ),
               ),
               SizedBox(height: 20.h),
@@ -74,7 +72,7 @@ class CreateGameBody extends StatelessWidget {
                     height: 35,
                     width: 70,
                     lable: 'Score',
-                    controller: controller.scoreController,
+                    controller: controller.maxScoreController,
                   ),
                 ],
               ),
@@ -109,9 +107,9 @@ class CreateGameBody extends StatelessWidget {
               if (controller.isCreated) ...[const CreatedTeams()],
               if (controller.isCreated) ...[
                 CustomButton(
-                  onPressed: () {
-                    controller.createGame("", "", "");
-                  },
+                  onPressed: () => Get.toNamed(AppRoute.gameView),
+                  // controller.createGameFunction(
+                  //       idTwo: 'idTwo', idThree: 'idThree', idFour: 'idFour'),
                   text: 'Start Game',
                   width: double.infinity,
                   height: 50,

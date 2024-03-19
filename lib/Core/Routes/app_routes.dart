@@ -8,9 +8,9 @@ class AppRoute {
   static const createdGameView = '/createdGameView';
   static const historyGameView = '/historyGameView';
   static const contactsView = '/contactsView';
-  // static const groupsView = '/groupsView';
-  // static const groupsRoomView = '/groupsRoomView';
+  static const gameView = '/gameView';
   static const profileView = '/profileView';
+  // static const resultView = '/resultView';
   // static const createGroupsView = '/createGroupsView';
   // static const groupDetailsView = '/groupDetailsView';
 }

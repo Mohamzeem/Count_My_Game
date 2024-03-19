@@ -23,9 +23,9 @@ class HistoryGameView extends GetWidget<AuthController> {
             backgroundColor: AppColors.mainColor,
             onPressed: () => Get.toNamed(AppRoute.createdGameView),
             child: const Icon(
-              Icons.arrow_forward_ios,
+              Icons.play_arrow,
               color: AppColors.kWhite,
-              size: 30,
+              size: 50,
             ),
           ),
         ),

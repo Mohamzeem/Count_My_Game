@@ -1,10 +1,13 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_strings.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Models/game_model.dart';
 import 'package:count_my_game/Models/team_model.dart';
 import 'package:count_my_game/Models/user_model.dart';
+import 'package:count_my_game/View/Game/result_view.dart';
+import 'package:count_my_game/View/Game/widgets/game_body.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +27,10 @@ class GameController extends GetxController {
   RxInt teamBPoints = 0.obs;
   RxInt teamCPoints = 0.obs;
   RxInt teamDPoints = 0.obs;
+  RxList scoreListATeam = [].obs;
+  RxList scoreListBTeam = [].obs;
+  RxList scoreListCTeam = [].obs;
+  RxList scoreListDTeam = [].obs;
   final RxString selectedNum = ''.obs;
   final RxString selectedGame = ''.obs;
   final RxBool _gameCreated = false.obs;
@@ -31,7 +38,8 @@ class GameController extends GetxController {
   final teamTwoController = TextEditingController();
   final teamThreeController = TextEditingController();
   final teamFourController = TextEditingController();
-  final scoreController = TextEditingController();
+  final maxScoreController = TextEditingController();
+  final newScoreController = TextEditingController();
   final emailController = TextEditingController();
 
   List<String> numList = ['2', '3', '4'];
@@ -74,9 +82,15 @@ class GameController extends GetxController {
     update();
   }
 
-  int get teamscore => int.parse(scoreController.text);
-  set teamscore(int val) {
-    int.parse(scoreController.text);
+  int get maxScore => int.parse(maxScoreController.text);
+  set maxScore(int val) {
+    int.parse(maxScoreController.text);
+    update();
+  }
+
+  int get newScore => int.parse(newScoreController.text);
+  set newScore(int val) {
+    int.parse(maxScoreController.text);
     update();
   }
 
@@ -86,7 +100,8 @@ class GameController extends GetxController {
     teamTwoController.dispose();
     teamThreeController.dispose();
     teamFourController.dispose();
-    scoreController.dispose();
+    maxScoreController.dispose();
+    emailController.dispose();
     super.dispose();
   }
 
@@ -95,7 +110,7 @@ class GameController extends GetxController {
     teamTwoController.clear();
     teamThreeController.clear();
     teamFourController.clear();
-    scoreController.clear();
+    maxScoreController.clear();
   }
 
   set isCreated(bool val) {
@@ -103,7 +118,7 @@ class GameController extends GetxController {
     update();
   }
 
-  Future createGame(String idTwo, String idThree, String idFour) async {
+  Future _createGame(String idTwo, String idThree, String idFour) async {
     CustomLoading.show();
     final teamOneId = _auth.currentUser!.uid;
     final randomGameId = _uuid.v1();
@@ -126,7 +141,7 @@ class GameController extends GetxController {
       name: selectedGame.value,
       members: members,
       createdAt: _createdAtTime,
-      maxScore: teamscore,
+      maxScore: maxScore,
       teams: selectedNum.value == '3'
           ? [teamOne, teamTwo, teamThree]
           : selectedNum.value == '4'
@@ -139,29 +154,35 @@ class GameController extends GetxController {
         .set(gameModel.toMap())
         .whenComplete(() {
       CustomLoading.dismiss();
+      Get.toNamed(AppRoute.gameView);
       _clearCons();
     });
   }
 
-  Stream<List<GameModel>> getPreviousGames() {
-    return _fireStore.collection(AppStrings.gamesCollection).snapshots().map(
-          (event) => event.docs.map(
-            (e) {
-              final data = e.data();
+  void createGameFunction(
+      {required String idTwo,
+      required String idThree,
+      required String idFour}) {
+    if (selectedGame.isEmpty) {
+      CustomLoading.toast(text: 'Selete Game');
+    } else if (maxScoreController.text.isEmpty) {
+      CustomLoading.toast(text: 'Max Score Required');
+    } else {
+      _createGame(idTwo, idThree, idFour);
+      _clearCons();
+    }
+  }
 
-              return GameModel(
-                id: data['id'],
-                createdAt: data['createdAt'],
-                name: data['name'],
-                members: data['members'],
-                maxScore: data['maxScore'],
-                winner: data['winner'],
-                teams: data['teams'],
-                isEnded: data['isEnded'],
-              );
-            },
-          ).toList(),
-        );
+  Stream<List<GameModel>> getPreviousGames() {
+    final result = FirebaseFirestore.instance
+        .collection(AppStrings.gamesCollection)
+        .snapshots();
+    return result.map((snapshot) {
+      // Map each document snapshot into a GameModel object
+      return snapshot.docs.map((doc) {
+        return GameModel.fromMap(doc.data());
+      }).toList();
+    });
   }
 
   Stream<List<UserModel>> getUsers() {
@@ -172,16 +193,7 @@ class GameController extends GetxController {
         .map((event) => event.docs.map(
               (e) {
                 final data = e.data();
-                return UserModel(
-                  id: data['id'],
-                  photo: data['photo'],
-                  name: data['name'],
-                  email: data['email'],
-                  mobileNum: data['mobileNum'],
-                  tokenFcm: data['tokenFcm'],
-                  isLoged: data['isLoged'],
-                  isOnline: data['isOnline'],
-                );
+                return UserModel.fromJson(data);
               },
             ).toList());
   }
@@ -195,51 +207,79 @@ class GameController extends GetxController {
     isCreated ? selectedNum.value : selectedNum.value = '';
   }
 
-  void incrementScore({required String team, required int number}) {
-    if (team == 'A') {
-      teamAPoints += number;
-      update();
-    } else if (team == 'B') {
-      teamBPoints += number;
-      update();
-    } else if (team == 'C') {
-      teamCPoints += number;
-      update();
-    } else if (team == 'D') {
-      teamDPoints += number;
-      update();
+  void _clearLists() {
+    scoreListATeam.clear();
+    scoreListBTeam.clear();
+    scoreListCTeam.clear();
+    scoreListDTeam.clear();
+  }
+
+  void gameEnded() {
+    if (teamAPoints.value == maxScore ||
+        teamBPoints.value == maxScore ||
+        teamCPoints.value == maxScore ||
+        teamDPoints.value == maxScore) {
+      const ResultBody();
+    } else {
+      GameBody();
     }
   }
 
-  void decrementScore({required String team, required int number}) {
-    if (team == 'A') {
-      teamAPoints -= number;
-      update();
-    } else if (team == 'B') {
-      teamBPoints -= number;
-      update();
-    } else if (team == 'C') {
-      teamCPoints -= number;
-      update();
-    } else if (team == 'D') {
-      teamDPoints -= number;
-      update();
+  void incrementScore({required String team}) {
+    if (newScoreController.text.isNotEmpty) {
+      if (team == 'A') {
+        teamAPoints += newScore;
+        scoreListATeam.add(newScore);
+        newScoreController.clear();
+        update();
+      } else if (team == 'B') {
+        teamBPoints += newScore;
+        scoreListBTeam.add(newScore);
+        newScoreController.clear();
+        update();
+      } else if (team == 'C') {
+        teamCPoints += newScore;
+        scoreListCTeam.add(newScore);
+        newScoreController.clear();
+        update();
+      } else if (team == 'D') {
+        teamDPoints += newScore;
+        scoreListDTeam.add(newScore);
+        newScoreController.clear();
+        update();
+      }
     }
   }
 
-  void resetScore({required String team}) {
+  void undoScore({required String team}) {
     if (team == 'A') {
-      teamAPoints.value = 0;
-      update();
+      if (scoreListATeam.isNotEmpty) {
+        int lastAdded = scoreListATeam.removeLast();
+        teamAPoints -= lastAdded;
+        _clearLists();
+        update();
+      }
     } else if (team == 'B') {
-      teamBPoints.value = 0;
-      update();
+      if (scoreListBTeam.isNotEmpty) {
+        int lastAdded = scoreListBTeam.removeLast();
+        teamBPoints -= lastAdded;
+        _clearLists();
+        update();
+      }
     } else if (team == 'C') {
-      teamCPoints.value = 0;
-      update();
+      if (scoreListCTeam.isNotEmpty) {
+        int lastAdded = scoreListCTeam.removeLast();
+        teamCPoints -= lastAdded;
+        _clearLists();
+        update();
+      }
     } else if (team == 'D') {
-      teamDPoints.value = 0;
-      update();
+      if (scoreListDTeam.isNotEmpty) {
+        int lastAdded = scoreListDTeam.removeLast();
+        teamDPoints -= lastAdded;
+        _clearLists();
+        update();
+      }
     }
   }
 
@@ -274,10 +314,7 @@ class GameController extends GetxController {
     await _fireStore
         .collection(AppStrings.usersCollection)
         .doc(userId)
-        .update({'teamPhotos': imageUrl}).then((value) async {
-      // await _getProfile();
-      // await _getOfflineProfile();
-    });
+        .update({'teamPhotos': imageUrl});
     CustomLoading.toast(
         text: 'Image changed successfully',
         toastPosition: EasyLoadingToastPosition.bottom);

@@ -16,6 +16,7 @@ class CustomButton extends StatelessWidget {
   final TextAlign? textAlign;
   final double? loadingWidth;
   final double? loadingHeight;
+  final FontWeight? fontWeight;
   const CustomButton({
     super.key,
     required this.onPressed,
@@ -30,6 +31,7 @@ class CustomButton extends StatelessWidget {
     this.textAlign,
     this.loadingWidth = 25,
     this.loadingHeight = 25,
+    this.fontWeight = FontWeight.w500,
   });
 
   @override
@@ -56,7 +58,7 @@ class CustomButton extends StatelessWidget {
           text: text,
           color: textColor ?? AppColors.kWhite,
           textAlign: textAlign,
-          fontWeight: FontWeight.w500,
+          fontWeight: fontWeight,
         ),
       ),
     );

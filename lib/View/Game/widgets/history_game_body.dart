@@ -20,10 +20,8 @@ class HistoryGameBody extends StatelessWidget {
           GetBuilder<AuthController>(
             builder: (controller) => CustomAppBar(
               title: 'Hello, ${controller.offlineProfile.name!}',
-              onTap: () {},
               photoUrl: controller.offlineProfile.isPhoto,
               isArrowBack: false,
-              isProfile: false,
             ),
           ),
           const PreviousGamesList(),

@@ -1,8 +1,8 @@
-import 'package:count_my_game/View/Game/widgets/team_details_item.dart';
-import 'package:count_my_game/View_Model/game_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:count_my_game/View/Game/widgets/create_game_team_item.dart';
+import 'package:count_my_game/View_Model/game_controller.dart';
 
 class CreatedTeams extends GetWidget<GameController> {
   const CreatedTeams({
