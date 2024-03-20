@@ -23,7 +23,7 @@ class GameTeams extends StatelessWidget {
                       onTap: () => controller.incrementScore(team: 'A'),
                       score: controller.teamAPoints.value.toString(),
                       photoUrl: '',
-                      teamName: controller.teamOneName,
+                      teamName: controller.teamOne.name!,
                       maxScore: controller.maxScoreController.text,
                     ),
                     GameDetailsItem(
@@ -32,7 +32,7 @@ class GameTeams extends StatelessWidget {
                       score: controller.teamBPoints.value.toString(),
                       photoUrl: '',
                       maxScore: controller.maxScoreController.text,
-                      teamName: controller.teamTwoName,
+                      teamName: controller.teamTwo.name!,
                     ),
                   ],
                 )
@@ -48,7 +48,7 @@ class GameTeams extends StatelessWidget {
                               score: controller.teamAPoints.value.toString(),
                               photoUrl: '',
                               maxScore: controller.maxScoreController.text,
-                              teamName: controller.teamOneName,
+                              teamName: controller.teamOne.name!,
                             ),
                             GameDetailsItem(
                               doubleTap: () => controller.undoScore(team: 'B'),
@@ -56,7 +56,7 @@ class GameTeams extends StatelessWidget {
                               score: controller.teamBPoints.value.toString(),
                               photoUrl: '',
                               maxScore: controller.maxScoreController.text,
-                              teamName: controller.teamTwoName,
+                              teamName: controller.teamTwo.name!,
                             ),
                           ],
                         ),
@@ -67,7 +67,7 @@ class GameTeams extends StatelessWidget {
                           score: controller.teamCPoints.value.toString(),
                           photoUrl: '',
                           maxScore: controller.maxScoreController.text,
-                          teamName: controller.teamThreeName,
+                          teamName: controller.teamThree.name!,
                         ),
                       ],
                     )
@@ -84,9 +84,9 @@ class GameTeams extends StatelessWidget {
                                       controller.incrementScore(team: 'A'),
                                   score:
                                       controller.teamAPoints.value.toString(),
-                                  photoUrl: '',
+                                  photoUrl: controller.teamOne.isPhoto,
                                   maxScore: controller.maxScoreController.text,
-                                  teamName: controller.teamOneName,
+                                  teamName: controller.teamOne.name!,
                                 ),
                                 GameDetailsItem(
                                   doubleTap: () =>
@@ -97,7 +97,7 @@ class GameTeams extends StatelessWidget {
                                       controller.teamBPoints.value.toString(),
                                   photoUrl: '',
                                   maxScore: controller.maxScoreController.text,
-                                  teamName: controller.teamTwoName,
+                                  teamName: controller.teamTwo.name!,
                                 ),
                               ],
                             ),
@@ -114,7 +114,7 @@ class GameTeams extends StatelessWidget {
                                       controller.teamCPoints.value.toString(),
                                   photoUrl: '',
                                   maxScore: controller.maxScoreController.text,
-                                  teamName: controller.teamThreeName,
+                                  teamName: controller.teamThree.name!,
                                 ),
                                 GameDetailsItem(
                                   doubleTap: () =>
@@ -125,7 +125,7 @@ class GameTeams extends StatelessWidget {
                                       controller.teamDPoints.value.toString(),
                                   photoUrl: '',
                                   maxScore: controller.maxScoreController.text,
-                                  teamName: controller.teamFourName,
+                                  teamName: controller.teamFour.name!,
                                 ),
                               ],
                             ),

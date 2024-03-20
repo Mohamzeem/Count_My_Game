@@ -3,11 +3,13 @@ import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_app_bar.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
+import 'package:count_my_game/Models/team_model.dart';
 import 'package:count_my_game/View/Game/widgets/created_teams.dart';
 import 'package:count_my_game/View/Game/widgets/drop_down_widget.dart';
 import 'package:count_my_game/View/Game/widgets/game_text_field.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:count_my_game/View_Model/game_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -108,8 +110,18 @@ class CreateGameBody extends StatelessWidget {
               //^ create game btn
               if (controller.isCreated) ...[
                 CustomButton(
-                  onPressed: () => controller.createGameFunction(
-                      idTwo: 'idTwo', idThree: 'idThree', idFour: 'idFour'),
+                  onPressed: () {
+                    // var user = FirebaseAuth.instance.currentUser!;
+                    controller.createGameFunction(
+                        // teamOne: TeamModel(
+                        //     id: user.uid,
+                        //     name: user.displayName,
+                        //     photo: user.photoURL),
+                        // teamTwo: const TeamModel(id: 'ooo'),
+                        // teamThree: const TeamModel(),
+                        // teamFour: const TeamModel(),
+                        );
+                  },
                   text: 'Start Game',
                   width: double.infinity,
                   height: 50,

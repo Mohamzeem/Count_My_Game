@@ -32,10 +32,10 @@ class GameController extends GetxController {
   final RxString selectedNum = ''.obs;
   final RxString selectedGame = ''.obs;
   final RxBool _gameCreated = false.obs;
-  final teamOneController = TextEditingController();
-  final teamTwoController = TextEditingController();
-  final teamThreeController = TextEditingController();
-  final teamFourController = TextEditingController();
+  // final teamOneNameController = TextEditingController();
+  final teamTwoNameController = TextEditingController();
+  final teamThreeNameController = TextEditingController();
+  final teamFourNameController = TextEditingController();
   final maxScoreController = TextEditingController();
   final newScoreController = TextEditingController();
   final emailController = TextEditingController();
@@ -44,33 +44,31 @@ class GameController extends GetxController {
   List<String> gamesList = ['Dominos', 'Cards', 'Playstation', 'Other'];
   final String _createdAtTime =
       DateTime.now().millisecondsSinceEpoch.toString();
-
   bool get isCreated => _gameCreated.value;
-
   void dropDownValueGamesList(String val) => selectedGame.value = val;
   void dropDownValueNumList(String val) => selectedNum.value = val;
 
-  String get teamOneName => teamOneController.text;
-  set teamOneName(String val) {
-    teamOneController.text = val;
-    update();
-  }
+  // String get teamOneName => teamOneNameController.text;
+  // set teamOneName(String val) {
+  //   teamOneNameController.text = val;
+  //   update();
+  // }
 
-  String get teamTwoName => teamTwoController.text;
+  String get teamTwoName => teamTwoNameController.text;
   set teamTwoName(String val) {
-    teamTwoController.text = val;
+    teamTwoNameController.text = val;
     update();
   }
 
-  String get teamThreeName => teamThreeController.text;
+  String get teamThreeName => teamThreeNameController.text;
   set teamThreeName(String val) {
-    teamThreeController.text = val;
+    teamThreeNameController.text = val;
     update();
   }
 
-  String get teamFourName => teamFourController.text;
+  String get teamFourName => teamFourNameController.text;
   set teamFourName(String val) {
-    teamFourController.text = val;
+    teamFourNameController.text = val;
     update();
   }
 
@@ -97,37 +95,70 @@ class GameController extends GetxController {
     update();
   }
 
+  final Rx<TeamModel> _teamOneModel = const TeamModel().obs;
+  final Rx<TeamModel> _teamTwoModel = const TeamModel().obs;
+  final Rx<TeamModel> _teamThreeModel = const TeamModel().obs;
+  final Rx<TeamModel> _teamFourModel = const TeamModel().obs;
+
+  TeamModel get teamOne => _teamOneModel.value;
+  set teamOne(TeamModel model) {
+    _teamOneModel.value = model;
+    update();
+  }
+
+  TeamModel get teamTwo => _teamTwoModel.value;
+  set teamTwo(TeamModel model) {
+    _teamTwoModel.value = model;
+    update();
+  }
+
+  TeamModel get teamThree => _teamThreeModel.value;
+  set teamThree(TeamModel model) {
+    _teamThreeModel.value = model;
+    update();
+  }
+
+  TeamModel get teamFour => _teamFourModel.value;
+  set teamFour(TeamModel model) {
+    _teamFourModel.value = model;
+    update();
+  }
+
   @override
   void dispose() {
-    teamOneController.dispose();
-    teamTwoController.dispose();
-    teamThreeController.dispose();
-    teamFourController.dispose();
+    // teamOneNameController.dispose();
+    teamTwoNameController.dispose();
+    teamThreeNameController.dispose();
+    teamFourNameController.dispose();
     maxScoreController.dispose();
+    newScoreController.dispose();
     emailController.dispose();
     super.dispose();
   }
 
   void _clearCons() {
-    teamOneController.clear();
-    teamTwoController.clear();
-    teamThreeController.clear();
-    teamFourController.clear();
+    // teamOneNameController.clear();
+    teamTwoNameController.clear();
+    teamThreeNameController.clear();
+    teamFourNameController.clear();
     // maxScoreController.clear();
     newScoreController.clear();
     emailController.clear();
   }
 
-  Future _createGame(String idTwo, String idThree, String idFour) async {
+  Future _createGame() async {
     CustomLoading.show();
-    final teamOneId = _auth.currentUser!.uid;
     final randomGameId = _uuid.v1();
-
-    TeamModel teamOne = TeamModel(id: teamOneId, name: teamOneName, photo: "");
-    TeamModel teamTwo = TeamModel(id: idTwo, name: teamTwoName, photo: "");
-    TeamModel teamThree =
-        TeamModel(id: idThree, name: teamThreeName, photo: "");
-    TeamModel teamFour = TeamModel(id: idFour, name: teamFourName, photo: "");
+    final randomTeamTwoId = _uuid.v4();
+    final randomTeamThreeId = _uuid.v4();
+    final randomTeamFourId = _uuid.v4();
+    teamOne = TeamModel(
+        id: _auth.currentUser!.uid,
+        name: _auth.currentUser!.displayName,
+        photo: _auth.currentUser!.photoURL);
+    teamTwo = TeamModel(id: randomTeamTwoId, name: teamTwoName);
+    teamThree = TeamModel(id: randomTeamThreeId, name: teamThreeName);
+    teamFour = TeamModel(id: randomTeamFourId, name: teamFourName);
 
     final List<String> members = selectedNum.value == '3'
         ? [teamOne.id!, teamTwo.id!, teamThree.id!]
@@ -159,16 +190,13 @@ class GameController extends GetxController {
     });
   }
 
-  void createGameFunction(
-      {required String idTwo,
-      required String idThree,
-      required String idFour}) {
+  void createGameFunction() {
     if (selectedGame.isEmpty) {
       CustomLoading.toast(text: 'Selete Game');
     } else if (maxScoreController.text.isEmpty) {
       CustomLoading.toast(text: 'Max Score Required');
     } else {
-      _createGame(idTwo, idThree, idFour);
+      _createGame();
     }
   }
 
@@ -208,12 +236,12 @@ class GameController extends GetxController {
     isCreated ? selectedNum.value : selectedNum.value = '';
   }
 
-  void _clearLists() {
-    scoreListATeam.clear();
-    scoreListBTeam.clear();
-    scoreListCTeam.clear();
-    scoreListDTeam.clear();
-  }
+  // void _clearLists() {
+  //   scoreListATeam.clear();
+  //   scoreListBTeam.clear();
+  //   scoreListCTeam.clear();
+  //   scoreListDTeam.clear();
+  // }
 
   // void gameEnded() {
   //   if (teamAPoints.value == maxScore ||
@@ -257,28 +285,28 @@ class GameController extends GetxController {
       if (scoreListATeam.isNotEmpty) {
         int lastAdded = scoreListATeam.removeLast();
         teamAPoints -= lastAdded;
-        _clearLists();
+        scoreListATeam.clear();
         update();
       }
     } else if (team == 'B') {
       if (scoreListBTeam.isNotEmpty) {
         int lastAdded = scoreListBTeam.removeLast();
         teamBPoints -= lastAdded;
-        _clearLists();
+        scoreListBTeam.clear();
         update();
       }
     } else if (team == 'C') {
       if (scoreListCTeam.isNotEmpty) {
         int lastAdded = scoreListCTeam.removeLast();
         teamCPoints -= lastAdded;
-        _clearLists();
+        scoreListCTeam.clear();
         update();
       }
     } else if (team == 'D') {
       if (scoreListDTeam.isNotEmpty) {
         int lastAdded = scoreListDTeam.removeLast();
         teamDPoints -= lastAdded;
-        _clearLists();
+        scoreListDTeam.clear();
         update();
       }
     }

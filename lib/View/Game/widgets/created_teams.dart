@@ -21,19 +21,16 @@ class CreatedTeams extends GetWidget<GameController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TeamDetailsItem(
+                    CreateTeamDetailsItem(
                       initValue: userName,
                       isUser: true,
-                      emailController: controller.emailController,
                       photoUrl: '',
                       teamNum: '1',
-                      nameController: controller.teamOneController,
                     ),
-                    TeamDetailsItem(
-                      emailController: controller.emailController,
+                    CreateTeamDetailsItem(
                       photoUrl: '',
                       teamNum: '2',
-                      nameController: controller.teamTwoController,
+                      nameController: controller.teamTwoNameController,
                     ),
                   ],
                 ),
@@ -46,27 +43,23 @@ class CreatedTeams extends GetWidget<GameController> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            TeamDetailsItem(
+                            CreateTeamDetailsItem(
                               initValue: userName,
                               isUser: true,
-                              emailController: controller.emailController,
                               photoUrl: '',
                               teamNum: '1',
-                              nameController: controller.teamOneController,
                             ),
-                            TeamDetailsItem(
-                              emailController: controller.emailController,
+                            CreateTeamDetailsItem(
                               photoUrl: '',
                               teamNum: '2',
-                              nameController: controller.teamTwoController,
+                              nameController: controller.teamTwoNameController,
                             ),
                           ],
                         ),
-                        TeamDetailsItem(
-                          emailController: controller.emailController,
+                        CreateTeamDetailsItem(
                           photoUrl: '',
                           teamNum: '3',
-                          nameController: controller.teamThreeController,
+                          nameController: controller.teamThreeNameController,
                         ),
                       ],
                     ),
@@ -79,37 +72,34 @@ class CreatedTeams extends GetWidget<GameController> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                TeamDetailsItem(
+                                CreateTeamDetailsItem(
                                   isUser: true,
                                   initValue: userName,
-                                  emailController: controller.emailController,
                                   photoUrl: '',
                                   teamNum: '1',
-                                  nameController: controller.teamOneController,
                                 ),
-                                TeamDetailsItem(
-                                  emailController: controller.emailController,
+                                CreateTeamDetailsItem(
                                   photoUrl: '',
                                   teamNum: '2',
-                                  nameController: controller.teamTwoController,
+                                  nameController:
+                                      controller.teamTwoNameController,
                                 ),
                               ],
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                TeamDetailsItem(
-                                  emailController: controller.emailController,
+                                CreateTeamDetailsItem(
                                   photoUrl: '',
                                   teamNum: '3',
                                   nameController:
-                                      controller.teamThreeController,
+                                      controller.teamThreeNameController,
                                 ),
-                                TeamDetailsItem(
-                                  emailController: controller.emailController,
+                                CreateTeamDetailsItem(
                                   photoUrl: '',
                                   teamNum: '4',
-                                  nameController: controller.teamFourController,
+                                  nameController:
+                                      controller.teamFourNameController,
                                 ),
                               ],
                             ),

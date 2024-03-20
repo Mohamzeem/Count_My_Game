@@ -1,28 +1,22 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:count_my_game/View_Model/auth_controller.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Utils/app_strings.dart';
-import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_cached_image.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:count_my_game/View/Game/widgets/game_text_field.dart';
 
-class TeamDetailsItem extends StatelessWidget {
-  final TextEditingController nameController;
-  final TextEditingController emailController;
+class CreateTeamDetailsItem extends StatelessWidget {
+  final TextEditingController? nameController;
   final String teamNum;
   final String photoUrl;
   final String initValue;
   final bool isUser;
-  const TeamDetailsItem({
+  const CreateTeamDetailsItem({
     super.key,
-    required this.nameController,
-    required this.emailController,
+    this.nameController,
     required this.teamNum,
     required this.photoUrl,
     this.initValue = '',
@@ -61,17 +55,17 @@ class TeamDetailsItem extends StatelessWidget {
               isUser
                   ? const SizedBox.shrink()
                   : InkWell(
-                      onTap: () => AppFunctions.showBtmSheetWithTextAndButton(
-                        context: context,
-                        controller: emailController,
-                        title: 'Enter Email',
-                        lable: 'Email',
-                        buttonText: 'Add Team',
-                        sheetIcon: Icons.close,
-                        prefixIcon: Icons.person_2,
-                        onPressedbutton: () {},
-                        onTapSheetIcon: () => Get.back(),
-                      ),
+                      // onTap: () => AppFunctions.showBtmSheetWithTextAndButton(
+                      //   context: context,
+                      //   controller: emailController,
+                      //   title: 'Enter Email',
+                      //   lable: 'Email',
+                      //   buttonText: 'Add Team',
+                      //   sheetIcon: Icons.close,
+                      //   prefixIcon: Icons.person_2,
+                      //   onPressedbutton: () {},
+                      //   onTapSheetIcon: () => Get.back(),
+                      // ),
                       child: Container(
                         height: 40.h,
                         decoration: const BoxDecoration(

@@ -21,7 +21,7 @@ class TeamModel extends Equatable {
     var uuid = const Uuid();
     final randomId = uuid.v4();
     return {
-      'id': id == null || id == "" ? randomId : id,
+      'id': id == null || id == "" || id!.isEmpty ? randomId : id,
       'name': name ?? "",
       'photo': photo ?? "",
       'score': score ?? "",
