@@ -17,7 +17,7 @@ class GameView extends GetWidget<GameController> {
                     controller.teamBPoints.value >= controller.maxScore ||
                     controller.teamCPoints.value >= controller.maxScore ||
                     controller.teamDPoints.value >= controller.maxScore
-                ? const ResultBody()
+                ? const ResultView()
                 : const GameBody();
           },
         ),

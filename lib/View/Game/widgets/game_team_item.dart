@@ -7,7 +7,6 @@ import 'package:count_my_game/Core/Widgets/custom_text.dart';
 class GameDetailsItem extends StatelessWidget {
   final String teamName;
   final String score;
-  final String maxScore;
   final String photoUrl;
   final VoidCallback onTap;
   final VoidCallback doubleTap;
@@ -16,7 +15,6 @@ class GameDetailsItem extends StatelessWidget {
     required this.teamName,
     required this.score,
     required this.photoUrl,
-    required this.maxScore,
     required this.onTap,
     required this.doubleTap,
   });

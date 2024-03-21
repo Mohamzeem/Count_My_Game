@@ -8,7 +8,7 @@ class GameModel extends Equatable {
   final int? maxScore;
   final String? winner;
   final String? createdAt;
-  final List<TeamModel> teams;
+  final List<TeamModel>? teams;
   final bool? isEnded;
   const GameModel({
     this.id,
@@ -17,12 +17,42 @@ class GameModel extends Equatable {
     this.maxScore,
     this.winner,
     this.createdAt,
-    required this.teams,
+    this.teams,
     this.isEnded,
   });
 
+  String getWinnerId() {
+    String winnerId = '';
+    for (TeamModel team in teams!) {
+      if (team.isWinner == true) {
+        winnerId = team.id!;
+      }
+    }
+    return winnerId;
+  }
+
+  String getWinnerName() {
+    String winnerName = '';
+    for (TeamModel team in teams!) {
+      if (team.isWinner == true) {
+        winnerName = team.name!;
+      }
+    }
+    return winnerName;
+  }
+
+  String getWinnerPhoto() {
+    String winnerPhoto = '';
+    for (TeamModel team in teams!) {
+      if (team.isWinner == true) {
+        winnerPhoto = team.photo!;
+      }
+    }
+    return winnerPhoto;
+  }
+
   Map<String, dynamic> toMap() {
-    List<dynamic> teamsMapList = teams.map((team) => team.toMap()).toList();
+    List<dynamic> teamsMapList = teams!.map((team) => team.toMap()).toList();
     return {
       'id': id ?? "",
       'name': name ?? "",

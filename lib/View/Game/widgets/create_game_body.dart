@@ -95,7 +95,7 @@ class CreateGameBody extends StatelessWidget {
               SizedBox(height: 20.h),
               //^ create game btn
               CustomButton(
-                onPressed: () => controller.createNewGameFunction(),
+                onPressed: () => controller.createTeamsUi(),
                 text: controller.isCreated ? 'Reset Teams' : 'Set Teams',
                 width: double.infinity,
                 height: 45,
@@ -110,17 +110,8 @@ class CreateGameBody extends StatelessWidget {
               //^ create game btn
               if (controller.isCreated) ...[
                 CustomButton(
-                  onPressed: () {
-                    // var user = FirebaseAuth.instance.currentUser!;
-                    controller.createGameFunction(
-                        // teamOne: TeamModel(
-                        //     id: user.uid,
-                        //     name: user.displayName,
-                        //     photo: user.photoURL),
-                        // teamTwo: const TeamModel(id: 'ooo'),
-                        // teamThree: const TeamModel(),
-                        // teamFour: const TeamModel(),
-                        );
+                  onPressed: () async {
+                    controller.createGameFunction();
                   },
                   text: 'Start Game',
                   width: double.infinity,

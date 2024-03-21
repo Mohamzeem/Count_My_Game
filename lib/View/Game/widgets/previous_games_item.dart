@@ -20,9 +20,10 @@ class PreviousGamesItem extends StatelessWidget {
     DateTime inputTime =
         DateTime.fromMillisecondsSinceEpoch(int.parse(gameModel.createdAt!));
     String formattedTime = DateFormat('dd/MM/yyyy h:mm a').format(inputTime);
-    bool winner = gameModel.winner == FirebaseAuth.instance.currentUser!.uid;
+    bool winner =
+        gameModel.getWinnerId() == FirebaseAuth.instance.currentUser!.uid;
 
-    return gameModel.isEnded == false
+    return gameModel.isEnded == true
         ? Card(
             surfaceTintColor: Colors.transparent,
             elevation: 5,
@@ -76,11 +77,11 @@ class PreviousGamesItem extends StatelessWidget {
                 childrenPadding: const EdgeInsets.symmetric(horizontal: 20),
                 children: [
                   ListView.builder(
-                    itemCount: gameModel.teams.length,
+                    itemCount: gameModel.teams!.length,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      final team = gameModel.teams[index];
+                      final team = gameModel.teams![index];
                       return TeamsInPreviousGamesItem(
                           team: team, gameModel: gameModel);
                     },

@@ -1,6 +1,5 @@
 import 'package:count_my_game/Core/Utils/app_strings.dart';
 import 'package:equatable/equatable.dart';
-import 'package:uuid/uuid.dart';
 
 class TeamModel extends Equatable {
   final String? id;
@@ -18,10 +17,8 @@ class TeamModel extends Equatable {
   });
 
   Map<String, dynamic> toMap() {
-    var uuid = const Uuid();
-    final randomId = uuid.v4();
     return {
-      'id': id == null || id == "" || id!.isEmpty ? randomId : id,
+      'id': id ?? "",
       'name': name ?? "",
       'photo': photo ?? "",
       'score': score ?? "",
@@ -40,7 +37,7 @@ class TeamModel extends Equatable {
   }
 
   String get isPhoto {
-    if (photo!.isEmpty || photo == "") {
+    if (photo!.isEmpty || photo == "" || photo == null) {
       return AppStrings.defaultAppPhoto;
     }
     return photo!;

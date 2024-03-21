@@ -1,5 +1,6 @@
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_app_bar.dart';
+import 'package:count_my_game/Core/Widgets/custom_button.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:count_my_game/View/Game/widgets/game_teams.dart';
 import 'package:count_my_game/View/Game/widgets/game_text_field.dart';
@@ -23,7 +24,7 @@ class GameBody extends GetWidget<GameController> {
             //^ appbar
             GetBuilder<AuthController>(
               builder: (contAuth) => CustomAppBar(
-                isArrowBack: true,
+                isArrowBack: false,
                 title:
                     '${controller.selectedGame.value} / ${controller.maxScoreController.text}',
                 photoUrl: contAuth.offlineProfile.isPhoto,
@@ -83,6 +84,12 @@ class GameBody extends GetWidget<GameController> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 210.h),
+                  CustomButton(
+                      onPressed: () => controller.closeGame(),
+                      text: 'Close',
+                      width: double.infinity,
+                      height: 45)
                 ],
               ),
             ),

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_strings.dart';
@@ -11,8 +12,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:uuid/uuid.dart';
 
 class GameController extends GetxController {
@@ -29,9 +33,9 @@ class GameController extends GetxController {
   RxList scoreListBTeam = [].obs;
   RxList scoreListCTeam = [].obs;
   RxList scoreListDTeam = [].obs;
-  final RxString selectedNum = ''.obs;
-  final RxString selectedGame = ''.obs;
-  final RxBool _gameCreated = false.obs;
+  RxString selectedNum = ''.obs;
+  RxString selectedGame = ''.obs;
+  RxBool _gameCreated = false.obs;
   // final teamOneNameController = TextEditingController();
   final teamTwoNameController = TextEditingController();
   final teamThreeNameController = TextEditingController();
@@ -39,6 +43,7 @@ class GameController extends GetxController {
   final maxScoreController = TextEditingController();
   final newScoreController = TextEditingController();
   final emailController = TextEditingController();
+  final screenShotController = ScreenshotController();
 
   List<String> numList = ['2', '3', '4'];
   List<String> gamesList = ['Dominos', 'Cards', 'Playstation', 'Other'];
@@ -100,6 +105,14 @@ class GameController extends GetxController {
   final Rx<TeamModel> _teamThreeModel = const TeamModel().obs;
   final Rx<TeamModel> _teamFourModel = const TeamModel().obs;
 
+  final Rx<GameModel> _gameModel = const GameModel().obs;
+
+  GameModel get gameModel => _gameModel.value;
+  set gameModel(GameModel model) {
+    _gameModel.value = model;
+    update();
+  }
+
   TeamModel get teamOne => _teamOneModel.value;
   set teamOne(TeamModel model) {
     _teamOneModel.value = model;
@@ -136,29 +149,59 @@ class GameController extends GetxController {
     super.dispose();
   }
 
-  void _clearCons() {
-    // teamOneNameController.clear();
+  void clearAllData() {
     teamTwoNameController.clear();
     teamThreeNameController.clear();
     teamFourNameController.clear();
-    // maxScoreController.clear();
     newScoreController.clear();
+    maxScoreController.clear();
     emailController.clear();
+    teamAPoints = 0.obs;
+    teamBPoints = 0.obs;
+    teamCPoints = 0.obs;
+    teamDPoints = 0.obs;
+    scoreListATeam = [].obs;
+    scoreListBTeam = [].obs;
+    scoreListCTeam = [].obs;
+    scoreListDTeam = [].obs;
+    selectedNum = ''.obs;
+    _gameCreated = false.obs;
+    selectedGame = ''.obs;
+  }
+
+  void resetClearData() {
+    // teamTwoNameController.clear();
+    // teamThreeNameController.clear();
+    // teamFourNameController.clear();
+    newScoreController.clear();
+    teamAPoints = 0.obs;
+    teamBPoints = 0.obs;
+    teamCPoints = 0.obs;
+    teamDPoints = 0.obs;
+    scoreListATeam = [].obs;
+    scoreListBTeam = [].obs;
+    scoreListCTeam = [].obs;
+    scoreListDTeam = [].obs;
   }
 
   Future _createGame() async {
     CustomLoading.show();
+
     final randomGameId = _uuid.v1();
     final randomTeamTwoId = _uuid.v4();
     final randomTeamThreeId = _uuid.v4();
     final randomTeamFourId = _uuid.v4();
-    teamOne = TeamModel(
+
+    final teamOne = TeamModel(
         id: _auth.currentUser!.uid,
         name: _auth.currentUser!.displayName,
         photo: _auth.currentUser!.photoURL);
-    teamTwo = TeamModel(id: randomTeamTwoId, name: teamTwoName);
-    teamThree = TeamModel(id: randomTeamThreeId, name: teamThreeName);
-    teamFour = TeamModel(id: randomTeamFourId, name: teamFourName);
+    final teamTwo =
+        TeamModel(id: randomTeamTwoId, name: teamTwoName, photo: '');
+    final teamThree =
+        TeamModel(id: randomTeamThreeId, name: teamThreeName, photo: "");
+    final teamFour =
+        TeamModel(id: randomTeamFourId, name: teamFourName, photo: "");
 
     final List<String> members = selectedNum.value == '3'
         ? [teamOne.id!, teamTwo.id!, teamThree.id!]
@@ -167,17 +210,17 @@ class GameController extends GetxController {
             : [teamOne.id!, teamTwo.id!]
       ..sort((a, b) => b.compareTo(a));
 
-    GameModel gameModel = GameModel(
+    gameModel = GameModel(
       id: randomGameId,
       name: selectedGame.value,
       members: members,
       createdAt: _createdAtTime,
       maxScore: maxScore,
-      teams: selectedNum.value == '3'
-          ? [teamOne, teamTwo, teamThree]
-          : selectedNum.value == '4'
-              ? [teamOne, teamTwo, teamThree, teamFour]
-              : [teamOne, teamTwo],
+      teams: selectedNum.value == '2'
+          ? [teamOne, teamTwo]
+          : selectedNum.value == '3'
+              ? [teamOne, teamTwo, teamThree]
+              : [teamOne, teamTwo, teamThree, teamFour],
     );
     await _fireStore
         .collection(AppStrings.gamesCollection)
@@ -185,8 +228,19 @@ class GameController extends GetxController {
         .set(gameModel.toMap())
         .whenComplete(() {
       CustomLoading.dismiss();
-      Get.toNamed(AppRoute.gameView);
-      _clearCons();
+      Get.offNamed(AppRoute.gameView);
+    });
+  }
+
+  Future closeGame() async {
+    CustomLoading.show();
+    await _fireStore
+        .collection(AppStrings.gamesCollection)
+        .doc(gameModel.id)
+        .delete()
+        .whenComplete(() {
+      CustomLoading.dismiss();
+      Get.offNamed(AppRoute.homeView);
     });
   }
 
@@ -195,9 +249,116 @@ class GameController extends GetxController {
       CustomLoading.toast(text: 'Selete Game');
     } else if (maxScoreController.text.isEmpty) {
       CustomLoading.toast(text: 'Max Score Required');
+    } else if (selectedNum.value == '2'
+        ? teamTwoNameController.text.isEmpty
+        : selectedNum.value == '3'
+            ? teamTwoNameController.text.isEmpty ||
+                teamTwoNameController.text.isEmpty
+            : teamTwoNameController.text.isEmpty ||
+                teamTwoNameController.text.isEmpty ||
+                teamFourNameController.text.isEmpty) {
+      CustomLoading.toast(text: 'Teams Name Required');
     } else {
       _createGame();
     }
+  }
+
+  Future updateEndedgame() async {
+    CustomLoading.show();
+
+    List<TeamModel> teams() {
+      List<TeamModel> list = [];
+      if (selectedNum.value == '2') {
+        list = [
+          TeamModel(
+              id: gameModel.teams![0].id,
+              photo: gameModel.teams![0].photo,
+              name: gameModel.teams![0].name,
+              score: teamAPoints.value.toString(),
+              isWinner: maxScore <= teamAPoints.value ? true : false),
+          TeamModel(
+              id: gameModel.teams![1].id,
+              photo: gameModel.teams![1].photo,
+              name: gameModel.teams![1].name,
+              score: teamBPoints.value.toString(),
+              isWinner: maxScore <= teamBPoints.value ? true : false)
+        ];
+      } else if (selectedNum.value == '3') {
+        list = [
+          TeamModel(
+              id: gameModel.teams![0].id,
+              photo: gameModel.teams![0].photo,
+              name: gameModel.teams![0].name,
+              score: teamAPoints.value.toString(),
+              isWinner: maxScore <= teamAPoints.value ? true : false),
+          TeamModel(
+              id: gameModel.teams![1].id,
+              photo: gameModel.teams![1].photo,
+              name: gameModel.teams![1].name,
+              score: teamBPoints.value.toString(),
+              isWinner: maxScore <= teamBPoints.value ? true : false),
+          TeamModel(
+              id: gameModel.teams![2].id,
+              photo: gameModel.teams![2].photo,
+              name: gameModel.teams![2].name,
+              score: teamCPoints.value.toString(),
+              isWinner: maxScore <= teamCPoints.value ? true : false)
+        ];
+      } else {
+        list = [
+          TeamModel(
+              id: gameModel.teams![0].id,
+              photo: gameModel.teams![0].photo,
+              name: gameModel.teams![0].name,
+              score: teamAPoints.value.toString(),
+              isWinner: maxScore <= teamAPoints.value ? true : false),
+          TeamModel(
+              id: gameModel.teams![1].id,
+              photo: gameModel.teams![1].photo,
+              name: gameModel.teams![1].name,
+              score: teamBPoints.value.toString(),
+              isWinner: maxScore <= teamBPoints.value ? true : false),
+          TeamModel(
+              id: gameModel.teams![2].id,
+              photo: gameModel.teams![2].photo,
+              name: gameModel.teams![2].name,
+              score: teamCPoints.value.toString(),
+              isWinner: maxScore <= teamCPoints.value ? true : false),
+          TeamModel(
+              id: gameModel.teams![3].id,
+              photo: gameModel.teams![3].photo,
+              name: gameModel.teams![3].name,
+              score: teamDPoints.value.toString(),
+              isWinner: maxScore <= teamDPoints.value ? true : false)
+        ];
+      }
+      return list;
+    }
+
+    gameModel = GameModel(
+        id: gameModel.id,
+        name: gameModel.name,
+        members: gameModel.members,
+        createdAt: gameModel.createdAt,
+        maxScore: gameModel.maxScore,
+        winner: gameModel.getWinnerId(),
+        isEnded: true,
+        teams: teams());
+    await _fireStore
+        .collection(AppStrings.gamesCollection)
+        .doc(gameModel.id)
+        .update(gameModel.toMap())
+        .whenComplete(() {
+      CustomLoading.dismiss();
+    });
+  }
+
+  Future screenShot() async {
+    Uint8List? image = await screenShotController.capture();
+    await (Permission.storage).request();
+    final date = DateTime.now();
+    final name = 'ScreenShot$date';
+    await ImageGallerySaver.saveImage(image!, name: name);
   }
 
   Stream<List<GameModel>> getPreviousGames() {
@@ -227,7 +388,7 @@ class GameController extends GetxController {
             ).toList());
   }
 
-  void createNewGameFunction() {
+  void createTeamsUi() {
     if (selectedNum.value == '') {
       CustomLoading.toast(text: 'Select a team number');
       return;
@@ -235,24 +396,6 @@ class GameController extends GetxController {
     isCreated = !isCreated;
     isCreated ? selectedNum.value : selectedNum.value = '';
   }
-
-  // void _clearLists() {
-  //   scoreListATeam.clear();
-  //   scoreListBTeam.clear();
-  //   scoreListCTeam.clear();
-  //   scoreListDTeam.clear();
-  // }
-
-  // void gameEnded() {
-  //   if (teamAPoints.value == maxScore ||
-  //       teamBPoints.value == maxScore ||
-  //       teamCPoints.value == maxScore ||
-  //       teamDPoints.value == maxScore) {
-  //     const ResultBody();
-  //   } else {
-  //     const GameBody();
-  //   }
-  // }
 
   void incrementScore({required String team}) {
     if (newScoreController.text.isNotEmpty) {
