@@ -37,13 +37,13 @@ class PreviousGamesItem extends StatelessWidget {
                   children: [
                     winner
                         ? SvgPicture.asset(
-                            height: 40,
+                            height: 40.h,
                             'assets/images/winner.svg',
                             colorFilter: ColorFilter.mode(
                                 AppColors.kGold, BlendMode.srcIn),
                           )
                         : SvgPicture.asset(
-                            height: 40,
+                            height: 40.h,
                             'assets/images/loser.svg',
                             colorFilter: const ColorFilter.mode(
                                 AppColors.kRed, BlendMode.srcIn),

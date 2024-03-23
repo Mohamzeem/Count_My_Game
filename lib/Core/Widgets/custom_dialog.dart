@@ -19,8 +19,8 @@ class CustomDialog {
           title: InkWell(
             onTap: onPressed,
             child: SizedBox(
-              width: 200,
-              height: 200,
+              width: 200.h,
+              height: 200.w,
               child: CustomText(
                 text: textBody,
               ),
@@ -43,8 +43,10 @@ class CustomDialog {
       builder: (context) {
         return AlertDialog(
           backgroundColor: AppColors.kWhite,
-          title: const SizedBox(
-              width: 200, height: 200, child: Icon(Icons.account_circle_sharp)),
+          title: SizedBox(
+              width: 200.w,
+              height: 200.h,
+              child: const Icon(Icons.account_circle_sharp)),
           content: CustomText(
             text: textBody,
           ),

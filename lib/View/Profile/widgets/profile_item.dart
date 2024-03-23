@@ -25,7 +25,7 @@ class ProfileItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: SizedBox(
-        height: 60,
+        height: 60.h,
         child: Card(
           surfaceTintColor: Colors.transparent,
           elevation: 5,

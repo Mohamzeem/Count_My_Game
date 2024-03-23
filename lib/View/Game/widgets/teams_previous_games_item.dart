@@ -40,21 +40,21 @@ class TeamsInPreviousGamesItem extends StatelessWidget {
             ),
             team.isWinner == true
                 ? SvgPicture.asset(
-                    height: 25,
+                    height: 25.h,
                     'assets/images/winner.svg',
                     colorFilter:
                         ColorFilter.mode(AppColors.kGold, BlendMode.srcIn),
                   )
                 : SvgPicture.asset(
-                    height: 25,
+                    height: 25.h,
                     'assets/images/loser.svg',
                     colorFilter:
                         const ColorFilter.mode(AppColors.kRed, BlendMode.srcIn),
                   ),
           ],
         ),
-        const Divider(
-          height: 5,
+        Divider(
+          height: 5.h,
           thickness: 0.5,
           color: AppColors.mainColor,
         ),

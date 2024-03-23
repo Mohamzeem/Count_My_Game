@@ -16,12 +16,12 @@ class DropDownWidget extends GetWidget<GameController> {
   Widget build(BuildContext context) {
     return Obx(
       () => Container(
-        width: 140,
+        width: 140.w,
         height: 40.h,
         decoration: BoxDecoration(
           color: AppColors.kWhite,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.mainColor, width: 2),
+          border: Border.all(color: AppColors.mainColor, width: 2.w),
         ),
         child: Center(
           child: DropdownButton<String>(

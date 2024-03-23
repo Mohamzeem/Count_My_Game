@@ -1,6 +1,7 @@
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class AuthAppBar extends StatelessWidget {
@@ -21,8 +22,8 @@ class AuthAppBar extends StatelessWidget {
       children: [
         isArrowBack
             ? Container(
-                height: 40,
-                width: 40,
+                height: 40.h,
+                width: 40.w,
                 decoration: const BoxDecoration(
                   color: AppColors.mainColor,
                   shape: BoxShape.circle,
@@ -38,14 +39,14 @@ class AuthAppBar extends StatelessWidget {
                   ),
                 ),
               )
-            : const SizedBox(height: 40, width: 40),
+            : SizedBox(height: 40.h, width: 40.w),
         CustomText(
           text: isTitle ? title : '',
           color: AppColors.mainColor,
           fontSize: 25,
           fontWeight: FontWeight.w700,
         ),
-        const SizedBox(height: 40, width: 40),
+        SizedBox(height: 40.h, width: 40.w),
       ],
     );
   }
