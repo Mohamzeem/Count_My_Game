@@ -16,10 +16,10 @@ class MyApp {
       SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
         statusBarColor: AppColors.secColor,
         statusBarBrightness: Brightness.light,
-        statusBarIconBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.light,
         systemNavigationBarDividerColor: Colors.transparent,
         systemNavigationBarColor: AppColors.secColor,
-        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarIconBrightness: Brightness.light,
       );
       SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
     }
