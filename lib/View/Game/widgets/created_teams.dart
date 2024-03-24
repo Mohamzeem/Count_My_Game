@@ -17,7 +17,7 @@ class CreatedTeams extends GetWidget<GameController> {
       children: [
         controller.selectedNum.value == '2'
             ? Padding(
-                padding: EdgeInsets.only(bottom: 250.h),
+                padding: EdgeInsets.only(bottom: 0.h),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -37,7 +37,7 @@ class CreatedTeams extends GetWidget<GameController> {
               )
             : controller.selectedNum.value == '3'
                 ? Padding(
-                    padding: EdgeInsets.only(bottom: 58.h),
+                    padding: EdgeInsets.only(bottom: 0.h),
                     child: Column(
                       children: [
                         Row(
@@ -66,7 +66,7 @@ class CreatedTeams extends GetWidget<GameController> {
                   )
                 : controller.selectedNum.value == '4'
                     ? Padding(
-                        padding: EdgeInsets.only(bottom: 58.h),
+                        padding: EdgeInsets.only(bottom: 0.h),
                         child: Column(
                           children: [
                             Row(
