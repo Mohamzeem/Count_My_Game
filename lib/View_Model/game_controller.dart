@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_strings.dart';
+import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Models/game_model.dart';
 import 'package:count_my_game/Models/team_model.dart';
@@ -25,6 +26,7 @@ class GameController extends GetxController {
   final _fireStorage = FirebaseStorage.instance;
   final _auth = FirebaseAuth.instance;
   final _uuid = const Uuid();
+  final ImagePicker _imagePicker = ImagePicker();
   RxInt teamAPoints = 0.obs;
   RxInt teamBPoints = 0.obs;
   RxInt teamCPoints = 0.obs;
@@ -36,7 +38,8 @@ class GameController extends GetxController {
   RxString selectedNum = ''.obs;
   RxString selectedGame = ''.obs;
   RxBool _gameCreated = false.obs;
-  // final teamOneNameController = TextEditingController();
+  RxBool _fromFriends = false.obs;
+  // RxBool _gameCreated = false.obs;
   final teamTwoNameController = TextEditingController();
   final teamThreeNameController = TextEditingController();
   final teamFourNameController = TextEditingController();
@@ -44,20 +47,53 @@ class GameController extends GetxController {
   final newScoreController = TextEditingController();
   final emailController = TextEditingController();
   final screenShotController = ScreenshotController();
+  File? _selectedImage;
 
   List<String> numList = ['2', '3', '4'];
   List<String> gamesList = ['Dominos', 'Cards', 'Playstation', 'Other'];
   final String _createdAtTime =
       DateTime.now().millisecondsSinceEpoch.toString();
   bool get isCreated => _gameCreated.value;
+  bool get fromfriends => _fromFriends.value;
   void dropDownValueGamesList(String val) => selectedGame.value = val;
   void dropDownValueNumList(String val) => selectedNum.value = val;
 
-  // String get teamOneName => teamOneNameController.text;
-  // set teamOneName(String val) {
-  //   teamOneNameController.text = val;
-  //   update();
-  // }
+  final Rx<TeamModel> _teamOneModel = const TeamModel().obs;
+  final Rx<TeamModel> _teamTwoModel = const TeamModel().obs;
+  final Rx<TeamModel> _teamThreeModel = const TeamModel().obs;
+  final Rx<TeamModel> _teamFourModel = const TeamModel().obs;
+
+  final Rx<GameModel> _gameModel = const GameModel().obs;
+
+  GameModel get gameModel => _gameModel.value;
+  set gameModel(GameModel model) {
+    _gameModel.value = model;
+    update();
+  }
+
+  TeamModel get teamOne => _teamOneModel.value;
+  set teamOne(TeamModel model) {
+    _teamOneModel.value = model;
+    update();
+  }
+
+  TeamModel get teamTwo => _teamTwoModel.value;
+  set teamTwo(TeamModel model) {
+    _teamTwoModel.value = model;
+    update();
+  }
+
+  TeamModel get teamThree => _teamThreeModel.value;
+  set teamThree(TeamModel model) {
+    _teamThreeModel.value = model;
+    update();
+  }
+
+  TeamModel get teamFour => _teamFourModel.value;
+  set teamFour(TeamModel model) {
+    _teamFourModel.value = model;
+    update();
+  }
 
   String get teamTwoName => teamTwoNameController.text;
   set teamTwoName(String val) {
@@ -100,46 +136,8 @@ class GameController extends GetxController {
     update();
   }
 
-  final Rx<TeamModel> _teamOneModel = const TeamModel().obs;
-  final Rx<TeamModel> _teamTwoModel = const TeamModel().obs;
-  final Rx<TeamModel> _teamThreeModel = const TeamModel().obs;
-  final Rx<TeamModel> _teamFourModel = const TeamModel().obs;
-
-  final Rx<GameModel> _gameModel = const GameModel().obs;
-
-  GameModel get gameModel => _gameModel.value;
-  set gameModel(GameModel model) {
-    _gameModel.value = model;
-    update();
-  }
-
-  TeamModel get teamOne => _teamOneModel.value;
-  set teamOne(TeamModel model) {
-    _teamOneModel.value = model;
-    update();
-  }
-
-  TeamModel get teamTwo => _teamTwoModel.value;
-  set teamTwo(TeamModel model) {
-    _teamTwoModel.value = model;
-    update();
-  }
-
-  TeamModel get teamThree => _teamThreeModel.value;
-  set teamThree(TeamModel model) {
-    _teamThreeModel.value = model;
-    update();
-  }
-
-  TeamModel get teamFour => _teamFourModel.value;
-  set teamFour(TeamModel model) {
-    _teamFourModel.value = model;
-    update();
-  }
-
   @override
   void dispose() {
-    // teamOneNameController.dispose();
     teamTwoNameController.dispose();
     teamThreeNameController.dispose();
     teamFourNameController.dispose();
@@ -170,9 +168,6 @@ class GameController extends GetxController {
   }
 
   void resetClearData() {
-    // teamTwoNameController.clear();
-    // teamThreeNameController.clear();
-    // teamFourNameController.clear();
     newScoreController.clear();
     teamAPoints = 0.obs;
     teamBPoints = 0.obs;
@@ -196,8 +191,8 @@ class GameController extends GetxController {
         id: _auth.currentUser!.uid,
         name: _auth.currentUser!.displayName,
         photo: _auth.currentUser!.photoURL);
-    final teamTwo =
-        TeamModel(id: randomTeamTwoId, name: teamTwoName, photo: '');
+    final teamTwo = TeamModel(
+        id: randomTeamTwoId, name: teamTwoName, photo: _selectedImage!.path);
     final teamThree =
         TeamModel(id: randomTeamThreeId, name: teamThreeName, photo: "");
     final teamFour =
@@ -455,16 +450,27 @@ class GameController extends GetxController {
     }
   }
 
-  Future setProfileImage() async {
-    ImagePicker imagePicker = ImagePicker();
+  Future setProfileImage({bool fromCamera = true}) async {
     bool isConnected = await _checkInternet();
     if (isConnected) {
-      final image = await imagePicker.pickImage(source: ImageSource.gallery);
-      if (image != null) {
-        _uploadImage(
-          file: File(image.path),
-          userId: FirebaseAuth.instance.currentUser!.uid,
-        );
+      try {
+        final image = fromCamera
+            ? await _imagePicker.pickImage(source: ImageSource.camera)
+            : await _imagePicker.pickImage(source: ImageSource.gallery);
+        if (image != null) {
+          _uploadImage(
+            file: File(image.path),
+            userId: FirebaseAuth.instance.currentUser!.uid,
+          );
+        }
+        return null;
+      } on Exception catch (e) {
+        final permissionStatus = await Permission.photos.status;
+        if (permissionStatus.isDenied) {
+          await AppFunctions.permissionsDialog();
+        } else {
+          CustomLoading.toast(text: e.toString());
+        }
       }
     }
   }
@@ -482,14 +488,10 @@ class GameController extends GetxController {
     await ref.putFile(file);
     final String imageUrl = await ref.getDownloadURL();
 
-    await _auth.currentUser!.updatePhotoURL(imageUrl);
-    await _fireStore
-        .collection(AppStrings.usersCollection)
-        .doc(userId)
-        .update({'teamPhotos': imageUrl});
-    CustomLoading.toast(
-        text: 'Image changed successfully',
-        toastPosition: EasyLoadingToastPosition.bottom);
+    await _fireStore.collection(AppStrings.usersCollection).doc(userId).update({
+      'teamPhotos': FieldValue.arrayUnion([imageUrl])
+    });
+    CustomLoading.dismiss();
   }
 
   Future<bool> _checkInternet() async {

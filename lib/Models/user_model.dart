@@ -10,6 +10,8 @@ class UserModel extends Equatable {
   final String? tokenFcm;
   final bool? isLoged;
   final bool? isOnline;
+  final List? teamPhotos;
+
   const UserModel({
     this.id,
     this.photo,
@@ -19,6 +21,7 @@ class UserModel extends Equatable {
     this.tokenFcm,
     this.isLoged,
     this.isOnline,
+    this.teamPhotos,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -31,6 +34,7 @@ class UserModel extends Equatable {
       tokenFcm: json['tokenFcm'] ?? "",
       isLoged: json['isLoged'] ?? false,
       isOnline: json['isOnline'] ?? false,
+      teamPhotos: json['teamPhotos'] ?? [],
     );
   }
 
@@ -44,6 +48,7 @@ class UserModel extends Equatable {
       'tokenFcm': tokenFcm ?? "",
       'isLoged': isLoged ?? false,
       'isOnline': isOnline ?? false,
+      'teamPhotos': teamPhotos ?? [],
     };
   }
 
@@ -64,5 +69,6 @@ class UserModel extends Equatable {
         tokenFcm,
         isLoged,
         isOnline,
+        teamPhotos
       ];
 }

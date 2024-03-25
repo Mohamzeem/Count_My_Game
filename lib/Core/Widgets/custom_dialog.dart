@@ -3,6 +3,8 @@ import 'package:count_my_game/Core/Widgets/custom_button.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class CustomDialog {
   static Future<void> oneDialog({
@@ -85,6 +87,7 @@ class CustomDialog {
           child: CustomText(
             text: textBody,
             softWrap: true,
+            color: AppColors.mainColor,
             fontSize: 22,
             textAlign: TextAlign.center,
           ),
@@ -93,65 +96,81 @@ class CustomDialog {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              InkWell(
-                onTap: onPressed,
-                child: Container(
-                  width: 55.w,
-                  height: 55.h,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.mainColor,
-                  ),
-                  child: Card(
-                      color: AppColors.mainColor,
-                      elevation: 5,
-                      surfaceTintColor: AppColors.kWhite,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100.0),
-                        side: const BorderSide(color: AppColors.kWhite),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: CustomText(
-                          text: textButton1,
-                          color: AppColors.kWhite,
-                          fontSize: 18,
-                        ),
-                      )),
-                ),
+              CustomButton(
+                onPressed: onPressed,
+                text: textButton1,
+                width: 80,
+                height: 40,
+                fontSize: 16,
               ),
-              InkWell(
-                onTap: () => Navigator.pop(context),
-                child: Container(
-                  width: 55.w,
-                  height: 55.h,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.kBlack,
-                  ),
-                  child: Card(
-                    color: AppColors.kBlack,
-                    elevation: 5,
-                    surfaceTintColor: AppColors.kWhite,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100.0),
-                      side: const BorderSide(color: AppColors.kWhite),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Center(
-                        child: CustomText(
-                          text: textButton2,
-                          color: AppColors.kWhite,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )
+              CustomButton(
+                onPressed: () => Get.back(),
+                text: textButton2,
+                width: 80,
+                height: 40,
+                fontSize: 16,
+                backgroundColor: AppColors.kBlack,
+              ),
             ],
-          )
+          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //   children: [
+          //     InkWell(
+          //       onTap: onPressed,
+          //       child: Container(
+          //         width: 60.w,
+          //         height: 60.h,
+          //         decoration: const BoxDecoration(
+          //           shape: BoxShape.circle,
+          //           color: AppColors.mainColor,
+          //         ),
+          //         child: Card(
+          //             color: AppColors.mainColor,
+          //             elevation: 5,
+          //             surfaceTintColor: AppColors.kWhite,
+          //             child: Padding(
+          //               padding: const EdgeInsets.all(10),
+          //               child: CustomText(
+          //                 text: textButton1,
+          //                 color: AppColors.kWhite,
+          //                 fontSize: 18,
+          //               ),
+          //             )),
+          //       ),
+          //     ),
+          //     InkWell(
+          //       onTap: () => Navigator.pop(context),
+          //       child: Container(
+          //         width: 60.w,
+          //         height: 60.h,
+          //         decoration: const BoxDecoration(
+          //           shape: BoxShape.circle,
+          //           color: AppColors.kBlack,
+          //         ),
+          //         child: Card(
+          //           color: AppColors.kBlack,
+          //           elevation: 5,
+          //           surfaceTintColor: AppColors.kWhite,
+          //           shape: RoundedRectangleBorder(
+          //             borderRadius: BorderRadius.circular(100.0),
+          //             side: const BorderSide(color: AppColors.kWhite),
+          //           ),
+          //           child: Padding(
+          //             padding: const EdgeInsets.all(10),
+          //             child: Center(
+          //               child: CustomText(
+          //                 text: textButton2,
+          //                 color: AppColors.kWhite,
+          //                 fontSize: 16,
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     )
+          //   ],
+          // )
         ],
       ),
     );

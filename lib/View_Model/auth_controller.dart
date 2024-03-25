@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Services/pref_key.dart';
+import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_strings.dart';
@@ -15,10 +16,12 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AuthController extends GetxController {
   final _fireStorage = FirebaseStorage.instance;
   final _storage = GetStorage();
+  final ImagePicker _imagePicker = ImagePicker();
   final _fireStore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   final _checker = InternetConnectionChecker();
@@ -233,9 +236,7 @@ class AuthController extends GetxController {
   }) async {
     CustomLoading.show();
     final String imagePath = file.path.split('.').last;
-    final ref = _fireStorage
-        .ref('ProfileImages')
-        .child('$userId/${DateTime.now().millisecondsSinceEpoch}.$imagePath');
+    final ref = _fireStorage.ref('ProfileImages').child('$userId.$imagePath');
 
     await ref.putFile(file);
     final String imageUrl = await ref.getDownloadURL();
@@ -349,16 +350,27 @@ class AuthController extends GetxController {
     }
   }
 
-  Future setProfileImage() async {
-    ImagePicker imagePicker = ImagePicker();
+  Future setProfileImage({bool fromCamera = true}) async {
     bool isConnected = await _checkInternet();
     if (isConnected) {
-      final image = await imagePicker.pickImage(source: ImageSource.gallery);
-      if (image != null) {
-        _uploadImage(
-          file: File(image.path),
-          userId: FirebaseAuth.instance.currentUser!.uid,
-        );
+      try {
+        final image = fromCamera
+            ? await _imagePicker.pickImage(source: ImageSource.camera)
+            : await _imagePicker.pickImage(source: ImageSource.gallery);
+        if (image != null) {
+          _uploadImage(
+            file: File(image.path),
+            userId: FirebaseAuth.instance.currentUser!.uid,
+          );
+        }
+        return null;
+      } on Exception catch (e) {
+        final permissionStatus = await Permission.photos.status;
+        if (permissionStatus.isDenied) {
+          await AppFunctions.permissionsDialog();
+        } else {
+          CustomLoading.toast(text: e.toString());
+        }
       }
     }
   }

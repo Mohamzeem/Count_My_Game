@@ -2,8 +2,11 @@ import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:count_my_game/Core/Widgets/text_form_field.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AppFunctions {
   AppFunctions._();
@@ -103,5 +106,23 @@ class AppFunctions {
         // SizedBox(height: Platform.isIOS ? 0.h : 0.h),
       ],
     );
+  }
+
+  static Future<void> permissionsDialog() {
+    return Get.dialog(CupertinoAlertDialog(
+      title: const Text('Permissions Denied'),
+      content: const Text('Allow access to gallery and photos'),
+      actions: [
+        CupertinoDialogAction(
+          child: const CustomText(text: 'cancel'),
+          onPressed: () => Get.back(),
+        ),
+        const CupertinoDialogAction(
+          isDefaultAction: true,
+          onPressed: openAppSettings,
+          child: Text('Settings'),
+        )
+      ],
+    ));
   }
 }

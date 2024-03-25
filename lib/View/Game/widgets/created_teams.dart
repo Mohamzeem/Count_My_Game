@@ -23,8 +23,8 @@ class CreatedTeams extends GetWidget<GameController> {
                   children: [
                     CreateTeamDetailsItem(
                       initValue: userName,
-                      isUser: true,
-                      photoUrl: '',
+                      fromUser: true,
+                      photoUrl: "controller.teamOne.isPhoto",
                       teamNum: '1',
                     ),
                     CreateTeamDetailsItem(
@@ -45,12 +45,12 @@ class CreatedTeams extends GetWidget<GameController> {
                           children: [
                             CreateTeamDetailsItem(
                               initValue: userName,
-                              isUser: true,
+                              fromUser: true,
                               photoUrl: '',
                               teamNum: '1',
                             ),
                             CreateTeamDetailsItem(
-                              photoUrl: '',
+                              photoUrl: controller.teamThree.photo!,
                               teamNum: '2',
                               nameController: controller.teamTwoNameController,
                             ),
@@ -73,7 +73,7 @@ class CreatedTeams extends GetWidget<GameController> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CreateTeamDetailsItem(
-                                  isUser: true,
+                                  fromUser: true,
                                   initValue: userName,
                                   photoUrl: '',
                                   teamNum: '1',

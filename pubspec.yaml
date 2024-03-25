@@ -54,6 +54,7 @@ dependencies:
   screenshot: ^2.3.0
   image_gallery_saver: ^2.0.3
   permission_handler: ^11.3.0
+  animate_do: ^3.3.4
   
 
 
