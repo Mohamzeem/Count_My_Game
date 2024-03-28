@@ -4,19 +4,21 @@ import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_cached_image.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 
-class GameDetailsItem extends StatelessWidget {
+class GameTeamsItem extends StatelessWidget {
   final String teamName;
   final String score;
   final String photoUrl;
   final VoidCallback onTap;
   final VoidCallback doubleTap;
-  const GameDetailsItem({
+  final bool isTwoTeams;
+  const GameTeamsItem({
     super.key,
     required this.teamName,
     required this.score,
     required this.photoUrl,
     required this.onTap,
     required this.doubleTap,
+    this.isTwoTeams = true,
   });
 
   @override
@@ -41,23 +43,17 @@ class GameDetailsItem extends StatelessWidget {
             ),
             //^ photo
             Container(
-              width: 170.w,
+              width: isTwoTeams ? 500.w : 180.w,
               height: 100.h,
               decoration: const BoxDecoration(
                 shape: BoxShape.rectangle,
-                // color: AppColors.kBackGround,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: CustomCachedImage(
-                  shape: BoxShape.rectangle,
-                  photoUrl: photoUrl,
-                  height: 170,
-                  width: 100,
-                ),
+              child: CustomCachedImage(
+                shape: BoxShape.rectangle,
+                photoUrl: photoUrl,
+                height: 170,
+                width: 100,
               ),
             ),
             //^ score
@@ -75,13 +71,12 @@ class GameDetailsItem extends StatelessWidget {
                   CustomText(
                     text: score,
                     color: AppColors.mainColor,
-                    fontSize: 22,
+                    fontSize: 24,
                     fontWeight: FontWeight.w600,
                   ),
                 ],
               ),
             ),
-            // SizedBox(height: 10.h),
           ],
         ),
       ),

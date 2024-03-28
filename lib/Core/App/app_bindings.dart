@@ -1,4 +1,4 @@
-import 'package:count_my_game/View/Contacts/controller/contacts_controller.dart';
+import 'package:count_my_game/View_Model/contacts_controller.dart';
 import 'package:count_my_game/View_Model/home_controller.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:count_my_game/View_Model/game_controller.dart';

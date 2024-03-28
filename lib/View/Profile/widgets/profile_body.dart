@@ -25,7 +25,7 @@ class ProfileBody extends StatelessWidget {
             //^ appbar
             GetBuilder<AuthController>(
               builder: (controller) => CustomAppBar(
-                title: controller.offlineProfile.name!,
+                title: 'Hello, ${controller.offlineProfile.name!}',
                 photoUrl: controller.offlineProfile.isPhoto,
                 isArrowBack: false,
               ),

@@ -5,6 +5,7 @@ import 'package:count_my_game/View/Profile/widgets/profile_item.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ChangeImage extends GetWidget<AuthController> {
   const ChangeImage({
@@ -29,7 +30,7 @@ class ChangeImage extends GetWidget<AuthController> {
               children: [
                 CustomButton(
                   onPressed: () {
-                    controller.setProfileImage(fromCamera: false);
+                    controller.setProfileImage(source: ImageSource.gallery);
                     Get.back();
                   },
                   text: 'Gallary',
@@ -39,7 +40,7 @@ class ChangeImage extends GetWidget<AuthController> {
                 ),
                 CustomButton(
                   onPressed: () {
-                    controller.setProfileImage(fromCamera: true);
+                    controller.setProfileImage(source: ImageSource.camera);
                     Get.back();
                   },
                   text: 'Camera',

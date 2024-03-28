@@ -1,4 +1,5 @@
 import 'package:count_my_game/Core/Utils/app_strings.dart';
+import 'package:count_my_game/Models/user_friend.dart';
 import 'package:equatable/equatable.dart';
 
 class UserModel extends Equatable {
@@ -11,6 +12,7 @@ class UserModel extends Equatable {
   final bool? isLoged;
   final bool? isOnline;
   final List? teamPhotos;
+  final List<FriendModel>? friends;
 
   const UserModel({
     this.id,
@@ -22,9 +24,23 @@ class UserModel extends Equatable {
     this.isLoged,
     this.isOnline,
     this.teamPhotos,
+    this.friends,
   });
 
+  // deleteFriend(String friendId) async {
+  //   List updatedList = [];
+  //   for (FriendModel friend in friends!) {
+  //     updatedList = friends!.where((friend) => friend.id != friendId).toList();
+  //   }
+  // }
+
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    List<FriendModel> friendsList = [];
+    if (json['teams'] != null) {
+      List<dynamic> teamsData = json['teams'];
+      friendsList =
+          teamsData.map((teamMap) => FriendModel.fromJson(teamMap)).toList();
+    }
     return UserModel(
       id: json['id'] ?? "",
       photo: json['photo'] ?? "",
@@ -35,10 +51,14 @@ class UserModel extends Equatable {
       isLoged: json['isLoged'] ?? false,
       isOnline: json['isOnline'] ?? false,
       teamPhotos: json['teamPhotos'] ?? [],
+      friends: friendsList,
     );
   }
 
   Map<String, dynamic> toJson() {
+    List<dynamic> friendsMapList =
+        friends!.map((team) => team.toJson()).toList();
+
     return <String, dynamic>{
       'id': id,
       'photo': photo ?? "",
@@ -49,6 +69,7 @@ class UserModel extends Equatable {
       'isLoged': isLoged ?? false,
       'isOnline': isOnline ?? false,
       'teamPhotos': teamPhotos ?? [],
+      'friends': friendsMapList,
     };
   }
 
@@ -69,6 +90,7 @@ class UserModel extends Equatable {
         tokenFcm,
         isLoged,
         isOnline,
-        teamPhotos
+        teamPhotos,
+        friends
       ];
 }

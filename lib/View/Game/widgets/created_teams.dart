@@ -1,3 +1,4 @@
+import 'package:count_my_game/Core/Utils/app_strings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +13,7 @@ class CreatedTeams extends GetWidget<GameController> {
 
   @override
   Widget build(BuildContext context) {
-    String userName = FirebaseAuth.instance.currentUser!.displayName!;
+    final user = FirebaseAuth.instance.currentUser!;
     return Column(
       children: [
         controller.selectedNum.value == '2'
@@ -22,9 +23,9 @@ class CreatedTeams extends GetWidget<GameController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CreateTeamDetailsItem(
-                      initValue: userName,
+                      initValue: user.displayName!,
                       fromUser: true,
-                      photoUrl: "controller.teamOne.isPhoto",
+                      photoUrl: '',
                       teamNum: '1',
                     ),
                     CreateTeamDetailsItem(
@@ -44,13 +45,13 @@ class CreatedTeams extends GetWidget<GameController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CreateTeamDetailsItem(
-                              initValue: userName,
+                              initValue: user.displayName!,
                               fromUser: true,
-                              photoUrl: '',
+                              photoUrl: user.photoURL!,
                               teamNum: '1',
                             ),
                             CreateTeamDetailsItem(
-                              photoUrl: controller.teamThree.photo!,
+                              photoUrl: '',
                               teamNum: '2',
                               nameController: controller.teamTwoNameController,
                             ),
@@ -73,9 +74,9 @@ class CreatedTeams extends GetWidget<GameController> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CreateTeamDetailsItem(
+                                  initValue: user.displayName!,
                                   fromUser: true,
-                                  initValue: userName,
-                                  photoUrl: '',
+                                  photoUrl: user.photoURL!,
                                   teamNum: '1',
                                 ),
                                 CreateTeamDetailsItem(

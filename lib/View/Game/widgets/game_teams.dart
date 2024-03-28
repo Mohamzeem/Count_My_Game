@@ -18,14 +18,14 @@ class GameTeams extends StatelessWidget {
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    GameDetailsItem(
+                    GameTeamsItem(
                       doubleTap: () => controller.undoScore(team: 'A'),
                       onTap: () => controller.incrementScore(team: 'A'),
                       score: controller.teamAPoints.value.toString(),
                       photoUrl: controller.gameModel.teams![0].isPhoto,
                       teamName: controller.gameModel.teams![0].name!,
                     ),
-                    GameDetailsItem(
+                    GameTeamsItem(
                       doubleTap: () => controller.undoScore(team: 'B'),
                       onTap: () => controller.incrementScore(team: 'B'),
                       score: controller.teamBPoints.value.toString(),
@@ -40,14 +40,16 @@ class GameTeams extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            GameDetailsItem(
+                            GameTeamsItem(
+                              isTwoTeams: false,
                               doubleTap: () => controller.undoScore(team: 'A'),
                               onTap: () => controller.incrementScore(team: 'A'),
                               score: controller.teamAPoints.value.toString(),
                               photoUrl: controller.gameModel.teams![0].isPhoto,
                               teamName: controller.gameModel.teams![0].name!,
                             ),
-                            GameDetailsItem(
+                            GameTeamsItem(
+                              isTwoTeams: false,
                               doubleTap: () => controller.undoScore(team: 'B'),
                               onTap: () => controller.incrementScore(team: 'B'),
                               score: controller.teamBPoints.value.toString(),
@@ -57,7 +59,7 @@ class GameTeams extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: 10.h),
-                        GameDetailsItem(
+                        GameTeamsItem(
                           doubleTap: () => controller.undoScore(team: 'C'),
                           onTap: () => controller.incrementScore(team: 'C'),
                           score: controller.teamCPoints.value.toString(),
@@ -72,7 +74,8 @@ class GameTeams extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                GameDetailsItem(
+                                GameTeamsItem(
+                                  isTwoTeams: false,
                                   doubleTap: () =>
                                       controller.undoScore(team: 'A'),
                                   onTap: () =>
@@ -84,7 +87,8 @@ class GameTeams extends StatelessWidget {
                                   teamName:
                                       controller.gameModel.teams![0].name!,
                                 ),
-                                GameDetailsItem(
+                                GameTeamsItem(
+                                  isTwoTeams: false,
                                   doubleTap: () =>
                                       controller.undoScore(team: 'B'),
                                   onTap: () =>
@@ -101,7 +105,8 @@ class GameTeams extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                GameDetailsItem(
+                                GameTeamsItem(
+                                  isTwoTeams: false,
                                   doubleTap: () =>
                                       controller.undoScore(team: 'C'),
                                   onTap: () =>
@@ -112,7 +117,8 @@ class GameTeams extends StatelessWidget {
                                   teamName:
                                       controller.gameModel.teams![2].name!,
                                 ),
-                                GameDetailsItem(
+                                GameTeamsItem(
+                                  isTwoTeams: false,
                                   doubleTap: () =>
                                       controller.undoScore(team: 'D'),
                                   onTap: () =>

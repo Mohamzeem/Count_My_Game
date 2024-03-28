@@ -11,7 +11,6 @@ import 'package:count_my_game/Models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
@@ -38,8 +37,7 @@ class GameController extends GetxController {
   RxString selectedNum = ''.obs;
   RxString selectedGame = ''.obs;
   RxBool _gameCreated = false.obs;
-  RxBool _fromFriends = false.obs;
-  // RxBool _gameCreated = false.obs;
+  final bool _fromFriends = false;
   final teamTwoNameController = TextEditingController();
   final teamThreeNameController = TextEditingController();
   final teamFourNameController = TextEditingController();
@@ -47,14 +45,12 @@ class GameController extends GetxController {
   final newScoreController = TextEditingController();
   final emailController = TextEditingController();
   final screenShotController = ScreenshotController();
-  File? _selectedImage;
 
   List<String> numList = ['2', '3', '4'];
   List<String> gamesList = ['Dominos', 'Cards', 'Playstation', 'Other'];
   final String _createdAtTime =
       DateTime.now().millisecondsSinceEpoch.toString();
   bool get isCreated => _gameCreated.value;
-  bool get fromfriends => _fromFriends.value;
   void dropDownValueGamesList(String val) => selectedGame.value = val;
   void dropDownValueNumList(String val) => selectedNum.value = val;
 
@@ -191,8 +187,8 @@ class GameController extends GetxController {
         id: _auth.currentUser!.uid,
         name: _auth.currentUser!.displayName,
         photo: _auth.currentUser!.photoURL);
-    final teamTwo = TeamModel(
-        id: randomTeamTwoId, name: teamTwoName, photo: _selectedImage!.path);
+    final teamTwo =
+        TeamModel(id: randomTeamTwoId, name: teamTwoName, photo: '');
     final teamThree =
         TeamModel(id: randomTeamThreeId, name: teamThreeName, photo: "");
     final teamFour =
@@ -227,7 +223,7 @@ class GameController extends GetxController {
     });
   }
 
-  Future closeGame() async {
+  Future closeAndDeleteGame() async {
     CustomLoading.show();
     await _fireStore
         .collection(AppStrings.gamesCollection)
@@ -450,13 +446,16 @@ class GameController extends GetxController {
     }
   }
 
-  Future setProfileImage({bool fromCamera = true}) async {
+  Future setProfileImage({required ImageSource source}) async {
     bool isConnected = await _checkInternet();
     if (isConnected) {
       try {
-        final image = fromCamera
-            ? await _imagePicker.pickImage(source: ImageSource.camera)
-            : await _imagePicker.pickImage(source: ImageSource.gallery);
+        final image = await _imagePicker.pickImage(
+          source: source,
+          imageQuality: 80,
+          maxHeight: 800,
+          maxWidth: 800,
+        );
         if (image != null) {
           _uploadImage(
             file: File(image.path),

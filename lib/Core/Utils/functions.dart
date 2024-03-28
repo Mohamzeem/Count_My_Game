@@ -17,7 +17,7 @@ class AppFunctions {
       required List<Widget> body}) {
     return showModalBottomSheet(
       useSafeArea: true,
-      barrierColor: AppColors.mainColor.withOpacity(0.4),
+      barrierColor: AppColors.mainColor.withOpacity(0.1),
       isScrollControlled: true,
       isDismissible: isDismissible,
       elevation: 10,

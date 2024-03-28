@@ -1,12 +1,11 @@
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/View/Game/widgets/history_game_body.dart';
-import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:count_my_game/View_Model/game_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HistoryGameView extends GetWidget<AuthController> {
+class HistoryGameView extends StatelessWidget {
   const HistoryGameView({super.key});
 
   @override

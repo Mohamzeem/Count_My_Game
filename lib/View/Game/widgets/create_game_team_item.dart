@@ -9,6 +9,7 @@ import 'package:count_my_game/Core/Utils/app_strings.dart';
 import 'package:count_my_game/Core/Widgets/custom_cached_image.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:count_my_game/View/Game/widgets/game_text_field.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CreateTeamDetailsItem extends StatelessWidget {
   final TextEditingController? nameController;
@@ -24,7 +25,7 @@ class CreateTeamDetailsItem extends StatelessWidget {
     required this.photoUrl,
     this.initValue = '',
     this.fromUser = false,
-    this.fromFriends = false,
+    this.fromFriends = true,
   });
 
   @override
@@ -40,7 +41,7 @@ class CreateTeamDetailsItem extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
           SizedBox(height: 5.h),
-          //^ team name field
+          //^ team name field & friends pick
           SizedBox(
             width: 185.w,
             child: Row(
@@ -93,10 +94,12 @@ class CreateTeamDetailsItem extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(5),
-                      child: CustomCachedImage(
-                        shape: BoxShape.rectangle,
-                        photoUrl: authCont.offlineProfile.isPhoto,
-                        // photoUrl: FirebaseAuth.instance.currentUser!.photoURL!,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: CustomCachedImage(
+                          shape: BoxShape.rectangle,
+                          photoUrl: authCont.offlineProfile.isPhoto,
+                        ),
                       ),
                     ),
                   ),
@@ -111,8 +114,20 @@ class CreateTeamDetailsItem extends StatelessWidget {
                       Radius.circular(10),
                     ),
                   ),
-                  child: photoUrl == ""
-                      ? InkWell(
+                  child: fromFriends
+                      ? Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: const CustomCachedImage(
+                              shape: BoxShape.rectangle,
+                              photoUrl: AppStrings.defaultAppPhoto,
+                              width: 185,
+                              height: 100,
+                            ),
+                          ),
+                        )
+                      : InkWell(
                           onTap: () => Get.dialog(
                             AlertDialog(
                               title: const Center(
@@ -131,7 +146,7 @@ class CreateTeamDetailsItem extends StatelessWidget {
                                     CustomButton(
                                       onPressed: () {
                                         controller.setProfileImage(
-                                            fromCamera: false);
+                                            source: ImageSource.gallery);
                                         Get.back();
                                       },
                                       text: 'Gallary',
@@ -142,7 +157,7 @@ class CreateTeamDetailsItem extends StatelessWidget {
                                     CustomButton(
                                       onPressed: () {
                                         controller.setProfileImage(
-                                            fromCamera: true);
+                                            source: ImageSource.camera);
                                         Get.back();
                                       },
                                       text: 'Camera',
@@ -169,15 +184,6 @@ class CreateTeamDetailsItem extends StatelessWidget {
                                 size: 50,
                               )
                             ],
-                          ),
-                        )
-                      : const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: CustomCachedImage(
-                            shape: BoxShape.rectangle,
-                            photoUrl: AppStrings.defaultAppPhoto,
-                            width: 185,
-                            height: 100,
                           ),
                         ),
                 ),

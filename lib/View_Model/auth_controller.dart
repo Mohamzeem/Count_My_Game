@@ -350,13 +350,16 @@ class AuthController extends GetxController {
     }
   }
 
-  Future setProfileImage({bool fromCamera = true}) async {
+  Future setProfileImage({required ImageSource source}) async {
     bool isConnected = await _checkInternet();
     if (isConnected) {
       try {
-        final image = fromCamera
-            ? await _imagePicker.pickImage(source: ImageSource.camera)
-            : await _imagePicker.pickImage(source: ImageSource.gallery);
+        final image = await _imagePicker.pickImage(
+          source: source,
+          imageQuality: 80,
+          maxHeight: 800,
+          maxWidth: 800,
+        );
         if (image != null) {
           _uploadImage(
             file: File(image.path),
