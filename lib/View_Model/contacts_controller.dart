@@ -76,7 +76,7 @@ class ContactsController extends GetxController {
     }
   }
 
-  Future deleteFriend({required String id}) async {
+  Future deleteFriend({required String id, required String name}) async {
     final result = await _fireStore
         .collection(AppStrings.usersCollection)
         .doc(_auth.currentUser!.uid)
@@ -88,8 +88,12 @@ class ContactsController extends GetxController {
         .collection(AppStrings.usersCollection)
         .doc(_auth.currentUser!.uid)
         .update({
-      'friends': updatedFriendsList,
-    });
+          'friends': updatedFriendsList,
+        })
+        .whenComplete(
+            () => CustomLoading.toast(text: '$name deleted successfully'))
+        .onError(
+            (error, stackTrace) => CustomLoading.toast(text: error.toString()));
   }
 
   Future<bool> _checkInternet() async {

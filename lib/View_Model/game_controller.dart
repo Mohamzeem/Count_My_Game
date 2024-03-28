@@ -352,6 +352,17 @@ class GameController extends GetxController {
     await ImageGallerySaver.saveImage(image!, name: name);
   }
 
+  Future deletePerviousGame({required String gameId}) async {
+    await _fireStore
+        .collection(AppStrings.gamesCollection)
+        .doc(gameId)
+        .delete()
+        .whenComplete(
+            () => CustomLoading.toast(text: 'Game deleted successfully'))
+        .onError(
+            (error, stackTrace) => CustomLoading.toast(text: error.toString()));
+  }
+
   Stream<List<GameModel>> getPreviousGames() {
     final result = FirebaseFirestore.instance
         .collection(AppStrings.gamesCollection)

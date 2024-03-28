@@ -28,7 +28,11 @@ class PreviousGamesList extends StatelessWidget {
                   itemCount: gameList.length,
                   itemBuilder: (context, index) {
                     final gameModel = gameList[index];
-                    return PreviousGamesItem(gameModel: gameModel);
+                    return PreviousGamesItem(
+                      gameModel: gameModel,
+                      onDismissed: (direction) =>
+                          controller.deletePerviousGame(gameId: gameModel.id!),
+                    );
                   },
                 ),
               ),

@@ -42,7 +42,8 @@ class ContactsList extends StatelessWidget {
                         name: friendModel.name!,
                         photoUrl: friendModel.isPhoto,
                         onTap: () {
-                          controller.deleteFriend(id: friendModel.id!);
+                          controller.deleteFriend(
+                              id: friendModel.id!, name: friendModel.name!);
                           print(friendModel.id);
                         },
                       );
