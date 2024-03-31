@@ -7,7 +7,7 @@ import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Models/game_model.dart';
 import 'package:count_my_game/Models/team_model.dart';
-import 'package:count_my_game/Models/user_model.dart';
+import 'package:count_my_game/Models/user_friend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -34,10 +34,11 @@ class GameController extends GetxController {
   RxList scoreListBTeam = [].obs;
   RxList scoreListCTeam = [].obs;
   RxList scoreListDTeam = [].obs;
+  // final List<FriendModel> frinedsList = [];
   RxString selectedNum = ''.obs;
   RxString selectedGame = ''.obs;
   RxBool _gameCreated = false.obs;
-  final bool _fromFriends = false;
+  // final bool _fromFriends = false;
   final teamTwoNameController = TextEditingController();
   final teamThreeNameController = TextEditingController();
   final teamFourNameController = TextEditingController();
@@ -235,6 +236,19 @@ class GameController extends GetxController {
     });
   }
 
+  Future<List<FriendModel>> getFriends() async {
+    final result = await _fireStore
+        .collection(AppStrings.usersCollection)
+        .doc(_auth.currentUser!.uid)
+        .get();
+
+    final friends = result.get('friends');
+    final frinedsList =
+        friends.map((event) => FriendModel.fromJson(event.data()!)).toList();
+    print(frinedsList);
+    return frinedsList;
+  }
+
   void createGameFunction() {
     if (selectedGame.isEmpty) {
       CustomLoading.toast(text: 'Selete Game');
@@ -375,19 +389,6 @@ class GameController extends GetxController {
         return GameModel.fromMap(doc.data());
       }).toList();
     });
-  }
-
-  Stream<List<UserModel>> getUsers() {
-    return _fireStore
-        .collection(AppStrings.usersCollection)
-        // .where('members', arrayContains: _auth.currentUser!.uid)
-        .snapshots()
-        .map((event) => event.docs.map(
-              (e) {
-                final data = e.data();
-                return UserModel.fromJson(data);
-              },
-            ).toList());
   }
 
   void createTeamsUi() {

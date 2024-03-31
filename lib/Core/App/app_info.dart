@@ -30,7 +30,7 @@ class MyApp {
 class AppConfig {
   AppConfig();
   final Size designSize = const Size(430.0, 867.4285714285714); //! android
-  // final Size designSize = const Size(411.42857142857144, 932.0); //! ios
+  // final Size designSize = const Size(360, 690); //! default
 }
 
 //~ to get system app info and app version build

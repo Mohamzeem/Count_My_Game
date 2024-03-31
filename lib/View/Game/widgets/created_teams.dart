@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:count_my_game/View/Game/widgets/create_game_user_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -12,7 +12,6 @@ class CreatedTeams extends GetWidget<GameController> {
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser!;
     return Column(
       children: [
         controller.selectedNum.value == '2'
@@ -21,13 +20,8 @@ class CreatedTeams extends GetWidget<GameController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CreateTeamDetailsItem(
-                      initValue: user.displayName!,
-                      fromUser: true,
-                      photoUrl: '',
-                      teamNum: '1',
-                    ),
-                    CreateTeamDetailsItem(
+                    const CreateGameUserItem(),
+                    CreateGameTeamItem(
                       photoUrl: '',
                       teamNum: '2',
                       nameController: controller.teamTwoNameController,
@@ -43,20 +37,15 @@ class CreatedTeams extends GetWidget<GameController> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CreateTeamDetailsItem(
-                              initValue: user.displayName!,
-                              fromUser: true,
-                              photoUrl: user.photoURL!,
-                              teamNum: '1',
-                            ),
-                            CreateTeamDetailsItem(
+                            const CreateGameUserItem(),
+                            CreateGameTeamItem(
                               photoUrl: '',
                               teamNum: '2',
                               nameController: controller.teamTwoNameController,
                             ),
                           ],
                         ),
-                        CreateTeamDetailsItem(
+                        CreateGameTeamItem(
                           photoUrl: '',
                           teamNum: '3',
                           nameController: controller.teamThreeNameController,
@@ -72,13 +61,8 @@ class CreatedTeams extends GetWidget<GameController> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CreateTeamDetailsItem(
-                                  initValue: user.displayName!,
-                                  fromUser: true,
-                                  photoUrl: user.photoURL!,
-                                  teamNum: '1',
-                                ),
-                                CreateTeamDetailsItem(
+                                const CreateGameUserItem(),
+                                CreateGameTeamItem(
                                   photoUrl: '',
                                   teamNum: '2',
                                   nameController:
@@ -89,13 +73,13 @@ class CreatedTeams extends GetWidget<GameController> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CreateTeamDetailsItem(
+                                CreateGameTeamItem(
                                   photoUrl: '',
                                   teamNum: '3',
                                   nameController:
                                       controller.teamThreeNameController,
                                 ),
-                                CreateTeamDetailsItem(
+                                CreateGameTeamItem(
                                   photoUrl: '',
                                   teamNum: '4',
                                   nameController:

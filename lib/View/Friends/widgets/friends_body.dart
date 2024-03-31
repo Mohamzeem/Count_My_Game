@@ -1,12 +1,12 @@
 import 'package:count_my_game/Core/Widgets/custom_app_bar.dart';
-import 'package:count_my_game/View/Contacts/widgets/contacts_list.dart';
+import 'package:count_my_game/View/Friends/widgets/friends_list.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class ContactsBody extends StatelessWidget {
-  const ContactsBody({
+class FriendsBody extends StatelessWidget {
+  const FriendsBody({
     super.key,
   });
 
@@ -24,7 +24,7 @@ class ContactsBody extends StatelessWidget {
               isArrowBack: false,
             ),
           ),
-          const ContactsList(),
+          const FriendsList(),
         ],
       ),
     );
