@@ -1,4 +1,9 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_app_bar.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
@@ -8,11 +13,6 @@ import 'package:count_my_game/View/Game/widgets/drop_down_widget.dart';
 import 'package:count_my_game/View/Game/widgets/game_text_field.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:count_my_game/View_Model/game_controller.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
 class CreateGameBody extends StatelessWidget {
   const CreateGameBody({
@@ -108,21 +108,22 @@ class CreateGameBody extends StatelessWidget {
               SizedBox(height: 20.h),
               SizedBox(
                 height: Platform.isIOS ? 510.h : 490.h,
-                child: Column(
-                  children: [
-                    if (controller.isCreated) ...[const CreatedTeams()],
-                    const Spacer(),
-                    // //^ create game btn
-                    if (controller.isCreated) ...[
-                      CustomButton(
-                        onPressed: () async => controller.createGameFunction(),
-                        text: 'Start Game',
-                        width: double.infinity,
-                        height: 50,
-                      ),
-                    ]
-                  ],
-                ),
+                child: controller.isCreated
+                    ? Column(
+                        children: [
+                          const CreatedTeams(),
+                          const Spacer(),
+                          // //^ create game btn
+                          CustomButton(
+                            onPressed: () async =>
+                                controller.createGameFunction(),
+                            text: 'Start Game',
+                            width: double.infinity,
+                            height: 50,
+                          ),
+                        ],
+                      )
+                    : const SizedBox.shrink(),
               )
             ],
           ),

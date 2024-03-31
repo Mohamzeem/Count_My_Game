@@ -1,5 +1,5 @@
 import 'package:count_my_game/Core/Utils/app_colors.dart';
-import 'package:count_my_game/View/Contacts/contacts_view.dart';
+import 'package:count_my_game/View/Friends/friends_view.dart';
 import 'package:count_my_game/View/Game/history_game_view.dart';
 import 'package:count_my_game/View/Profile/profile_view.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,7 @@ class HomeController extends GetxController {
     Widget widget;
     switch (index) {
       case 0:
-        widget = const ContactsView();
+        widget = const FriendsView();
         break;
       case 1:
         widget = const HistoryGameView();

@@ -6,13 +6,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 
-class ContactsController extends GetxController {
+class FriendsController extends GetxController {
 //   final FirebaseStorage _fireStorage = FirebaseStorage.instance;
 //   final _storage = GetStorage();
   final _fireStore = FirebaseFirestore.instance;
-  final _checker = InternetConnectionChecker();
+  // final _checker = InternetConnectionChecker();
   final _auth = FirebaseAuth.instance;
   TextEditingController nameController = TextEditingController();
 
@@ -96,11 +95,11 @@ class ContactsController extends GetxController {
             (error, stackTrace) => CustomLoading.toast(text: error.toString()));
   }
 
-  Future<bool> _checkInternet() async {
-    if (await _checker.hasConnection) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // Future<bool> _checkInternet() async {
+  //   if (await _checker.hasConnection) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 }

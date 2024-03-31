@@ -1,20 +1,20 @@
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Utils/functions.dart';
-import 'package:count_my_game/View/Contacts/widgets/contacts_body.dart';
-import 'package:count_my_game/View_Model/contacts_controller.dart';
+import 'package:count_my_game/View/Friends/widgets/friends_body.dart';
+import 'package:count_my_game/View_Model/friends_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ContactsView extends StatelessWidget {
-  const ContactsView({super.key});
+class FriendsView extends StatelessWidget {
+  const FriendsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ContactsController>(
-      init: ContactsController(),
+    return GetBuilder<FriendsController>(
+      init: FriendsController(),
       builder: (controller) => Scaffold(
         body: const SafeArea(
-          child: ContactsBody(),
+          child: FriendsBody(),
         ),
         //^ floating add btn
         floatingActionButton: Padding(

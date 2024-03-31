@@ -2,18 +2,18 @@ import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_circular_loading.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:count_my_game/Models/user_friend.dart';
-import 'package:count_my_game/View/Contacts/widgets/contacts_item.dart';
-import 'package:count_my_game/View_Model/contacts_controller.dart';
+import 'package:count_my_game/View/Friends/widgets/friends_item.dart';
+import 'package:count_my_game/View_Model/friends_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class ContactsList extends StatelessWidget {
-  const ContactsList({super.key});
+class FriendsList extends StatelessWidget {
+  const FriendsList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ContactsController>(
+    return GetBuilder<FriendsController>(
       builder: (controller) => StreamBuilder(
         stream: controller.getFriends(),
         builder: (context, snapshot) {
@@ -38,13 +38,13 @@ class ContactsList extends StatelessWidget {
                     itemCount: frinedsList.length,
                     itemBuilder: (context, index) {
                       final friendModel = frinedsList[index];
-                      return ContactsItem(
+                      return FriendsItem(
+                        withIcon: false,
                         name: friendModel.name!,
                         photoUrl: friendModel.isPhoto,
-                        onTap: () {
+                        onDismissed: (direction) {
                           controller.deleteFriend(
                               id: friendModel.id!, name: friendModel.name!);
-                          print(friendModel.id);
                         },
                       );
                     },

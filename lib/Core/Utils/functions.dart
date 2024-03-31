@@ -24,9 +24,9 @@ class AppFunctions {
       context: context,
       builder: (context) {
         return Container(
-          decoration: const BoxDecoration(
-              color: AppColors.kWhite,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
+          decoration: BoxDecoration(
+              color: AppColors.kBackGround,
+              borderRadius: BorderRadius.circular(20)),
           child: Padding(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
