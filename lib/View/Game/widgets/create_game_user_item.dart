@@ -1,5 +1,4 @@
 import 'package:count_my_game/View_Model/auth_controller.dart';
-import 'package:count_my_game/View_Model/game_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,56 +16,54 @@ class CreateGameUserItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
 
-    return GetBuilder<GameController>(
-      builder: (controller) => Column(
-        children: [
-          //^ team number
-          const CustomText(
-            text: 'Team 1',
-            color: AppColors.mainColor,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
+    return Column(
+      children: [
+        //^ team number
+        const CustomText(
+          text: 'Team 1',
+          color: AppColors.mainColor,
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+        ),
+        SizedBox(height: 5.h),
+        //^ team name field & friends pick
+        SizedBox(
+          width: 185.w,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _isUserField(initValue: user.displayName!),
+              const SizedBox.shrink()
+            ],
           ),
-          SizedBox(height: 5.h),
-          //^ team name field & friends pick
-          SizedBox(
+        ),
+        SizedBox(height: 10.h),
+        //^ photo
+        GetBuilder<AuthController>(
+          builder: (authCont) => Container(
             width: 185.w,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _isUserField(initValue: user.displayName!),
-                const SizedBox.shrink()
-              ],
-            ),
-          ),
-          SizedBox(height: 10.h),
-          //^ photo
-          GetBuilder<AuthController>(
-            builder: (authCont) => Container(
-              width: 185.w,
-              height: 100.h,
-              decoration: const BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: AppColors.kWhite,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
+            height: 100.h,
+            decoration: const BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: AppColors.kWhite,
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: CustomCachedImage(
-                    shape: BoxShape.rectangle,
-                    photoUrl: authCont.offlineProfile.isPhoto,
-                  ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: CustomCachedImage(
+                  shape: BoxShape.rectangle,
+                  photoUrl: authCont.offlineProfile.isPhoto,
                 ),
               ),
             ),
           ),
-          SizedBox(height: 10.h),
-        ],
-      ),
+        ),
+        SizedBox(height: 10.h),
+      ],
     );
   }
 
