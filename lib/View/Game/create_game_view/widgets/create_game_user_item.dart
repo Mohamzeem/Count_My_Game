@@ -1,3 +1,4 @@
+import 'package:count_my_game/View/Game/create_game_view/widgets/user_field.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class CreateGameUserItem extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _isUserField(initValue: user.displayName!),
+              UserField(initValue: user.displayName!, width: 185.w),
               const SizedBox.shrink()
             ],
           ),
@@ -66,36 +67,4 @@ class CreateGameUserItem extends StatelessWidget {
       ],
     );
   }
-
-  Widget _isUserField({String initValue = ''}) => SizedBox(
-        height: 40.h,
-        width: 185.w,
-        child: TextFormField(
-          readOnly: true,
-          initialValue: initValue,
-          textInputAction: TextInputAction.done,
-          maxLines: 1,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 16,
-            color: AppColors.mainColor,
-            fontWeight: FontWeight.w500,
-          ),
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 10.w),
-            fillColor: AppColors.kWhite,
-            filled: true,
-            border: OutlineInputBorder(
-                borderSide: BorderSide(width: 0.5, color: AppColors.kGrey200)),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 0.5, color: AppColors.kGrey200)),
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(width: 0.5, color: AppColors.mainColor)),
-            errorBorder: const OutlineInputBorder(
-                borderSide: BorderSide(width: 0.5, color: AppColors.mainColor)),
-            focusedErrorBorder: const OutlineInputBorder(
-                borderSide: BorderSide(width: 0.5, color: AppColors.mainColor)),
-          ),
-        ),
-      );
 }

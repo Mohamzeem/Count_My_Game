@@ -19,7 +19,7 @@ class FriendModel extends Equatable {
       id: json['id'] ?? "",
       photo: json['photo'] ?? "",
       name: json['name'] ?? "",
-      isOnline: json['isOnline'] ?? "",
+      isOnline: json['isOnline'] ?? false,
     );
   }
 
@@ -28,15 +28,16 @@ class FriendModel extends Equatable {
       'id': id,
       'photo': photo ?? "",
       'name': name ?? "",
-      'isOnline': isOnline ?? "",
+      'isOnline': isOnline ?? false,
     };
   }
 
   String get isPhoto {
     if (photo!.isEmpty || photo == "" || photo == null) {
       return AppStrings.defaultAppPhoto;
+    } else {
+      return photo!;
     }
-    return photo!;
   }
 
   @override

@@ -1,4 +1,4 @@
-import 'package:count_my_game/View/Game/widgets/create_game_body.dart';
+import 'package:count_my_game/View/Game/create_game_view/widgets/create_game_body.dart';
 import 'package:flutter/material.dart';
 
 class CreateGameView extends StatelessWidget {

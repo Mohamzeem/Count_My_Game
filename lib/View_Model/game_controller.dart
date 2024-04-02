@@ -7,7 +7,8 @@ import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Models/game_model.dart';
 import 'package:count_my_game/Models/team_model.dart';
-import 'package:count_my_game/Models/user_friend.dart';
+import 'package:count_my_game/Models/friend_model.dart';
+import 'package:count_my_game/View_Model/friends_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,6 @@ class GameController extends GetxController {
   RxList scoreListBTeam = [].obs;
   RxList scoreListCTeam = [].obs;
   RxList scoreListDTeam = [].obs;
-  // final List<FriendModel> frinedsList = [];
   RxString selectedNum = ''.obs;
   RxString selectedGame = ''.obs;
   RxBool _gameCreated = false.obs;
@@ -51,9 +51,15 @@ class GameController extends GetxController {
   List<String> gamesList = ['Dominos', 'Cards', 'Playstation', 'Other'];
   final String _createdAtTime =
       DateTime.now().millisecondsSinceEpoch.toString();
-  bool get isCreated => _gameCreated.value;
+
   void dropDownValueGamesList(String val) => selectedGame.value = val;
   void dropDownValueNumList(String val) => selectedNum.value = val;
+
+  bool get isCreated => _gameCreated.value;
+  set isCreated(bool val) {
+    _gameCreated.value = val;
+    update();
+  }
 
   final Rx<TeamModel> _teamOneModel = const TeamModel().obs;
   final Rx<TeamModel> _teamTwoModel = const TeamModel().obs;
@@ -125,11 +131,6 @@ class GameController extends GetxController {
   int get newScore => int.parse(newScoreController.text);
   set newScore(int val) {
     int.parse(maxScoreController.text);
-    update();
-  }
-
-  set isCreated(bool val) {
-    _gameCreated.value = val;
     update();
   }
 
@@ -245,7 +246,6 @@ class GameController extends GetxController {
     final friends = result.get('friends');
     final frinedsList =
         friends.map((event) => FriendModel.fromJson(event.data()!)).toList();
-    print(frinedsList);
     return frinedsList;
   }
 
@@ -254,15 +254,15 @@ class GameController extends GetxController {
       CustomLoading.toast(text: 'Selete Game');
     } else if (maxScoreController.text.isEmpty) {
       CustomLoading.toast(text: 'Max Score Required');
-    } else if (selectedNum.value == '2'
-        ? teamTwoNameController.text.isEmpty
-        : selectedNum.value == '3'
-            ? teamTwoNameController.text.isEmpty ||
-                teamTwoNameController.text.isEmpty
-            : teamTwoNameController.text.isEmpty ||
-                teamTwoNameController.text.isEmpty ||
-                teamFourNameController.text.isEmpty) {
-      CustomLoading.toast(text: 'Teams Name Required');
+      // } else if (selectedNum.value == '2'
+      //     ? teamTwoNameController.text.isEmpty
+      //     : selectedNum.value == '3'
+      //         ? teamTwoNameController.text.isEmpty ||
+      //             teamTwoNameController.text.isEmpty
+      //         : teamTwoNameController.text.isEmpty ||
+      //             teamTwoNameController.text.isEmpty ||
+      //             teamFourNameController.text.isEmpty) {
+      //   CustomLoading.toast(text: 'Teams Name Required');
     } else {
       _createGame();
     }

@@ -19,9 +19,6 @@ class AppStrings {
   static const String gamesCollection = 'Games';
   static String notificationsCollection = 'Notifications';
 
-  //~ Agora
-  static String agoraAppId = 'd0e95cf95b5347e39735b2da6d1884a3';
-
   //~ Zego Cloud
   static const int zegoAppID = 873584565;
   static const String zegoAppSign =

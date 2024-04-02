@@ -1,6 +1,6 @@
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/View/Friends/friends_view.dart';
-import 'package:count_my_game/View/Game/history_game_view.dart';
+import 'package:count_my_game/View/Game/previous_games_view/previous_games_view.dart';
 import 'package:count_my_game/View/Profile/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,14 +39,14 @@ class HomeController extends GetxController {
         widget = const FriendsView();
         break;
       case 1:
-        widget = const HistoryGameView();
+        widget = const PreviousGamesView();
         break;
       case 2:
         widget = const ProfileView();
         break;
 
       default:
-        widget = const HistoryGameView();
+        widget = const PreviousGamesView();
         break;
     }
     return widget;

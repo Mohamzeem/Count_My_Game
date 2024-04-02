@@ -2,7 +2,7 @@ import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_dismiss_item.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:count_my_game/Models/game_model.dart';
-import 'package:count_my_game/View/Game/widgets/teams_previous_games_item.dart';
+import 'package:count_my_game/View/Game/previous_games_view/widgets/previous_games_teams.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

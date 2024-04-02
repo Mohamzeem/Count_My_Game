@@ -26,8 +26,6 @@ class CustomCachedImage extends StatelessWidget {
       width: width,
       height: height,
       child: CachedNetworkImage(
-        progressIndicatorBuilder: (context, url, progress) =>
-            const CustomCircularLoading(height: 30, width: 30),
         imageUrl: photoUrl.isEmpty || photoUrl == ''
             ? AppStrings.defaultAppPhoto
             : photoUrl,
@@ -46,6 +44,8 @@ class CustomCachedImage extends StatelessWidget {
           ),
           child: child,
         ),
+        progressIndicatorBuilder: (context, url, progress) =>
+            const CustomCircularLoading(height: 30, width: 30),
         errorWidget: (context, url, error) => const Icon(
           Icons.error,
           size: 40,

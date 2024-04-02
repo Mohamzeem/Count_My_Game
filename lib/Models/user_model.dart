@@ -1,5 +1,5 @@
 import 'package:count_my_game/Core/Utils/app_strings.dart';
-import 'package:count_my_game/Models/user_friend.dart';
+import 'package:count_my_game/Models/friend_model.dart';
 import 'package:equatable/equatable.dart';
 
 class UserModel extends Equatable {

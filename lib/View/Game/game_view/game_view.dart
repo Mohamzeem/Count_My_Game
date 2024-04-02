@@ -1,5 +1,5 @@
 import 'package:count_my_game/View/Game/result_view.dart';
-import 'package:count_my_game/View/Game/widgets/game_body.dart';
+import 'package:count_my_game/View/Game/game_view/widgets/game_body.dart';
 import 'package:count_my_game/View_Model/game_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

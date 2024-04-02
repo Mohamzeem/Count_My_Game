@@ -1,19 +1,66 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Utils/app_strings.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
-import 'package:count_my_game/Models/user_friend.dart';
+import 'package:count_my_game/Models/friend_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class FriendsController extends GetxController {
-//   final FirebaseStorage _fireStorage = FirebaseStorage.instance;
-//   final _storage = GetStorage();
   final _fireStore = FirebaseFirestore.instance;
+  final RxBool _fromFriends = false.obs;
   // final _checker = InternetConnectionChecker();
+  List<FriendModel> _frinedsList = [];
+  final Rx<FriendModel> _friendOneModel = const FriendModel().obs;
+  final Rx<FriendModel> _friendTwoModel = const FriendModel().obs;
+  final Rx<FriendModel> _friendThreeModel = const FriendModel().obs;
+  final Rx<FriendModel> _friendFourModel = const FriendModel().obs;
   final _auth = FirebaseAuth.instance;
   TextEditingController nameController = TextEditingController();
+
+  List<FriendModel> get frinedsList => _frinedsList;
+  set frinedsList(List<FriendModel> val) {
+    _frinedsList = val;
+    update();
+  }
+
+  bool get fromFriends => _fromFriends.value;
+  set fromFriends(bool val) {
+    _fromFriends.value = val;
+    update();
+  }
+
+  FriendModel get friendOne => _friendOneModel.value;
+  set friendOne(FriendModel model) {
+    _friendOneModel.value = model;
+    update();
+  }
+
+  FriendModel get friendTwo => _friendTwoModel.value;
+  set friendTwo(FriendModel model) {
+    _friendTwoModel.value = model;
+    update();
+  }
+
+  FriendModel get friendThree => _friendThreeModel.value;
+  set friendThree(FriendModel model) {
+    _friendThreeModel.value = model;
+    update();
+  }
+
+  FriendModel get friendFour => _friendFourModel.value;
+  set friendFour(FriendModel model) {
+    _friendFourModel.value = model;
+    update();
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    getFriendsForPick();
+    frinedsList;
+  }
 
   @override
   void dispose() {
@@ -73,6 +120,26 @@ class FriendsController extends GetxController {
       );
       yield friendsList;
     }
+  }
+
+  Future<List<FriendModel>> getFriendsForPick() async {
+    final snapshot = await _fireStore
+        .collection(AppStrings.usersCollection)
+        .doc(_auth.currentUser!.uid)
+        .get();
+
+    var data = snapshot.data() as Map<String, dynamic>;
+    final list = List<FriendModel>.from(
+      data['friends'].map(
+        (friend) => FriendModel(
+          name: friend['name'],
+          photo: friend['photo'],
+          id: friend['id'],
+        ),
+      ),
+    );
+    frinedsList = list;
+    return list;
   }
 
   Future deleteFriend({required String id, required String name}) async {

@@ -1,7 +1,7 @@
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_circular_loading.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
-import 'package:count_my_game/Models/user_friend.dart';
+import 'package:count_my_game/Models/friend_model.dart';
 import 'package:count_my_game/View/Friends/widgets/friends_item.dart';
 import 'package:count_my_game/View_Model/friends_controller.dart';
 import 'package:flutter/material.dart';

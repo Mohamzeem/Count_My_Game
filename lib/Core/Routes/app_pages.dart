@@ -5,9 +5,9 @@ import 'package:count_my_game/View/Authentication/forgot_password_view.dart';
 import 'package:count_my_game/View/Authentication/email_login_view.dart';
 import 'package:count_my_game/View/Authentication/guest_login_view.dart';
 import 'package:count_my_game/View/Friends/friends_view.dart';
-import 'package:count_my_game/View/Game/create_game_view.dart';
-import 'package:count_my_game/View/Game/game_view.dart';
-import 'package:count_my_game/View/Game/history_game_view.dart';
+import 'package:count_my_game/View/Game/create_game_view/create_game_view.dart';
+import 'package:count_my_game/View/Game/game_view/game_view.dart';
+import 'package:count_my_game/View/Game/previous_games_view/previous_games_view.dart';
 import 'package:count_my_game/View/Home/home_view.dart';
 import 'package:count_my_game/View/Profile/profile_view.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -46,7 +46,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoute.historyGameView,
-      page: () => const HistoryGameView(),
+      page: () => const PreviousGamesView(),
     ),
     GetPage(
       name: AppRoute.contactsView,

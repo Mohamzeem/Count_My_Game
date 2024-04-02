@@ -1,34 +1,27 @@
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_cached_image.dart';
-import 'package:count_my_game/Core/Widgets/custom_dismiss_item.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class FriendsItem extends StatelessWidget {
+class PickFriendsItem extends StatelessWidget {
   final String name;
   final String photoUrl;
-  final void Function(DismissDirection) onDismissed;
-  final bool withIcon;
-  final Color color;
-  final String text;
-  const FriendsItem({
+  final void Function() onTap;
+
+  final bool isOnline;
+  const PickFriendsItem({
     super.key,
     required this.name,
     required this.photoUrl,
-    required this.onDismissed,
-    this.withIcon = true,
-    this.color = AppColors.kRed,
-    this.text = 'Delete',
+    required this.onTap,
+    this.isOnline = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return CustomDissmissItem(
-      onDismissed: onDismissed,
-      fontSize: 18,
-      text: text,
-      color: color,
+    return InkWell(
+      onTap: onTap,
       child: SizedBox(
         height: 60.h,
         child: Card(
@@ -47,8 +40,10 @@ class FriendsItem extends StatelessWidget {
                     child: Container(
                       height: 10.h,
                       width: 10.w,
-                      decoration: const BoxDecoration(
-                        color: AppColors.kGreen,
+                      decoration: BoxDecoration(
+                        color: isOnline
+                            ? AppColors.kGreen
+                            : AppColors.secColor.withOpacity(0.7),
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -62,15 +57,12 @@ class FriendsItem extends StatelessWidget {
                   color: AppColors.mainColor,
                 ),
                 const Spacer(),
-                SizedBox(width: 5.w),
                 //^ icon
-                withIcon
-                    ? const Icon(
-                        Icons.person_add,
-                        color: AppColors.mainColor,
-                        size: 30,
-                      )
-                    : const SizedBox.shrink()
+                const Icon(
+                  Icons.person_add,
+                  color: AppColors.mainColor,
+                  size: 30,
+                )
               ],
             ),
           ),

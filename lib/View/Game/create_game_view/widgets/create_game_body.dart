@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:count_my_game/View_Model/friends_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -8,9 +9,9 @@ import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_app_bar.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
-import 'package:count_my_game/View/Game/widgets/created_teams.dart';
-import 'package:count_my_game/View/Game/widgets/drop_down_widget.dart';
-import 'package:count_my_game/View/Game/widgets/game_text_field.dart';
+import 'package:count_my_game/View/Game/create_game_view/widgets/created_teams.dart';
+import 'package:count_my_game/View/Game/create_game_view/widgets/drop_down_widget.dart';
+import 'package:count_my_game/View/Game/game_view/widgets/game_text_field.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:count_my_game/View_Model/game_controller.dart';
 
@@ -21,6 +22,7 @@ class CreateGameBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final friendsController = Get.put(FriendsController());
     return GetBuilder<GameController>(
       builder: (controller) => Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.h),
@@ -93,9 +95,14 @@ class CreateGameBody extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20.h),
-              //^ create game btn
+              //^ create teamsUi btn
               CustomButton(
-                onPressed: () => controller.createTeamsUi(),
+                onPressed: () {
+                  controller.createTeamsUi();
+                  if (friendsController.fromFriends == true) {
+                    friendsController.fromFriends = false;
+                  }
+                },
                 text: controller.isCreated ? 'Reset Teams' : 'Set Teams',
                 width: double.infinity,
                 height: 45,
@@ -106,6 +113,7 @@ class CreateGameBody extends StatelessWidget {
                     controller.isCreated ? AppColors.kWhite : AppColors.kWhite,
               ),
               SizedBox(height: 20.h),
+              //^ start game btn and teams
               SizedBox(
                 height: Platform.isIOS ? 510.h : 490.h,
                 child: controller.isCreated
