@@ -12,17 +12,17 @@ import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:count_my_game/View/Game/game_view/widgets/game_text_field.dart';
 import 'package:image_picker/image_picker.dart';
 
-class CreateTeamTwoItem extends GetWidget<FriendsController> {
-  final TextEditingController nameController;
+class CreateTeamTwoItem extends StatelessWidget {
   const CreateTeamTwoItem({
     super.key,
-    required this.nameController,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<FriendsController>(
-      builder: (_) {
+    final friendsCont = Get.put(FriendsController());
+
+    return GetBuilder<GameController>(
+      builder: (controller) {
         return Column(
           children: [
             //^ team number
@@ -39,11 +39,11 @@ class CreateTeamTwoItem extends GetWidget<FriendsController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  controller.fromFriends
+                  friendsCont.fromFriends
                       ? UserField(
-                          initValue: controller.friendTwo.name == null
+                          initValue: controller.teamTwo.name == null
                               ? ''
-                              : controller.friendTwo.name!,
+                              : controller.teamTwo.name!,
                           width: 150.w,
                         )
                       : GameTextField(
@@ -51,7 +51,7 @@ class CreateTeamTwoItem extends GetWidget<FriendsController> {
                           keyBoard: TextInputType.name,
                           height: 40,
                           width: 150,
-                          controller: nameController,
+                          controller: controller.teamTwoNameController,
                           maxLength: 9,
                         ),
                   const PickFriendsIcon()
@@ -69,16 +69,16 @@ class CreateTeamTwoItem extends GetWidget<FriendsController> {
                 color: AppColors.kWhite,
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
-              child: controller.fromFriends
+              child: friendsCont.fromFriends
                   ? Padding(
                       padding: const EdgeInsets.all(5),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: CustomCachedImage(
                           shape: BoxShape.rectangle,
-                          photoUrl: controller.friendTwo.photo == null
+                          photoUrl: controller.teamTwo.photo == null
                               ? ''
-                              : controller.friendTwo.isPhoto,
+                              : controller.teamTwo.isPhoto,
                           width: 185,
                           height: 100,
                         ),

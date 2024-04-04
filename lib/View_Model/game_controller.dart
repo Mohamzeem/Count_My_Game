@@ -177,7 +177,7 @@ class GameController extends GetxController {
     scoreListDTeam = [].obs;
   }
 
-  Future _createGame() async {
+  Future _createGameOfflineMode() async {
     CustomLoading.show();
 
     final randomGameId = _uuid.v1();
@@ -225,6 +225,213 @@ class GameController extends GetxController {
     });
   }
 
+  Future _createGameOnlineMode(
+      String twoName,
+      String threeName,
+      String fourName,
+      String twoPhoto,
+      String threePhoto,
+      String fourPhoto) async {
+    CustomLoading.show();
+
+    final randomGameId = _uuid.v1();
+    final randomTeamTwoId = _uuid.v4();
+    final randomTeamThreeId = _uuid.v4();
+    final randomTeamFourId = _uuid.v4();
+
+    final teamOne = TeamModel(
+        id: _auth.currentUser!.uid,
+        name: _auth.currentUser!.displayName,
+        photo: _auth.currentUser!.photoURL);
+    final teamTwo =
+        TeamModel(id: randomTeamTwoId, name: twoName, photo: twoPhoto);
+    final teamThree =
+        TeamModel(id: randomTeamThreeId, name: threeName, photo: threePhoto);
+    final teamFour =
+        TeamModel(id: randomTeamFourId, name: fourName, photo: fourPhoto);
+
+    final List<String> members = selectedNum.value == '3'
+        ? [teamOne.id!, teamTwo.id!, teamThree.id!]
+        : selectedNum.value == '4'
+            ? [teamOne.id!, teamTwo.id!, teamThree.id!, teamFour.id!]
+            : [teamOne.id!, teamTwo.id!]
+      ..sort((a, b) => b.compareTo(a));
+
+    gameModel = GameModel(
+      id: randomGameId,
+      name: selectedGame.value,
+      members: members,
+      createdAt: _createdAtTime,
+      maxScore: maxScore,
+      teams: selectedNum.value == '2'
+          ? [teamOne, teamTwo]
+          : selectedNum.value == '3'
+              ? [teamOne, teamTwo, teamThree]
+              : [teamOne, teamTwo, teamThree, teamFour],
+    );
+    await _fireStore
+        .collection(AppStrings.gamesCollection)
+        .doc(randomGameId)
+        .set(gameModel.toMap())
+        .whenComplete(() {
+      CustomLoading.dismiss();
+      Get.offNamed(AppRoute.gameView);
+    });
+  }
+
+  Future createGameTwoTeamsOnlineMode(
+    String twoName,
+    String twoPhoto,
+  ) async {
+    if (selectedGame.isEmpty) {
+      CustomLoading.toast(text: 'Selete Game');
+    } else if (maxScoreController.text.isEmpty) {
+      CustomLoading.toast(text: 'Max Score Required');
+    } else {
+      CustomLoading.show();
+
+      final randomGameId = _uuid.v1();
+      final randomTeamTwoId = _uuid.v4();
+
+      final teamOne = TeamModel(
+          id: _auth.currentUser!.uid,
+          name: _auth.currentUser!.displayName,
+          photo: _auth.currentUser!.photoURL);
+      final teamTwo =
+          TeamModel(id: randomTeamTwoId, name: twoName, photo: twoPhoto);
+
+      final List<String> members = [teamOne.id!, teamTwo.id!]
+        ..sort((a, b) => b.compareTo(a));
+
+      gameModel = GameModel(
+          id: randomGameId,
+          name: selectedGame.value,
+          members: members,
+          createdAt: _createdAtTime,
+          maxScore: maxScore,
+          teams: [teamOne, teamTwo]);
+      await _fireStore
+          .collection(AppStrings.gamesCollection)
+          .doc(randomGameId)
+          .set(gameModel.toMap())
+          .whenComplete(() {
+        CustomLoading.dismiss();
+        Get.offNamed(AppRoute.gameView);
+      });
+    }
+  }
+
+  Future createGameThreeTeamsOnlineMode(
+    String twoName,
+    String threeName,
+    String twoPhoto,
+    String threePhoto,
+  ) async {
+    CustomLoading.show();
+
+    final randomGameId = _uuid.v1();
+    final randomTeamTwoId = _uuid.v4();
+    final randomTeamThreeId = _uuid.v4();
+
+    final teamOne = TeamModel(
+        id: _auth.currentUser!.uid,
+        name: _auth.currentUser!.displayName,
+        photo: _auth.currentUser!.photoURL);
+    final teamTwo =
+        TeamModel(id: randomTeamTwoId, name: twoName, photo: twoPhoto);
+    final teamThree =
+        TeamModel(id: randomTeamThreeId, name: threeName, photo: threePhoto);
+
+    final List<String> members = [teamOne.id!, teamTwo.id!, teamThree.id!]
+      ..sort((a, b) => b.compareTo(a));
+
+    gameModel = GameModel(
+      id: randomGameId,
+      name: selectedGame.value,
+      members: members,
+      createdAt: _createdAtTime,
+      maxScore: maxScore,
+      teams: [teamOne, teamTwo, teamThree],
+    );
+    await _fireStore
+        .collection(AppStrings.gamesCollection)
+        .doc(randomGameId)
+        .set(gameModel.toMap())
+        .whenComplete(() {
+      CustomLoading.dismiss();
+      Get.offNamed(AppRoute.gameView);
+    });
+  }
+
+  Future createGameFourTeamsOnlineMode(
+      String twoName,
+      String threeName,
+      String fourName,
+      String twoPhoto,
+      String threePhoto,
+      String fourPhoto) async {
+    CustomLoading.show();
+
+    final randomGameId = _uuid.v1();
+    final randomTeamTwoId = _uuid.v4();
+    final randomTeamThreeId = _uuid.v4();
+    final randomTeamFourId = _uuid.v4();
+
+    final teamOne = TeamModel(
+        id: _auth.currentUser!.uid,
+        name: _auth.currentUser!.displayName,
+        photo: _auth.currentUser!.photoURL);
+    final teamTwo =
+        TeamModel(id: randomTeamTwoId, name: twoName, photo: twoPhoto);
+    final teamThree =
+        TeamModel(id: randomTeamThreeId, name: threeName, photo: threePhoto);
+    final teamFour =
+        TeamModel(id: randomTeamFourId, name: fourName, photo: fourPhoto);
+
+    final List<String> members = [
+      teamOne.id!,
+      teamTwo.id!,
+      teamThree.id!,
+      teamFour.id!
+    ]..sort((a, b) => b.compareTo(a));
+
+    gameModel = GameModel(
+      id: randomGameId,
+      name: selectedGame.value,
+      members: members,
+      createdAt: _createdAtTime,
+      maxScore: maxScore,
+      teams: [teamOne, teamTwo, teamThree, teamFour],
+    );
+    await _fireStore
+        .collection(AppStrings.gamesCollection)
+        .doc(randomGameId)
+        .set(gameModel.toMap())
+        .whenComplete(() {
+      CustomLoading.dismiss();
+      Get.offNamed(AppRoute.gameView);
+    });
+  }
+
+  void createGameFunctionOfflineMode() {
+    if (selectedGame.isEmpty) {
+      CustomLoading.toast(text: 'Selete Game');
+    } else if (maxScoreController.text.isEmpty) {
+      CustomLoading.toast(text: 'Max Score Required');
+    } else if (selectedNum.value == '2'
+        ? teamTwoNameController.text.isEmpty
+        : selectedNum.value == '3'
+            ? teamTwoNameController.text.isEmpty ||
+                teamTwoNameController.text.isEmpty
+            : teamTwoNameController.text.isEmpty ||
+                teamTwoNameController.text.isEmpty ||
+                teamFourNameController.text.isEmpty) {
+      CustomLoading.toast(text: 'Teams Name Required');
+    } else {
+      _createGameOfflineMode();
+    }
+  }
+
   Future closeAndDeleteGame() async {
     CustomLoading.show();
     await _fireStore
@@ -235,37 +442,6 @@ class GameController extends GetxController {
       CustomLoading.dismiss();
       Get.offNamed(AppRoute.homeView);
     });
-  }
-
-  Future<List<FriendModel>> getFriends() async {
-    final result = await _fireStore
-        .collection(AppStrings.usersCollection)
-        .doc(_auth.currentUser!.uid)
-        .get();
-
-    final friends = result.get('friends');
-    final frinedsList =
-        friends.map((event) => FriendModel.fromJson(event.data()!)).toList();
-    return frinedsList;
-  }
-
-  void createGameFunction() {
-    if (selectedGame.isEmpty) {
-      CustomLoading.toast(text: 'Selete Game');
-    } else if (maxScoreController.text.isEmpty) {
-      CustomLoading.toast(text: 'Max Score Required');
-      // } else if (selectedNum.value == '2'
-      //     ? teamTwoNameController.text.isEmpty
-      //     : selectedNum.value == '3'
-      //         ? teamTwoNameController.text.isEmpty ||
-      //             teamTwoNameController.text.isEmpty
-      //         : teamTwoNameController.text.isEmpty ||
-      //             teamTwoNameController.text.isEmpty ||
-      //             teamFourNameController.text.isEmpty) {
-      //   CustomLoading.toast(text: 'Teams Name Required');
-    } else {
-      _createGame();
-    }
   }
 
   Future updateEndedgame() async {
@@ -364,6 +540,7 @@ class GameController extends GetxController {
     final date = DateTime.now();
     final name = 'ScreenShot$date';
     await ImageGallerySaver.saveImage(image!, name: name);
+    CustomLoading.toast(text: 'ScreenShot Done');
   }
 
   Future deletePerviousGame({required String gameId}) async {

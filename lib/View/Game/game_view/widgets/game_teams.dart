@@ -34,10 +34,10 @@ class GameTeams extends StatelessWidget {
                       },
                       score: controller.teamBPoints.value.toString(),
                       photoUrl: friendsController.fromFriends
-                          ? friendsController.friendTwo.isPhoto
+                          ? controller.teamTwo.isPhoto
                           : '',
                       teamName: friendsController.fromFriends
-                          ? friendsController.friendTwo.name!
+                          ? controller.teamTwo.name!
                           : controller.gameModel.teams![1].name!,
                     ),
                   ],

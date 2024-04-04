@@ -17,28 +17,24 @@ class CreatedTeams extends GetWidget<GameController> {
         controller.selectedNum.value == '2'
             ? Padding(
                 padding: EdgeInsets.only(bottom: 0.h),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const CreateGameUserItem(),
-                    CreateTeamTwoItem(
-                      nameController: controller.teamTwoNameController,
-                    ),
+                    CreateGameUserItem(),
+                    CreateTeamTwoItem(),
                   ],
                 ),
               )
             : controller.selectedNum.value == '3'
                 ? Padding(
                     padding: EdgeInsets.only(bottom: 0.h),
-                    child: Column(
+                    child: const Column(
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const CreateGameUserItem(),
-                            CreateTeamTwoItem(
-                              nameController: controller.teamTwoNameController,
-                            ),
+                            CreateGameUserItem(),
+                            CreateTeamTwoItem(),
                           ],
                         ),
                         // CreateTeamTwoItem(
@@ -51,18 +47,16 @@ class CreatedTeams extends GetWidget<GameController> {
                   )
                 : Padding(
                     padding: EdgeInsets.only(bottom: 0.h),
-                    child: Column(
+                    child: const Column(
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const CreateGameUserItem(),
-                            CreateTeamTwoItem(
-                              nameController: controller.teamTwoNameController,
-                            ),
+                            CreateGameUserItem(),
+                            CreateTeamTwoItem(),
                           ],
                         ),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             // CreateTeamTwoItem(

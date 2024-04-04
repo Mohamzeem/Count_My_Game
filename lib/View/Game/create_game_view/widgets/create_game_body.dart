@@ -123,8 +123,36 @@ class CreateGameBody extends StatelessWidget {
                           const Spacer(),
                           // //^ create game btn
                           CustomButton(
-                            onPressed: () async =>
-                                controller.createGameFunction(),
+                            onPressed: () async => controller
+                                        .selectedNum.value ==
+                                    '2'
+                                ? controller.createGameTwoTeamsOnlineMode(
+                                    controller.teamTwo.name!,
+                                    controller.teamTwo.photo!)
+                                : controller.selectedNum.value == '3'
+                                    ? controller.createGameThreeTeamsOnlineMode(
+                                        controller.teamTwo.name!,
+                                        controller.teamThree.name!,
+                                        controller.teamTwo.photo!,
+                                        controller.teamThree.photo!,
+                                      )
+                                    : controller.createGameFourTeamsOnlineMode(
+                                        controller.teamTwo.name!,
+                                        controller.teamThree.name!,
+                                        controller.teamFour.name!,
+                                        controller.teamTwo.photo!,
+                                        controller.teamThree.photo!,
+                                        controller.teamFour.photo!,
+                                      ),
+                            // print(controller.teamTwo.name),
+                            //     controller.createGameFunction(
+                            // controller.teamTwo.name!,
+                            // controller.teamThree.name!,
+                            // controller.teamFour.name!,
+                            // controller.teamTwo.photo!,
+                            // controller.teamThree.photo!,
+                            // controller.teamFour.photo!,
+                            // ),
                             text: 'Start Game',
                             width: double.infinity,
                             height: 50,

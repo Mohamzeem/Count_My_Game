@@ -34,38 +34,41 @@ class _ResultViewState extends State<ResultView> {
           DateTime inputTime = DateTime.fromMillisecondsSinceEpoch(
               int.parse(cont.gameModel.createdAt!));
           String formattedTime =
-              DateFormat('dd/MM/yyyy h:mm a').format(inputTime);
+              DateFormat('dd/MM/yyyy  h:mm a').format(inputTime);
           return ListView(
             children: [
               Screenshot(
                 controller: controller.screenShotController,
                 child: Column(
                   children: [
-                    SizedBox(height: 10.h),
-                    SizedBox(
-                      width: double.infinity,
-                      child: Center(
-                        child: CustomText(
-                          text: cont.gameModel.getWinnerName(),
-                          fontSize: cont.gameModel.getWinnerName().length > 8
-                              ? 50
-                              : 70,
-                          fontWeight: FontWeight.w600,
-                          textOverflow: TextOverflow.fade,
-                          color: AppColors.mainColor,
-                          softWrap: false,
-                        ),
+                    //^  winner name
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomText(
+                            text: cont.gameModel.getWinnerName(),
+                            fontSize: 38,
+                            fontWeight: FontWeight.w600,
+                            textOverflow: TextOverflow.fade,
+                            color: AppColors.kWhite,
+                            softWrap: false,
+                          ),
+                          Image.asset(
+                            'assets/images/winner.png',
+                            scale: 8,
+                            color: AppColors.kGold,
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(height: 20.h),
+                    //^ winner photo
                     Container(
                       width: double.infinity,
                       height: 200.h,
                       decoration: const BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
@@ -79,24 +82,21 @@ class _ResultViewState extends State<ResultView> {
                       ),
                     ),
                     SizedBox(height: 30.h),
+                    //^ winner cup
                     Image.asset(
                       width: double.infinity,
-                      height: 350.h,
+                      height: 300.h,
                       'assets/images/success.png',
                       fit: BoxFit.fill,
-                      color: AppColors.mainColor,
+                      color: AppColors.kGold,
                     ),
-                    SizedBox(
-                        height: cont.gameModel.getWinnerName().length > 8
-                            ? 40.h
-                            : 60.h),
+                    SizedBox(height: 40.h),
+                    //^ game time
                     CustomText(
                       text: formattedTime,
                       fontSize: 22,
                       fontWeight: FontWeight.w600,
-                      // textOverflow: TextOverflow.fade,
-                      color: AppColors.mainColor,
-                      // softWrap: false,
+                      color: AppColors.kWhite,
                     ),
                     SizedBox(height: 20.h)
                   ],
@@ -125,14 +125,13 @@ class _ResultViewState extends State<ResultView> {
                     height: 50,
                     backgroundColor: AppColors.mainColor,
                   ),
-                  //^ screenshot btn
+                  //^ close btn
                   CustomButton(
                     onPressed: () {
-                      controller.screenShot();
                       Get.offNamed(AppRoute.homeView);
                       cont.clearAllData();
                     },
-                    text: 'Screenshot',
+                    text: 'Close',
                     width: 170,
                     height: 50,
                     backgroundColor: AppColors.kGrey100,
@@ -140,7 +139,16 @@ class _ResultViewState extends State<ResultView> {
                   ),
                 ],
               ),
-              SizedBox(height: 10.h)
+              SizedBox(height: 10.h),
+              //^ screenshot btn
+              CustomButton(
+                onPressed: () => controller.screenShot(),
+                text: 'Screenshot',
+                width: 170,
+                height: 50,
+                backgroundColor: AppColors.kGrey100,
+                textColor: AppColors.kBlack,
+              ),
             ],
           );
         },

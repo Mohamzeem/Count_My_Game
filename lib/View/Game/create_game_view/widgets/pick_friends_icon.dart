@@ -1,7 +1,9 @@
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
+import 'package:count_my_game/Models/team_model.dart';
 import 'package:count_my_game/View/Game/create_game_view/widgets/pick_friends_item.dart';
 import 'package:count_my_game/View_Model/friends_controller.dart';
+import 'package:count_my_game/View_Model/game_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -59,108 +61,58 @@ class PickFriendsIcon extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 10.h),
+                    // GetBuilder<GameController>(
+                    //   builder: (gameCont) => Expanded(
+                    //     child: ListView.builder(
+                    //       itemCount: gameCont.frinedsList.length,
+                    //       itemBuilder: (context, index) {
+                    //         print('#### ${gameCont.frinedsList}');
+                    //         final teamTwoModel = gameCont.frinedsList[index];
+                    //         return PickFriendsItem(
+                    //           name: teamTwoModel.name!,
+                    //           photoUrl: teamTwoModel.isPhoto,
+                    //           onTap: () {
+                    //             gameCont.teamTwo = teamTwoModel;
+                    //             Get.back();
+                    //           },
+                    //         );
+                    //       },
+                    //     ),
+                    //   ),
+                    // ),
+
                     Expanded(
                       child: ListView.builder(
                         itemCount: controller.frinedsList.length,
                         itemBuilder: (context, index) {
                           final friendModel = controller.frinedsList[index];
-                          return PickFriendsItem(
-                            name: friendModel.name!,
-                            photoUrl: friendModel.isPhoto,
-                            onTap: () {
-                              controller.friendTwo = friendModel;
-                              Get.back();
-                            },
+                          return GetBuilder<GameController>(
+                            builder: (gameCont) => PickFriendsItem(
+                              name: friendModel.name!,
+                              photoUrl: friendModel.isPhoto,
+                              onTap: () {
+                                // controller.friendTwo = friendModel;
+                                TeamModel teamModel = TeamModel(
+                                    id: friendModel.id,
+                                    name: friendModel.name,
+                                    photo: friendModel.isPhoto);
+                                gameCont.teamTwo = teamModel;
+                                print(gameCont.teamTwo);
+                                Get.back();
+                              },
+                            ),
                           );
                         },
                       ),
                     ),
-                    // StreamBuilder(
-                    //   stream: controller.getFriends(),
-                    //   builder: (context, snapshot) {
-                    //     if (snapshot.hasData) {
-                    //       final List<FriendModel> frinedsList = snapshot.data!;
-                    //       if (frinedsList.isEmpty || frinedsList == []) {
-                    //         return const Center(
-                    //           child: CustomText(
-                    //             text: 'No Friends Found !!!',
-                    //             color: AppColors.mainColor,
-                    //             fontWeight: FontWeight.w600,
-                    //             fontSize: 25,
-                    //           ),
-                    //         );
-                    //       } else {
-                    //         return Expanded(
-                    //           child: ListView.builder(
-                    //             itemCount: frinedsList.length,
-                    //             itemBuilder: (context, index) {
-                    //               final friendModel = frinedsList[index];
-                    //               return FriendsItem(
-                    //                 name: friendModel.name!,
-                    //                 photoUrl: friendModel.isPhoto,
-                    //                 onDismissed: (direction) {
-                    //                   if (teamNum == '2') {
-                    //                     // controller.friendTwo = friendModel;
-                    //                     Get.back();
-                    //                   }
-                    //                   if (teamNum == '3') {
-                    //                     // controller.friendThree = friendModel;
-                    //                     controller.fromFriends =
-                    //                         !controller.fromFriends;
-                    //                     Get.back();
-                    //                   }
-                    //                 },
-                    //               );
-                    //             },
-                    //           ),
-                    //         );
-                    //       }
-                    //     } else if (snapshot.connectionState ==
-                    //         ConnectionState.waiting) {
-                    //       return Center(
-                    //         child: CustomCircularLoading(
-                    //             height: 50.h, width: 50.w),
-                    //       );
-                    //     } else if (snapshot.hasError) {
-                    //       return const Center(
-                    //         child: CustomText(
-                    //           text: "Something went wrong !!!",
-                    //           color: AppColors.mainColor,
-                    //           fontWeight: FontWeight.w600,
-                    //           fontSize: 25,
-                    //         ),
-                    //       );
-                    //     } else if (!snapshot.hasData) {
-                    //       return const Center(
-                    //         child: CustomText(
-                    //           text: 'No Friends Found !!!',
-                    //           color: AppColors.mainColor,
-                    //           fontWeight: FontWeight.w600,
-                    //           fontSize: 25,
-                    //         ),
-                    //       );
-                    //     } else {
-                    //       return const Center(
-                    //         child: CustomCircularLoading(height: 50, width: 50),
-                    //       );
-                    //     }
-                    //   },
-                    // ),
                   ],
                 ),
               ),
             ],
           );
-
-          print('1 ${controller.fromFriends}');
-          // controller.fromFriends = !controller.fromFriends;
-
           if (controller.fromFriends == false) {
             controller.fromFriends = true;
           }
-
-          // controller.fromFriends = !controller.fromFriends;
-          print('2 ${controller.fromFriends}');
         },
         child: Container(
           height: 40.h,
