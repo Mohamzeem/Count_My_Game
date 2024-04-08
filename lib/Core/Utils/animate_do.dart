@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CustomFadeInDown extends StatelessWidget {
   const CustomFadeInDown({
     required this.child,
-    required this.duration,
+    this.duration = 300,
     super.key,
   });
   final Widget child;
@@ -23,7 +23,7 @@ class CustomFadeInDown extends StatelessWidget {
 class CustomFadeInUp extends StatelessWidget {
   const CustomFadeInUp({
     required this.child,
-    required this.duration,
+    this.duration = 300,
     super.key,
   });
   final Widget child;
@@ -42,7 +42,7 @@ class CustomFadeInUp extends StatelessWidget {
 class CustomFadeInLeft extends StatelessWidget {
   const CustomFadeInLeft({
     required this.child,
-    required this.duration,
+    this.duration = 300,
     super.key,
   });
   final Widget child;
@@ -61,7 +61,7 @@ class CustomFadeInLeft extends StatelessWidget {
 class CustomFadeInRight extends StatelessWidget {
   const CustomFadeInRight({
     required this.child,
-    required this.duration,
+    this.duration = 300,
     super.key,
   });
   final Widget child;

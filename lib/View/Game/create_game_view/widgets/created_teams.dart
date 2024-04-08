@@ -1,3 +1,4 @@
+import 'package:count_my_game/Core/Utils/animate_do.dart';
 import 'package:count_my_game/View/Game/create_game_view/widgets/create_game_user_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,8 +21,8 @@ class CreatedTeams extends GetWidget<GameController> {
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CreateGameUserItem(),
-                    CreateTeamTwoItem(),
+                    CustomFadeInLeft(child: CreateGameUserItem()),
+                    CustomFadeInRight(child: CreateTeamTwoItem()),
                   ],
                 ),
               )
@@ -33,8 +34,8 @@ class CreatedTeams extends GetWidget<GameController> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CreateGameUserItem(),
-                            CreateTeamTwoItem(),
+                            CustomFadeInLeft(child: CreateGameUserItem()),
+                            CustomFadeInRight(child: CreateTeamTwoItem()),
                           ],
                         ),
                         // CreateTeamTwoItem(

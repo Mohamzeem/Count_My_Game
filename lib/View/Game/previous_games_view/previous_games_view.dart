@@ -11,7 +11,7 @@ class PreviousGamesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(FriendsController());
+    // Get.put(FriendsController());
     return GetBuilder<GameController>(
       init: GameController(),
       builder: (controller) => Scaffold(

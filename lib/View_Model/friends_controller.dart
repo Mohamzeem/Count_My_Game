@@ -77,7 +77,8 @@ class FriendsController extends GetxController {
         .collection(AppStrings.usersCollection)
         .where('email', isEqualTo: nameController.text.trim())
         .get();
-    if (friendEmail.docs.isNotEmpty) {
+    if (friendEmail.docs.isNotEmpty &&
+        friendEmail.docs.first['email'] != nameController.text.trim()) {
       final friendId = friendEmail.docs.first['id'];
       final friendName = friendEmail.docs.first['name'];
       final friendPhoto = friendEmail.docs.first['photo'];

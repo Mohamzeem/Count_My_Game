@@ -128,7 +128,8 @@ class CreateGameBody extends StatelessWidget {
                                     '2'
                                 ? controller.createGameTwoTeamsOnlineMode(
                                     controller.teamTwo.name!,
-                                    controller.teamTwo.photo!)
+                                    controller.teamTwo.photo!,
+                                    controller.teamTwo.id!)
                                 : controller.selectedNum.value == '3'
                                     ? controller.createGameThreeTeamsOnlineMode(
                                         controller.teamTwo.name!,

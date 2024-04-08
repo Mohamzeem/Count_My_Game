@@ -20,10 +20,13 @@ class UserField extends StatelessWidget {
       decoration: BoxDecoration(
           color: AppColors.kWhite, borderRadius: BorderRadius.circular(5)),
       child: Center(
-        child: CustomText(
-          text: initValue,
-          color: AppColors.mainColor,
-          textOverflow: TextOverflow.ellipsis,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: CustomText(
+            text: initValue,
+            color: AppColors.mainColor,
+            textOverflow: TextOverflow.ellipsis,
+          ),
         ),
       ),
     );

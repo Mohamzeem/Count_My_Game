@@ -1,5 +1,4 @@
 import 'package:count_my_game/View/Game/game_view/widgets/game_team_item.dart';
-import 'package:count_my_game/View_Model/friends_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -12,7 +11,7 @@ class GameTeams extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final friendsController = Get.put(FriendsController());
+    // final friendsController = Get.put(FriendsController());
     return GetBuilder<GameController>(
       builder: (controller) => Column(
         children: [
@@ -21,6 +20,7 @@ class GameTeams extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GameTeamsItem(
+                      isUser: true,
                       doubleTap: () => controller.undoScore(team: 'A'),
                       onTap: () => controller.incrementScore(team: 'A'),
                       score: controller.teamAPoints.value.toString(),
@@ -33,12 +33,8 @@ class GameTeams extends StatelessWidget {
                         controller.incrementScore(team: 'B');
                       },
                       score: controller.teamBPoints.value.toString(),
-                      photoUrl: friendsController.fromFriends
-                          ? controller.teamTwo.isPhoto
-                          : '',
-                      teamName: friendsController.fromFriends
-                          ? controller.teamTwo.name!
-                          : controller.gameModel.teams![1].name!,
+                      photoUrl: controller.gameModel.teams![1].isPhoto,
+                      teamName: controller.gameModel.teams![1].name!,
                     ),
                   ],
                 )
@@ -49,6 +45,7 @@ class GameTeams extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             GameTeamsItem(
+                              isUser: true,
                               isTwoTeams: false,
                               doubleTap: () => controller.undoScore(team: 'A'),
                               onTap: () => controller.incrementScore(team: 'A'),

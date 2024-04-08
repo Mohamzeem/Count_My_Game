@@ -9,8 +9,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 
-class PickFriendsIcon extends StatelessWidget {
+class PickFriendsIcon extends StatefulWidget {
   const PickFriendsIcon({super.key});
+
+  @override
+  State<PickFriendsIcon> createState() => _PickFriendsIconState();
+}
+
+class _PickFriendsIconState extends State<PickFriendsIcon> {
+  final frinedsCont = Get.put(FriendsController());
+  final gameCont = Get.put(GameController());
+  @override
+  void initState() {
+    super.initState();
+    frinedsCont.getFriendsForPick();
+    gameCont.getUserTeamPhotos();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,26 +75,6 @@ class PickFriendsIcon extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 10.h),
-                    // GetBuilder<GameController>(
-                    //   builder: (gameCont) => Expanded(
-                    //     child: ListView.builder(
-                    //       itemCount: gameCont.frinedsList.length,
-                    //       itemBuilder: (context, index) {
-                    //         print('#### ${gameCont.frinedsList}');
-                    //         final teamTwoModel = gameCont.frinedsList[index];
-                    //         return PickFriendsItem(
-                    //           name: teamTwoModel.name!,
-                    //           photoUrl: teamTwoModel.isPhoto,
-                    //           onTap: () {
-                    //             gameCont.teamTwo = teamTwoModel;
-                    //             Get.back();
-                    //           },
-                    //         );
-                    //       },
-                    //     ),
-                    //   ),
-                    // ),
-
                     Expanded(
                       child: ListView.builder(
                         itemCount: controller.frinedsList.length,
@@ -91,13 +85,12 @@ class PickFriendsIcon extends StatelessWidget {
                               name: friendModel.name!,
                               photoUrl: friendModel.isPhoto,
                               onTap: () {
-                                // controller.friendTwo = friendModel;
                                 TeamModel teamModel = TeamModel(
-                                    id: friendModel.id,
-                                    name: friendModel.name,
-                                    photo: friendModel.isPhoto);
+                                  id: friendModel.id,
+                                  name: friendModel.name,
+                                  photo: friendModel.isPhoto,
+                                );
                                 gameCont.teamTwo = teamModel;
-                                print(gameCont.teamTwo);
                                 Get.back();
                               },
                             ),

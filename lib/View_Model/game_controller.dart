@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,6 +9,7 @@ import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Models/game_model.dart';
 import 'package:count_my_game/Models/team_model.dart';
 import 'package:count_my_game/Models/friend_model.dart';
+import 'package:count_my_game/Models/user_model.dart';
 import 'package:count_my_game/View_Model/friends_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -35,9 +37,11 @@ class GameController extends GetxController {
   RxList scoreListBTeam = [].obs;
   RxList scoreListCTeam = [].obs;
   RxList scoreListDTeam = [].obs;
+  RxList userTeamPhotos = [].obs;
   RxString selectedNum = ''.obs;
   RxString selectedGame = ''.obs;
   RxBool _gameCreated = false.obs;
+  RxString _pickedTeamImage = ''.obs;
   // final bool _fromFriends = false;
   final teamTwoNameController = TextEditingController();
   final teamThreeNameController = TextEditingController();
@@ -95,6 +99,12 @@ class GameController extends GetxController {
   TeamModel get teamFour => _teamFourModel.value;
   set teamFour(TeamModel model) {
     _teamFourModel.value = model;
+    update();
+  }
+
+  String get pickedTeamImage => _pickedTeamImage.value;
+  set pickedTeamImage(String val) {
+    _pickedTeamImage.value = val;
     update();
   }
 
@@ -282,6 +292,7 @@ class GameController extends GetxController {
   Future createGameTwoTeamsOnlineMode(
     String twoName,
     String twoPhoto,
+    String twoId,
   ) async {
     if (selectedGame.isEmpty) {
       CustomLoading.toast(text: 'Selete Game');
@@ -297,8 +308,10 @@ class GameController extends GetxController {
           id: _auth.currentUser!.uid,
           name: _auth.currentUser!.displayName,
           photo: _auth.currentUser!.photoURL);
-      final teamTwo =
-          TeamModel(id: randomTeamTwoId, name: twoName, photo: twoPhoto);
+      final teamTwo = TeamModel(
+          id: twoId.isEmpty ? randomTeamTwoId : twoId,
+          name: twoName,
+          photo: twoPhoto);
 
       final List<String> members = [teamOne.id!, teamTwo.id!]
         ..sort((a, b) => b.compareTo(a));
@@ -319,6 +332,15 @@ class GameController extends GetxController {
         Get.offNamed(AppRoute.gameView);
       });
     }
+  }
+
+  Future getUserTeamPhotos() async {
+    final result = await _fireStore
+        .collection(AppStrings.usersCollection)
+        .doc(_auth.currentUser!.uid)
+        .get()
+        .then((value) => UserModel.fromJson(value.data()!));
+    userTeamPhotos.value = result.teamPhotos!;
   }
 
   Future createGameThreeTeamsOnlineMode(
@@ -440,6 +462,7 @@ class GameController extends GetxController {
         .delete()
         .whenComplete(() {
       CustomLoading.dismiss();
+      Get.delete<GameController>();
       Get.offNamed(AppRoute.homeView);
     });
   }
@@ -635,30 +658,25 @@ class GameController extends GetxController {
     }
   }
 
-  Future setProfileImage({required ImageSource source}) async {
-    bool isConnected = await _checkInternet();
-    if (isConnected) {
-      try {
-        final image = await _imagePicker.pickImage(
-          source: source,
-          imageQuality: 80,
-          maxHeight: 800,
-          maxWidth: 800,
-        );
-        if (image != null) {
-          _uploadImage(
-            file: File(image.path),
-            userId: FirebaseAuth.instance.currentUser!.uid,
-          );
-        }
-        return null;
-      } on Exception catch (e) {
-        final permissionStatus = await Permission.photos.status;
-        if (permissionStatus.isDenied) {
-          await AppFunctions.permissionsDialog();
-        } else {
-          CustomLoading.toast(text: e.toString());
-        }
+  Future setTeamImage({required ImageSource source}) async {
+    try {
+      final image = await _imagePicker.pickImage(
+        source: source,
+        // imageQuality: 80,
+        // maxHeight: 800,
+        // maxWidth: 800,
+      );
+      if (image != null) {
+        pickedTeamImage = image.path;
+        update();
+      }
+      return null;
+    } on Exception catch (e) {
+      final permissionStatus = await Permission.photos.status;
+      if (permissionStatus.isDenied) {
+        await AppFunctions.permissionsDialog();
+      } else {
+        CustomLoading.toast(text: e.toString());
       }
     }
   }
@@ -669,16 +687,34 @@ class GameController extends GetxController {
   }) async {
     CustomLoading.show();
     final String imagePath = file.path.split('.').last;
-    final ref = _fireStorage
-        .ref('TeamsImages')
-        .child('$userId/${DateTime.now().millisecondsSinceEpoch}.$imagePath');
 
-    await ref.putFile(file);
-    final String imageUrl = await ref.getDownloadURL();
-
-    await _fireStore.collection(AppStrings.usersCollection).doc(userId).update({
-      'teamPhotos': FieldValue.arrayUnion([imageUrl])
+    final imageRef =
+        _fireStorage.ref('TeamsImages').child('$userId/$userId.$imagePath');
+    bool imageExists = await imageRef.getDownloadURL().then((value) {
+      return true;
+    }).catchError((error) {
+      if (error.code == 'object-not-found') {
+        return false;
+      }
+      throw error;
     });
+    if (!imageExists) {
+      final ref =
+          _fireStorage.ref('TeamsImages').child('$userId/$userId.$imagePath');
+
+      await ref.putFile(file);
+      final String imageUrl = await ref.getDownloadURL();
+      // pickedTeamImage = imageUrl;
+      await _fireStore
+          .collection(AppStrings.usersCollection)
+          .doc(userId)
+          .update({
+        'teamPhotos': FieldValue.arrayUnion([imageUrl])
+      });
+    } else {
+      CustomLoading.toast(text: 'Image already exists');
+    }
+
     CustomLoading.dismiss();
   }
 
