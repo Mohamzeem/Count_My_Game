@@ -21,6 +21,16 @@ class GameModel extends Equatable {
     this.isEnded,
   });
 
+  String getWinnerScore() {
+    String winnerScore = '';
+    for (TeamModel team in teams!) {
+      if (team.isWinner == true) {
+        winnerScore = team.score!;
+      }
+    }
+    return winnerScore;
+  }
+
   String getWinnerId() {
     String winnerId = '';
     for (TeamModel team in teams!) {

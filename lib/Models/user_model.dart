@@ -11,7 +11,6 @@ class UserModel extends Equatable {
   final String? tokenFcm;
   final bool? isLoged;
   final bool? isOnline;
-  final List? teamPhotos;
   final List<FriendModel>? friends;
 
   const UserModel({
@@ -23,16 +22,15 @@ class UserModel extends Equatable {
     this.tokenFcm,
     this.isLoged,
     this.isOnline,
-    this.teamPhotos,
     this.friends,
   });
 
-  // deleteFriend(String friendId) async {
-  //   List updatedList = [];
-  //   for (FriendModel friend in friends!) {
-  //     updatedList = friends!.where((friend) => friend.id != friendId).toList();
-  //   }
-  // }
+  String getFriend(String friendId) {
+    for (var friend in friends!) {
+      friendId = friend.id!;
+    }
+    return friendId;
+  }
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     List<FriendModel> friendsList = [];
@@ -50,7 +48,6 @@ class UserModel extends Equatable {
       tokenFcm: json['tokenFcm'] ?? "",
       isLoged: json['isLoged'] ?? false,
       isOnline: json['isOnline'] ?? false,
-      teamPhotos: json['teamPhotos'] ?? [],
       friends: friendsList,
     );
   }
@@ -68,7 +65,6 @@ class UserModel extends Equatable {
       'tokenFcm': tokenFcm ?? "",
       'isLoged': isLoged ?? false,
       'isOnline': isOnline ?? false,
-      'teamPhotos': teamPhotos ?? [],
       'friends': friendsMapList,
     };
   }
@@ -81,16 +77,6 @@ class UserModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-        id,
-        photo,
-        name,
-        email,
-        mobileNum,
-        tokenFcm,
-        isLoged,
-        isOnline,
-        teamPhotos,
-        friends
-      ];
+  List<Object?> get props =>
+      [id, photo, name, email, mobileNum, tokenFcm, isLoged, isOnline, friends];
 }
