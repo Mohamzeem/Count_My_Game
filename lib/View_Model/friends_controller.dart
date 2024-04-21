@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Utils/app_strings.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Models/friend_model.dart';
+import 'package:count_my_game/Models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -9,7 +10,9 @@ import 'package:get/get.dart';
 
 class FriendsController extends GetxController {
   final _fireStore = FirebaseFirestore.instance;
-  final RxBool _fromFriends = false.obs;
+  final RxBool _fromFriendsTeamTwo = false.obs;
+  final RxBool _fromFriendsTeamThree = false.obs;
+  final RxBool _fromFriendsTeamFour = false.obs;
   // final _checker = InternetConnectionChecker();
   List<FriendModel> _frinedsList = [];
   final Rx<FriendModel> _friendOneModel = const FriendModel().obs;
@@ -25,9 +28,21 @@ class FriendsController extends GetxController {
     update();
   }
 
-  bool get fromFriends => _fromFriends.value;
-  set fromFriends(bool val) {
-    _fromFriends.value = val;
+  bool get fromFriendsTeamTwo => _fromFriendsTeamTwo.value;
+  set fromFriendsTeamTwo(bool val) {
+    _fromFriendsTeamTwo.value = val;
+    update();
+  }
+
+  bool get fromFriendsTeamThree => _fromFriendsTeamThree.value;
+  set fromFriendsTeamThree(bool val) {
+    _fromFriendsTeamThree.value = val;
+    update();
+  }
+
+  bool get fromFriendsTeamFour => _fromFriendsTeamFour.value;
+  set fromFriendsTeamFour(bool val) {
+    _fromFriendsTeamFour.value = val;
     update();
   }
 
@@ -59,7 +74,6 @@ class FriendsController extends GetxController {
   void onInit() {
     super.onInit();
     getFriendsForPick();
-    frinedsList;
   }
 
   @override
@@ -73,25 +87,24 @@ class FriendsController extends GetxController {
 
   Future addFriend() async {
     CustomLoading.show();
-    final friendEmail = await _fireStore
+    final result = await _fireStore
         .collection(AppStrings.usersCollection)
         .where('email', isEqualTo: nameController.text.trim())
         .get();
-    if (friendEmail.docs.isNotEmpty &&
-        friendEmail.docs.first['email'] != nameController.text.trim()) {
-      final friendId = friendEmail.docs.first['id'];
-      final friendName = friendEmail.docs.first['name'];
-      final friendPhoto = friendEmail.docs.first['photo'];
+    final friendEmail = UserModel.fromJson(result.docs[0].data());
 
-      FriendModel friendModel =
-          FriendModel(id: friendId, name: friendName, photo: friendPhoto);
+    FriendModel friendModel = FriendModel(
+        id: friendEmail.id, name: friendEmail.name, photo: friendEmail.photo);
+
+    if (friendEmail.email != nameController.text.trim() ||
+        friendEmail.id != _auth.currentUser!.uid) {
       await _fireStore
           .collection(AppStrings.usersCollection)
           .doc(_auth.currentUser!.uid)
           .update({
         'friends': FieldValue.arrayUnion([friendModel.toJson()])
       }).whenComplete(() {
-        CustomLoading.toast(text: '$friendName added');
+        CustomLoading.toast(text: '${friendEmail.name} added');
         nameController.clear();
         Get.back();
       }).onError((error, stackTrace) =>

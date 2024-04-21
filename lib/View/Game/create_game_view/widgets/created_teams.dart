@@ -1,5 +1,7 @@
 import 'package:count_my_game/Core/Utils/animate_do.dart';
 import 'package:count_my_game/View/Game/create_game_view/widgets/create_game_user_item.dart';
+import 'package:count_my_game/View/Game/create_game_view/widgets/create_teamfour_item.dart';
+import 'package:count_my_game/View/Game/create_game_view/widgets/create_teamthree_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -38,11 +40,7 @@ class CreatedTeams extends GetWidget<GameController> {
                             CustomFadeInRight(child: CreateTeamTwoItem()),
                           ],
                         ),
-                        // CreateTeamTwoItem(
-                        //   photoUrl: '',
-                        //   teamNum: '3',
-                        //   nameController: controller.teamThreeNameController,
-                        // ),
+                        CustomFadeInUp(child: CreateTeamThreeItem())
                       ],
                     ),
                   )
@@ -53,25 +51,15 @@ class CreatedTeams extends GetWidget<GameController> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CreateGameUserItem(),
-                            CreateTeamTwoItem(),
+                            CustomFadeInLeft(child: CreateGameUserItem()),
+                            CustomFadeInRight(child: CreateTeamTwoItem()),
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // CreateTeamTwoItem(
-                            //   photoUrl: '',
-                            //   teamNum: '3',
-                            //   nameController:
-                            //       controller.teamThreeNameController,
-                            // ),
-                            // CreateTeamTwoItem(
-                            //   photoUrl: '',
-                            //   teamNum: '4',
-                            //   nameController:
-                            //       controller.teamFourNameController,
-                            // ),
+                            CustomFadeInLeft(child: CreateTeamThreeItem()),
+                            CustomFadeInRight(child: CreateTeamFourItem()),
                           ],
                         ),
                       ],

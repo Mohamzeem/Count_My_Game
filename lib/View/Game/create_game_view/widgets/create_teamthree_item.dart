@@ -16,8 +16,8 @@ import 'package:count_my_game/View/Game/game_view/widgets/game_text_field.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
-class CreateTeamTwoItem extends StatelessWidget {
-  const CreateTeamTwoItem({
+class CreateTeamThreeItem extends StatelessWidget {
+  const CreateTeamThreeItem({
     super.key,
   });
 
@@ -31,7 +31,7 @@ class CreateTeamTwoItem extends StatelessWidget {
           children: [
             //^ team number
             const CustomText(
-              text: 'TEAM 2',
+              text: 'TEAM 3',
               color: AppColors.mainColor,
               fontSize: 20,
               fontWeight: FontWeight.w600,
@@ -43,11 +43,11 @@ class CreateTeamTwoItem extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  friendsCont.fromFriendsTeamTwo
+                  friendsCont.fromFriendsTeamThree
                       ? UserField(
-                          initValue: controller.teamTwo.name == null
+                          initValue: controller.teamThree.name == null
                               ? ''
-                              : controller.teamTwo.name!,
+                              : controller.teamThree.name!,
                           width: 150.w,
                         )
                       : GameTextField(
@@ -55,7 +55,7 @@ class CreateTeamTwoItem extends StatelessWidget {
                           keyBoard: TextInputType.name,
                           height: 40,
                           width: 150,
-                          controller: controller.teamTwoNameController,
+                          controller: controller.teamThreeNameController,
                           maxLength: 9,
                         ),
                   const PickFriendsIcon()
@@ -72,7 +72,7 @@ class CreateTeamTwoItem extends StatelessWidget {
                 color: AppColors.kWhite,
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
-              child: friendsCont.fromFriendsTeamTwo
+              child: friendsCont.fromFriendsTeamThree
                   //^ pick name and photo from firebase
                   ? InkWell(
                       child: Padding(
@@ -81,7 +81,7 @@ class CreateTeamTwoItem extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           child: CustomCachedImage(
                             shape: BoxShape.rectangle,
-                            photoUrl: controller.teamTwo.isPhoto,
+                            photoUrl: controller.teamThree.isPhoto,
                             width: 185,
                             height: 100,
                           ),
@@ -113,25 +113,21 @@ class CreateTeamTwoItem extends StatelessWidget {
                                         controller
                                             .setTeamImage(
                                                 pickedTeamImage: controller
-                                                    .pickedTeamTwoImage,
+                                                    .pickedTeamThreeImage,
                                                 source: ImageSource.gallery)
                                             .then(
                                           (value) {
                                             TeamModel teamModel = TeamModel(
                                               id: const Uuid().v4(),
-                                              name: controller.teamTwoName,
-                                              photo:
-                                                  controller.pickedTeamTwoImage,
+                                              name: controller.teamThreeName,
+                                              photo: controller
+                                                  .pickedTeamThreeImage,
                                             );
-                                            controller.teamTwo = teamModel;
+                                            controller.teamThree = teamModel;
                                           },
                                         );
                                         isManualPhoto = true;
                                         Get.back();
-
-                                        // TODO: pickedTeamTwoImage is Empty
-                                        print(
-                                            'pickedTeamTwoImage${controller.pickedTeamTwoImage}');
                                       },
                                       text: 'Gallary',
                                       width: 110,
@@ -144,17 +140,17 @@ class CreateTeamTwoItem extends StatelessWidget {
                                         controller
                                             .setTeamImage(
                                                 pickedTeamImage: controller
-                                                    .pickedTeamTwoImage,
+                                                    .pickedTeamThreeImage,
                                                 source: ImageSource.camera)
                                             .then(
                                           (value) {
                                             TeamModel teamModel = TeamModel(
                                               id: const Uuid().v4(),
-                                              name: controller.teamTwoName,
-                                              photo:
-                                                  controller.pickedTeamTwoImage,
+                                              name: controller.teamThreeName,
+                                              photo: controller
+                                                  .pickedTeamThreeImage,
                                             );
-                                            controller.teamTwo = teamModel;
+                                            controller.teamThree = teamModel;
                                           },
                                         );
                                         isManualPhoto = true;
@@ -184,7 +180,7 @@ class CreateTeamTwoItem extends StatelessWidget {
                                     width: 185,
                                     height: 100,
                                     child: Image.file(
-                                      File(controller.pickedTeamTwoImage),
+                                      File(controller.pickedTeamThreeImage),
                                       fit: BoxFit.fill,
                                     ),
                                   ),
@@ -220,6 +216,7 @@ class PickFriendsIcon extends StatefulWidget {
   const PickFriendsIcon({
     super.key,
   });
+
   @override
   State<PickFriendsIcon> createState() => _PickFriendsIconState();
 }
@@ -300,7 +297,7 @@ class _PickFriendsIconState extends State<PickFriendsIcon> {
                                   name: friendModel.name,
                                   photo: friendModel.isPhoto,
                                 );
-                                gameCont.teamTwo = teamModel;
+                                gameCont.teamThree = teamModel;
 
                                 Get.back();
                               },
@@ -314,8 +311,8 @@ class _PickFriendsIconState extends State<PickFriendsIcon> {
               ),
             ],
           );
-          if (controller.fromFriendsTeamTwo == false) {
-            controller.fromFriendsTeamTwo = true;
+          if (controller.fromFriendsTeamThree == false) {
+            controller.fromFriendsTeamThree = true;
           }
         },
         child: Container(

@@ -42,7 +42,6 @@ class ProfileItem extends StatelessWidget {
                 SizedBox(width: 10.w),
                 withGoIcon
                     ? Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CustomText(

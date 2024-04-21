@@ -1,7 +1,6 @@
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/View/Game/previous_games_view/widgets/previous_games_body.dart';
-import 'package:count_my_game/View_Model/friends_controller.dart';
 import 'package:count_my_game/View_Model/game_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

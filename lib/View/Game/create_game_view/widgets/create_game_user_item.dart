@@ -21,7 +21,7 @@ class CreateGameUserItem extends StatelessWidget {
       children: [
         //^ team number
         const CustomText(
-          text: 'Team 1',
+          text: 'TEAM 1',
           color: AppColors.mainColor,
           fontSize: 20,
           fontWeight: FontWeight.w600,
@@ -34,7 +34,7 @@ class CreateGameUserItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               UserField(initValue: user.displayName!, width: 185.w),
-              const SizedBox.shrink()
+              const SizedBox.shrink(),
             ],
           ),
         ),

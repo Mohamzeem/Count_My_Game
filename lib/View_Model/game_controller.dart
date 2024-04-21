@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
@@ -8,24 +7,20 @@ import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Models/game_model.dart';
 import 'package:count_my_game/Models/team_model.dart';
-import 'package:count_my_game/Models/friend_model.dart';
-import 'package:count_my_game/Models/user_model.dart';
-import 'package:count_my_game/View_Model/friends_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+// import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:uuid/uuid.dart';
 
 class GameController extends GetxController {
-  final _checker = InternetConnectionChecker();
+  // final _checker = InternetConnectionChecker();
   final _fireStore = FirebaseFirestore.instance;
-  final _fireStorage = FirebaseStorage.instance;
+  // final _fireStorage = FirebaseStorage.instance;
   final _auth = FirebaseAuth.instance;
   final _uuid = const Uuid();
   final ImagePicker _imagePicker = ImagePicker();
@@ -41,7 +36,9 @@ class GameController extends GetxController {
   RxString selectedNum = ''.obs;
   RxString selectedGame = ''.obs;
   RxBool _gameCreated = false.obs;
-  RxString _pickedTeamImage = ''.obs;
+  final RxString _pickedTeamTwoImage = ''.obs;
+  final RxString _pickedTeamThreeImage = ''.obs;
+  final RxString _pickedTeamFourImage = ''.obs;
   // final bool _fromFriends = false;
   final teamTwoNameController = TextEditingController();
   final teamThreeNameController = TextEditingController();
@@ -69,7 +66,6 @@ class GameController extends GetxController {
   final Rx<TeamModel> _teamTwoModel = const TeamModel().obs;
   final Rx<TeamModel> _teamThreeModel = const TeamModel().obs;
   final Rx<TeamModel> _teamFourModel = const TeamModel().obs;
-
   final Rx<GameModel> _gameModel = const GameModel().obs;
 
   GameModel get gameModel => _gameModel.value;
@@ -102,13 +98,25 @@ class GameController extends GetxController {
     update();
   }
 
-  String get pickedTeamImage => _pickedTeamImage.value;
-  set pickedTeamImage(String val) {
-    _pickedTeamImage.value = val;
+  String get pickedTeamTwoImage => _pickedTeamTwoImage.value;
+  set pickedTeamTwoImage(String val) {
+    _pickedTeamTwoImage.value = val;
     update();
   }
 
-  String get teamTwoName => teamTwoNameController.text;
+  String get pickedTeamThreeImage => _pickedTeamThreeImage.value;
+  set pickedTeamThreeImage(String val) {
+    _pickedTeamThreeImage.value = val;
+    update();
+  }
+
+  String get pickedTeamFourImage => _pickedTeamFourImage.value;
+  set pickedTeamFourImage(String val) {
+    _pickedTeamFourImage.value = val;
+    update();
+  }
+
+  String get teamTwoName => teamTwoNameController.text.trim();
   set teamTwoName(String val) {
     teamTwoNameController.text = val;
     update();
@@ -235,59 +243,55 @@ class GameController extends GetxController {
     });
   }
 
-  Future _createGameOnlineMode(
-      String twoName,
-      String threeName,
-      String fourName,
-      String twoPhoto,
-      String threePhoto,
-      String fourPhoto) async {
-    CustomLoading.show();
-
-    final randomGameId = _uuid.v1();
-    final randomTeamTwoId = _uuid.v4();
-    final randomTeamThreeId = _uuid.v4();
-    final randomTeamFourId = _uuid.v4();
-
-    final teamOne = TeamModel(
-        id: _auth.currentUser!.uid,
-        name: _auth.currentUser!.displayName,
-        photo: _auth.currentUser!.photoURL);
-    final teamTwo =
-        TeamModel(id: randomTeamTwoId, name: twoName, photo: twoPhoto);
-    final teamThree =
-        TeamModel(id: randomTeamThreeId, name: threeName, photo: threePhoto);
-    final teamFour =
-        TeamModel(id: randomTeamFourId, name: fourName, photo: fourPhoto);
-
-    final List<String> members = selectedNum.value == '3'
-        ? [teamOne.id!, teamTwo.id!, teamThree.id!]
-        : selectedNum.value == '4'
-            ? [teamOne.id!, teamTwo.id!, teamThree.id!, teamFour.id!]
-            : [teamOne.id!, teamTwo.id!]
-      ..sort((a, b) => b.compareTo(a));
-
-    gameModel = GameModel(
-      id: randomGameId,
-      name: selectedGame.value,
-      members: members,
-      createdAt: _createdAtTime,
-      maxScore: maxScore,
-      teams: selectedNum.value == '2'
-          ? [teamOne, teamTwo]
-          : selectedNum.value == '3'
-              ? [teamOne, teamTwo, teamThree]
-              : [teamOne, teamTwo, teamThree, teamFour],
-    );
-    await _fireStore
-        .collection(AppStrings.gamesCollection)
-        .doc(randomGameId)
-        .set(gameModel.toMap())
-        .whenComplete(() {
-      CustomLoading.dismiss();
-      Get.offNamed(AppRoute.gameView);
-    });
-  }
+  // Future _createGameOnlineMode(
+  //     String twoName,
+  //     String threeName,
+  //     String fourName,
+  //     String twoPhoto,
+  //     String threePhoto,
+  //     String fourPhoto) async {
+  //   CustomLoading.show();
+  //   final randomGameId = _uuid.v1();
+  //   final randomTeamTwoId = _uuid.v4();
+  //   final randomTeamThreeId = _uuid.v4();
+  //   final randomTeamFourId = _uuid.v4();
+  //   final teamOne = TeamModel(
+  //       id: _auth.currentUser!.uid,
+  //       name: _auth.currentUser!.displayName,
+  //       photo: _auth.currentUser!.photoURL);
+  //   final teamTwo =
+  //       TeamModel(id: randomTeamTwoId, name: twoName, photo: twoPhoto);
+  //   final teamThree =
+  //       TeamModel(id: randomTeamThreeId, name: threeName, photo: threePhoto);
+  //   final teamFour =
+  //       TeamModel(id: randomTeamFourId, name: fourName, photo: fourPhoto);
+  //   final List<String> members = selectedNum.value == '3'
+  //       ? [teamOne.id!, teamTwo.id!, teamThree.id!]
+  //       : selectedNum.value == '4'
+  //           ? [teamOne.id!, teamTwo.id!, teamThree.id!, teamFour.id!]
+  //           : [teamOne.id!, teamTwo.id!]
+  //     ..sort((a, b) => b.compareTo(a));
+  //   gameModel = GameModel(
+  //     id: randomGameId,
+  //     name: selectedGame.value,
+  //     members: members,
+  //     createdAt: _createdAtTime,
+  //     maxScore: maxScore,
+  //     teams: selectedNum.value == '2'
+  //         ? [teamOne, teamTwo]
+  //         : selectedNum.value == '3'
+  //             ? [teamOne, teamTwo, teamThree]
+  //             : [teamOne, teamTwo, teamThree, teamFour],
+  //   );
+  //   await _fireStore
+  //       .collection(AppStrings.gamesCollection)
+  //       .doc(randomGameId)
+  //       .set(gameModel.toMap())
+  //       .whenComplete(() {
+  //     CustomLoading.dismiss();
+  //     Get.offNamed(AppRoute.gameView);
+  //   });
+  // }
 
   Future createGameTwoTeamsOnlineMode(
     String twoName,
@@ -298,6 +302,10 @@ class GameController extends GetxController {
       CustomLoading.toast(text: 'Selete Game');
     } else if (maxScoreController.text.isEmpty) {
       CustomLoading.toast(text: 'Max Score Required');
+    } else if (pickedTeamTwoImage == '') {
+      CustomLoading.toast(text: 'image Required');
+    } else if (teamTwo.name == '' && teamTwoNameController.text.isEmpty) {
+      CustomLoading.toast(text: 'Name Required');
     } else {
       CustomLoading.show();
 
@@ -332,15 +340,6 @@ class GameController extends GetxController {
         Get.offNamed(AppRoute.gameView);
       });
     }
-  }
-
-  Future getUserTeamPhotos() async {
-    final result = await _fireStore
-        .collection(AppStrings.usersCollection)
-        .doc(_auth.currentUser!.uid)
-        .get()
-        .then((value) => UserModel.fromJson(value.data()!));
-    userTeamPhotos.value = result.teamPhotos!;
   }
 
   Future createGameThreeTeamsOnlineMode(
@@ -658,17 +657,12 @@ class GameController extends GetxController {
     }
   }
 
-  Future setTeamImage({required ImageSource source}) async {
+  Future setTeamImage(
+      {required ImageSource source, required String pickedTeamImage}) async {
     try {
-      final image = await _imagePicker.pickImage(
-        source: source,
-        // imageQuality: 80,
-        // maxHeight: 800,
-        // maxWidth: 800,
-      );
+      final image = await _imagePicker.pickImage(source: source);
       if (image != null) {
         pickedTeamImage = image.path;
-        update();
       }
       return null;
     } on Exception catch (e) {
@@ -681,48 +675,45 @@ class GameController extends GetxController {
     }
   }
 
-  Future _uploadImage({
-    required File file,
-    required String userId,
-  }) async {
-    CustomLoading.show();
-    final String imagePath = file.path.split('.').last;
+  // Future _uploadImage({
+  //   required File file,
+  //   required String userId,
+  // }) async {
+  //   CustomLoading.show();
+  //   final String imagePath = file.path.split('.').last;
+  //   final imageRef =
+  //       _fireStorage.ref('TeamsImages').child('$userId/$userId.$imagePath');
+  //   bool imageExists = await imageRef.getDownloadURL().then((value) {
+  //     return true;
+  //   }).catchError((error) {
+  //     if (error.code == 'object-not-found') {
+  //       return false;
+  //     }
+  //     throw error;
+  //   });
+  //   if (!imageExists) {
+  //     final ref =
+  //         _fireStorage.ref('TeamsImages').child('$userId/$userId.$imagePath');
+  //     await ref.putFile(file);
+  //     final String imageUrl = await ref.getDownloadURL();
+  //     // pickedTeamImage = imageUrl;
+  //     await _fireStore
+  //         .collection(AppStrings.usersCollection)
+  //         .doc(userId)
+  //         .update({
+  //       'teamPhotos': FieldValue.arrayUnion([imageUrl])
+  //     });
+  //   } else {
+  //     CustomLoading.toast(text: 'Image already exists');
+  //   }
+  //   CustomLoading.dismiss();
+  // }
 
-    final imageRef =
-        _fireStorage.ref('TeamsImages').child('$userId/$userId.$imagePath');
-    bool imageExists = await imageRef.getDownloadURL().then((value) {
-      return true;
-    }).catchError((error) {
-      if (error.code == 'object-not-found') {
-        return false;
-      }
-      throw error;
-    });
-    if (!imageExists) {
-      final ref =
-          _fireStorage.ref('TeamsImages').child('$userId/$userId.$imagePath');
-
-      await ref.putFile(file);
-      final String imageUrl = await ref.getDownloadURL();
-      // pickedTeamImage = imageUrl;
-      await _fireStore
-          .collection(AppStrings.usersCollection)
-          .doc(userId)
-          .update({
-        'teamPhotos': FieldValue.arrayUnion([imageUrl])
-      });
-    } else {
-      CustomLoading.toast(text: 'Image already exists');
-    }
-
-    CustomLoading.dismiss();
-  }
-
-  Future<bool> _checkInternet() async {
-    if (await _checker.hasConnection) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // Future<bool> _checkInternet() async {
+  //   if (await _checker.hasConnection) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 }

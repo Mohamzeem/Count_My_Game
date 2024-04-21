@@ -99,8 +99,8 @@ class CreateGameBody extends StatelessWidget {
               CustomButton(
                 onPressed: () {
                   controller.createTeamsUi();
-                  if (friendsController.fromFriends == true) {
-                    friendsController.fromFriends = false;
+                  if (friendsController.fromFriendsTeamTwo == true) {
+                    friendsController.fromFriendsTeamTwo = false;
                   }
                 },
                 text: controller.isCreated ? 'Reset Teams' : 'Set Teams',
@@ -129,7 +129,8 @@ class CreateGameBody extends StatelessWidget {
                                 ? controller.createGameTwoTeamsOnlineMode(
                                     controller.teamTwo.name!,
                                     controller.teamTwo.photo!,
-                                    controller.teamTwo.id!)
+                                    controller.teamTwo.id!,
+                                  )
                                 : controller.selectedNum.value == '3'
                                     ? controller.createGameThreeTeamsOnlineMode(
                                         controller.teamTwo.name!,

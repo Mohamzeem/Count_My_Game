@@ -1,11 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_cached_image.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
-import 'package:count_my_game/View_Model/friends_controller.dart';
 
 class GameTeamsItem extends StatelessWidget {
   final bool isUser;
@@ -28,8 +26,6 @@ class GameTeamsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final friendsCont = Get.put(FriendsController());
-
     return InkWell(
       onTap: onTap,
       onDoubleTap: doubleTap,
@@ -58,7 +54,8 @@ class GameTeamsItem extends StatelessWidget {
               ),
               child: isUser
                   ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: isTwoTeams ? 20.w : 10.w),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: CustomCachedImage(
@@ -69,9 +66,10 @@ class GameTeamsItem extends StatelessWidget {
                         ),
                       ),
                     )
-                  : friendsCont.fromFriends
+                  : photoUrl.contains('firebasestorage')
                       ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: isTwoTeams ? 20.w : 10.w),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: CustomCachedImage(
@@ -83,7 +81,8 @@ class GameTeamsItem extends StatelessWidget {
                           ),
                         )
                       : Padding(
-                          padding: const EdgeInsets.all(5),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: isTwoTeams ? 20.w : 10.w),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: Container(
