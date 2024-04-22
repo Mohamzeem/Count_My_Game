@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
@@ -112,8 +113,7 @@ class CreateTeamTwoItem extends StatelessWidget {
                                       onPressed: () {
                                         controller
                                             .setTeamImage(
-                                                pickedTeamImage: controller
-                                                    .pickedTeamTwoImage,
+                                                pickedTeamNum: '2',
                                                 source: ImageSource.gallery)
                                             .then(
                                           (value) {
@@ -129,9 +129,8 @@ class CreateTeamTwoItem extends StatelessWidget {
                                         isManualPhoto = true;
                                         Get.back();
 
-                                        // TODO: pickedTeamTwoImage is Empty
-                                        print(
-                                            'pickedTeamTwoImage${controller.pickedTeamTwoImage}');
+                                        // print(
+                                        //     'pickedTeamTwoImage### ${controller.pickedTeamTwoImage}');
                                       },
                                       text: 'Gallary',
                                       width: 110,
@@ -143,8 +142,7 @@ class CreateTeamTwoItem extends StatelessWidget {
                                       onPressed: () {
                                         controller
                                             .setTeamImage(
-                                                pickedTeamImage: controller
-                                                    .pickedTeamTwoImage,
+                                                pickedTeamNum: '2',
                                                 source: ImageSource.camera)
                                             .then(
                                           (value) {
@@ -183,8 +181,13 @@ class CreateTeamTwoItem extends StatelessWidget {
                                         shape: BoxShape.rectangle),
                                     width: 185,
                                     height: 100,
-                                    child: Image.file(
-                                      File(controller.pickedTeamTwoImage),
+                                    // child: Image.file(
+                                    //   File(controller.pickedTeamTwoImage),
+                                    //   fit: BoxFit.fill,
+                                    // ),
+                                    child: Image.memory(
+                                      base64Decode(
+                                          controller.pickedTeamTwoImage),
                                       fit: BoxFit.fill,
                                     ),
                                   ),

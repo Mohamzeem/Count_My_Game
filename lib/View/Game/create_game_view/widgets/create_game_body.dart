@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/View_Model/friends_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ import 'package:count_my_game/View/Game/game_view/widgets/game_text_field.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:count_my_game/View_Model/game_controller.dart';
 
-class CreateGameBody extends StatelessWidget {
+class CreateGameBody extends GetWidget<GameController> {
   const CreateGameBody({
     super.key,
   });
@@ -24,7 +25,7 @@ class CreateGameBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final friendsController = Get.put(FriendsController());
     return GetBuilder<GameController>(
-      builder: (controller) => Padding(
+      builder: (_) => Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.h),
         child: SingleChildScrollView(
           child: Column(
@@ -41,8 +42,8 @@ class CreateGameBody extends StatelessWidget {
               SizedBox(height: 20.h),
               //^ info text
               const CustomText(
-                text: 'Start Your Game', fontWeight: FontWeight.w600,
-                // 'You can start a new game from here,\n set number of teams',
+                text: 'Start Your Game',
+                fontWeight: FontWeight.w600,
                 color: AppColors.kWhite,
               ),
               SizedBox(height: 10.h),
@@ -121,40 +122,20 @@ class CreateGameBody extends StatelessWidget {
                         children: [
                           const CreatedTeams(),
                           const Spacer(),
-                          // //^ create game btn
+                          //^ start game btn
                           CustomButton(
-                            onPressed: () async => controller
-                                        .selectedNum.value ==
-                                    '2'
-                                ? controller.createGameTwoTeamsOnlineMode(
-                                    controller.teamTwo.name!,
-                                    controller.teamTwo.photo!,
-                                    controller.teamTwo.id!,
-                                  )
-                                : controller.selectedNum.value == '3'
-                                    ? controller.createGameThreeTeamsOnlineMode(
-                                        controller.teamTwo.name!,
-                                        controller.teamThree.name!,
-                                        controller.teamTwo.photo!,
-                                        controller.teamThree.photo!,
-                                      )
-                                    : controller.createGameFourTeamsOnlineMode(
-                                        controller.teamTwo.name!,
-                                        controller.teamThree.name!,
-                                        controller.teamFour.name!,
-                                        controller.teamTwo.photo!,
-                                        controller.teamThree.photo!,
-                                        controller.teamFour.photo!,
-                                      ),
-                            // print(controller.teamTwo.name),
-                            //     controller.createGameFunction(
-                            // controller.teamTwo.name!,
-                            // controller.teamThree.name!,
-                            // controller.teamFour.name!,
-                            // controller.teamTwo.photo!,
-                            // controller.teamThree.photo!,
-                            // controller.teamFour.photo!,
-                            // ),
+                            onPressed: () async {
+                              controller.onlineFunctions(
+                                  controller.teamTwo.name!,
+                                  controller.teamTwo.photo!,
+                                  controller.teamTwo.id!);
+
+                              // await controller.createTwoTeamsGameOnlineMode(
+                              //   twoId: controller.teamTwo.id!,
+                              //   twoName: controller.teamTwo.name!,
+                              //   twoPhoto: controller.teamTwo.photo!,
+                              // );
+                            },
                             text: 'Start Game',
                             width: double.infinity,
                             height: 50,
@@ -170,3 +151,46 @@ class CreateGameBody extends StatelessWidget {
     );
   }
 }
+
+  
+
+                              // print('#### ${controller.selectedNum}');
+                              // controller.onlineFunctions(
+                              //     controller.teamTwo.name!,
+                              //     controller.teamTwo.photo!,
+                              //     controller.teamTwo.id!);
+
+                              // controller.selectedNum.value == '2'
+                              //     ? await controller
+                              //         .createGameTwoTeamsOnlineMode(
+                              //         twoId: controller.teamTwo.id!,
+                              //         twoName: controller.teamTwo.name!,
+                              //         twoPhoto: controller.teamTwo.photo!,
+                              //       )
+                              //     : controller.selectedNum.value == '3'
+                              //         ? controller
+                              //             .createGameThreeTeamsOnlineMode(
+                              //             controller.teamTwo.name!,
+                              //             controller.teamThree.name!,
+                              //             controller.teamTwo.photo!,
+                              //             controller.teamThree.photo!,
+                              //           )
+                              //         : controller
+                              //             .createGameFourTeamsOnlineMode(
+                              //             controller.teamTwo.name!,
+                              //             controller.teamThree.name!,
+                              //             controller.teamFour.name!,
+                              //             controller.teamTwo.photo!,
+                              //             controller.teamThree.photo!,
+                              //             controller.teamFour.photo!,
+                              //           );
+
+        // print(controller.teamTwo.name),
+                            //     controller.createGameFunction(
+                            // controller.teamTwo.name!,
+                            // controller.teamThree.name!,
+                            // controller.teamFour.name!,
+                            // controller.teamTwo.photo!,
+                            // controller.teamThree.photo!,
+                            // controller.teamFour.photo!,
+                            // ),

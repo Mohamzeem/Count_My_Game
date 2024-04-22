@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
@@ -112,8 +113,7 @@ class CreateTeamThreeItem extends StatelessWidget {
                                       onPressed: () {
                                         controller
                                             .setTeamImage(
-                                                pickedTeamImage: controller
-                                                    .pickedTeamThreeImage,
+                                                pickedTeamNum: '3',
                                                 source: ImageSource.gallery)
                                             .then(
                                           (value) {
@@ -139,8 +139,7 @@ class CreateTeamThreeItem extends StatelessWidget {
                                       onPressed: () {
                                         controller
                                             .setTeamImage(
-                                                pickedTeamImage: controller
-                                                    .pickedTeamThreeImage,
+                                                pickedTeamNum: '3',
                                                 source: ImageSource.camera)
                                             .then(
                                           (value) {
@@ -179,8 +178,9 @@ class CreateTeamThreeItem extends StatelessWidget {
                                         shape: BoxShape.rectangle),
                                     width: 185,
                                     height: 100,
-                                    child: Image.file(
-                                      File(controller.pickedTeamThreeImage),
+                                    child: Image.memory(
+                                      base64Decode(
+                                          controller.pickedTeamThreeImage),
                                       fit: BoxFit.fill,
                                     ),
                                   ),

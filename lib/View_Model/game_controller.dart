@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
@@ -36,13 +37,7 @@ class GameController extends GetxController {
   RxString selectedNum = ''.obs;
   RxString selectedGame = ''.obs;
   RxBool _gameCreated = false.obs;
-  final RxString _pickedTeamTwoImage = ''.obs;
-  final RxString _pickedTeamThreeImage = ''.obs;
-  final RxString _pickedTeamFourImage = ''.obs;
   // final bool _fromFriends = false;
-  final teamTwoNameController = TextEditingController();
-  final teamThreeNameController = TextEditingController();
-  final teamFourNameController = TextEditingController();
   final maxScoreController = TextEditingController();
   final newScoreController = TextEditingController();
   final emailController = TextEditingController();
@@ -62,18 +57,17 @@ class GameController extends GetxController {
     update();
   }
 
-  final Rx<TeamModel> _teamOneModel = const TeamModel().obs;
-  final Rx<TeamModel> _teamTwoModel = const TeamModel().obs;
-  final Rx<TeamModel> _teamThreeModel = const TeamModel().obs;
-  final Rx<TeamModel> _teamFourModel = const TeamModel().obs;
   final Rx<GameModel> _gameModel = const GameModel().obs;
-
   GameModel get gameModel => _gameModel.value;
   set gameModel(GameModel model) {
     _gameModel.value = model;
     update();
   }
 
+  final Rx<TeamModel> _teamOneModel = const TeamModel().obs;
+  final Rx<TeamModel> _teamTwoModel = const TeamModel().obs;
+  final Rx<TeamModel> _teamThreeModel = const TeamModel().obs;
+  final Rx<TeamModel> _teamFourModel = const TeamModel().obs;
   TeamModel get teamOne => _teamOneModel.value;
   set teamOne(TeamModel model) {
     _teamOneModel.value = model;
@@ -98,6 +92,9 @@ class GameController extends GetxController {
     update();
   }
 
+  final RxString _pickedTeamTwoImage = ''.obs;
+  final RxString _pickedTeamThreeImage = ''.obs;
+  final RxString _pickedTeamFourImage = ''.obs;
   String get pickedTeamTwoImage => _pickedTeamTwoImage.value;
   set pickedTeamTwoImage(String val) {
     _pickedTeamTwoImage.value = val;
@@ -116,6 +113,9 @@ class GameController extends GetxController {
     update();
   }
 
+  final teamTwoNameController = TextEditingController();
+  final teamThreeNameController = TextEditingController();
+  final teamFourNameController = TextEditingController();
   String get teamTwoName => teamTwoNameController.text.trim();
   set teamTwoName(String val) {
     teamTwoNameController.text = val;
@@ -293,25 +293,41 @@ class GameController extends GetxController {
   //   });
   // }
 
-  Future createGameTwoTeamsOnlineMode(
-    String twoName,
-    String twoPhoto,
-    String twoId,
-  ) async {
+  void onlineFunctions(String twoName, String twoPhoto, String twoId) {
     if (selectedGame.isEmpty) {
       CustomLoading.toast(text: 'Selete Game');
     } else if (maxScoreController.text.isEmpty) {
       CustomLoading.toast(text: 'Max Score Required');
-    } else if (pickedTeamTwoImage == '') {
+    } else if (pickedTeamTwoImage == '' && teamTwo.photo!.isEmpty) {
+      CustomLoading.toast(text: 'image Required');
+    } else if (teamTwo.name == '' && teamTwoNameController.text.isEmpty) {
+      CustomLoading.toast(text: 'Name Required');
+    } else {
+      if (selectedNum.value == '2') {
+        print('object now');
+
+        // createGameTwoTeamsOnlineMode(
+        //     twoName: twoName, twoPhoto: twoPhoto, twoId: twoId);
+      } else {}
+    }
+  }
+
+  Future createTwoTeamsGameOnlineMode(
+      {required String twoName,
+      required String twoPhoto,
+      required String twoId}) async {
+    if (selectedGame.isEmpty) {
+      CustomLoading.toast(text: 'Selete Game');
+    } else if (maxScoreController.text.isEmpty) {
+      CustomLoading.toast(text: 'Max Score Required');
+    } else if (pickedTeamTwoImage == '' || teamTwo.photo!.isEmpty) {
       CustomLoading.toast(text: 'image Required');
     } else if (teamTwo.name == '' && teamTwoNameController.text.isEmpty) {
       CustomLoading.toast(text: 'Name Required');
     } else {
       CustomLoading.show();
-
       final randomGameId = _uuid.v1();
       final randomTeamTwoId = _uuid.v4();
-
       final teamOne = TeamModel(
           id: _auth.currentUser!.uid,
           name: _auth.currentUser!.displayName,
@@ -320,7 +336,6 @@ class GameController extends GetxController {
           id: twoId.isEmpty ? randomTeamTwoId : twoId,
           name: twoName,
           photo: twoPhoto);
-
       final List<String> members = [teamOne.id!, teamTwo.id!]
         ..sort((a, b) => b.compareTo(a));
 
@@ -658,11 +673,20 @@ class GameController extends GetxController {
   }
 
   Future setTeamImage(
-      {required ImageSource source, required String pickedTeamImage}) async {
+      {required ImageSource source, required String pickedTeamNum}) async {
     try {
       final image = await _imagePicker.pickImage(source: source);
       if (image != null) {
-        pickedTeamImage = image.path;
+        final bytes = await image.readAsBytes();
+        if (pickedTeamNum == '2') {
+          pickedTeamTwoImage = base64Encode(bytes);
+        } else if (pickedTeamNum == '3') {
+          pickedTeamThreeImage = base64Encode(bytes);
+        } else {
+          pickedTeamFourImage = base64Encode(bytes);
+        }
+
+        update();
       }
       return null;
     } on Exception catch (e) {
