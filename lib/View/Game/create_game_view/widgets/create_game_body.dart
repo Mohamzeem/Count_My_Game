@@ -124,17 +124,23 @@ class CreateGameBody extends GetWidget<GameController> {
                           const Spacer(),
                           //^ start game btn
                           CustomButton(
-                            onPressed: () async {
-                              controller.onlineFunctions(
-                                  controller.teamTwo.name!,
-                                  controller.teamTwo.photo!,
-                                  controller.teamTwo.id!);
-
-                              // await controller.createTwoTeamsGameOnlineMode(
-                              //   twoId: controller.teamTwo.id!,
-                              //   twoName: controller.teamTwo.name!,
-                              //   twoPhoto: controller.teamTwo.photo!,
-                              // );
+                            onPressed: () {
+                              if (controller.selectedNum.value == '2') {
+                                controller.createTwoTeamsGameOnlineMode(
+                                  twoId: controller.teamTwo.id!,
+                                  twoName: controller.teamTwo.name!,
+                                  twoPhoto: controller.teamTwo.photo!,
+                                );
+                              } else if (controller.selectedNum.value == '2') {
+                                controller.createGameThreeTeamsOnlineMode(
+                                  twoId: controller.teamTwo.id!,
+                                  twoName: controller.teamTwo.name!,
+                                  twoPhoto: controller.teamTwo.photo!,
+                                  threeId: controller.teamThree.id!,
+                                  threeName: controller.teamThree.name!,
+                                  threePhoto: controller.teamThree.photo!,
+                                );
+                              } else {}
                             },
                             text: 'Start Game',
                             width: double.infinity,
@@ -154,43 +160,43 @@ class CreateGameBody extends GetWidget<GameController> {
 
   
 
-                              // print('#### ${controller.selectedNum}');
-                              // controller.onlineFunctions(
-                              //     controller.teamTwo.name!,
-                              //     controller.teamTwo.photo!,
-                              //     controller.teamTwo.id!);
+  // print('#### ${controller.selectedNum}');
+  // controller.onlineFunctions(
+  //     controller.teamTwo.name!,
+  //     controller.teamTwo.photo!,
+  //     controller.teamTwo.id!);
 
-                              // controller.selectedNum.value == '2'
-                              //     ? await controller
-                              //         .createGameTwoTeamsOnlineMode(
-                              //         twoId: controller.teamTwo.id!,
-                              //         twoName: controller.teamTwo.name!,
-                              //         twoPhoto: controller.teamTwo.photo!,
-                              //       )
-                              //     : controller.selectedNum.value == '3'
-                              //         ? controller
-                              //             .createGameThreeTeamsOnlineMode(
-                              //             controller.teamTwo.name!,
-                              //             controller.teamThree.name!,
-                              //             controller.teamTwo.photo!,
-                              //             controller.teamThree.photo!,
-                              //           )
-                              //         : controller
-                              //             .createGameFourTeamsOnlineMode(
-                              //             controller.teamTwo.name!,
-                              //             controller.teamThree.name!,
-                              //             controller.teamFour.name!,
-                              //             controller.teamTwo.photo!,
-                              //             controller.teamThree.photo!,
-                              //             controller.teamFour.photo!,
-                              //           );
+  // controller.selectedNum.value == '2'
+  //     ? await controller
+  //         .createGameTwoTeamsOnlineMode(
+  //         twoId: controller.teamTwo.id!,
+  //         twoName: controller.teamTwo.name!,
+  //         twoPhoto: controller.teamTwo.photo!,
+  //       )
+  //     : controller.selectedNum.value == '3'
+  //         ? controller
+  //             .createGameThreeTeamsOnlineMode(
+  //             controller.teamTwo.name!,
+  //             controller.teamThree.name!,
+  //             controller.teamTwo.photo!,
+  //             controller.teamThree.photo!,
+  //           )
+  //         : controller
+  //             .createGameFourTeamsOnlineMode(
+  //             controller.teamTwo.name!,
+  //             controller.teamThree.name!,
+  //             controller.teamFour.name!,
+  //             controller.teamTwo.photo!,
+  //             controller.teamThree.photo!,
+  //             controller.teamFour.photo!,
+  //           );
 
-        // print(controller.teamTwo.name),
-                            //     controller.createGameFunction(
-                            // controller.teamTwo.name!,
-                            // controller.teamThree.name!,
-                            // controller.teamFour.name!,
-                            // controller.teamTwo.photo!,
-                            // controller.teamThree.photo!,
-                            // controller.teamFour.photo!,
-                            // ),
+  // print(controller.teamTwo.name),
+  //     controller.createGameFunction(
+  // controller.teamTwo.name!,
+  // controller.teamThree.name!,
+  // controller.teamFour.name!,
+  // controller.teamTwo.photo!,
+  // controller.teamThree.photo!,
+  // controller.teamFour.photo!,
+  // ),

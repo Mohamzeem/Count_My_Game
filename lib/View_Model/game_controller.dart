@@ -293,22 +293,20 @@ class GameController extends GetxController {
   //   });
   // }
 
-  void onlineFunctions(String twoName, String twoPhoto, String twoId) {
-    if (selectedGame.isEmpty) {
-      CustomLoading.toast(text: 'Selete Game');
-    } else if (maxScoreController.text.isEmpty) {
-      CustomLoading.toast(text: 'Max Score Required');
-    } else if (pickedTeamTwoImage == '' && teamTwo.photo!.isEmpty) {
+  void onlineFunctions(
+      {required String twoName,
+      required String twoPhoto,
+      required String twoId}) {
+    if (pickedTeamTwoImage == '' && teamTwo.photo! == '') {
       CustomLoading.toast(text: 'image Required');
     } else if (teamTwo.name == '' && teamTwoNameController.text.isEmpty) {
       CustomLoading.toast(text: 'Name Required');
     } else {
-      if (selectedNum.value == '2') {
-        print('object now');
-
-        // createGameTwoTeamsOnlineMode(
-        //     twoName: twoName, twoPhoto: twoPhoto, twoId: twoId);
-      } else {}
+      // if (selectedNum.value == '2') {
+      //   createTwoTeamsGameOnlineMode(
+      //       twoName: twoName, twoPhoto: twoPhoto, twoId: twoId);
+      // } else if (selectedNum.value == '3') {
+      // } else {}
     }
   }
 
@@ -316,11 +314,7 @@ class GameController extends GetxController {
       {required String twoName,
       required String twoPhoto,
       required String twoId}) async {
-    if (selectedGame.isEmpty) {
-      CustomLoading.toast(text: 'Selete Game');
-    } else if (maxScoreController.text.isEmpty) {
-      CustomLoading.toast(text: 'Max Score Required');
-    } else if (pickedTeamTwoImage == '' || teamTwo.photo!.isEmpty) {
+    if (pickedTeamTwoImage == '' && teamTwo.photo! == '') {
       CustomLoading.toast(text: 'image Required');
     } else if (teamTwo.name == '' && teamTwoNameController.text.isEmpty) {
       CustomLoading.toast(text: 'Name Required');
@@ -333,9 +327,10 @@ class GameController extends GetxController {
           name: _auth.currentUser!.displayName,
           photo: _auth.currentUser!.photoURL);
       final teamTwo = TeamModel(
-          id: twoId.isEmpty ? randomTeamTwoId : twoId,
-          name: twoName,
-          photo: twoPhoto);
+        id: twoId.isEmpty ? randomTeamTwoId : twoId,
+        name: twoName.isEmpty ? teamTwoName : twoName,
+        photo: twoPhoto,
+      );
       final List<String> members = [teamOne.id!, teamTwo.id!]
         ..sort((a, b) => b.compareTo(a));
 
@@ -357,46 +352,61 @@ class GameController extends GetxController {
     }
   }
 
-  Future createGameThreeTeamsOnlineMode(
-    String twoName,
-    String threeName,
-    String twoPhoto,
-    String threePhoto,
-  ) async {
-    CustomLoading.show();
-
-    final randomGameId = _uuid.v1();
-    final randomTeamTwoId = _uuid.v4();
-    final randomTeamThreeId = _uuid.v4();
-
-    final teamOne = TeamModel(
+  Future createGameThreeTeamsOnlineMode({
+    required String twoId,
+    required String twoName,
+    required String threeId,
+    required String threeName,
+    required String twoPhoto,
+    required String threePhoto,
+  }) async {
+    if (pickedTeamTwoImage == '' && teamTwo.photo! == '') {
+      CustomLoading.toast(text: 'Team Two image Required');
+    } else if (pickedTeamThreeImage == '' && teamThree.photo! == '') {
+      CustomLoading.toast(text: 'Team Three image Required');
+    } else if (teamTwo.name == '' && teamTwoNameController.text.isEmpty) {
+      CustomLoading.toast(text: 'Team Two Name Required');
+    } else if (teamThree.name == '' && teamThreeNameController.text.isEmpty) {
+      CustomLoading.toast(text: 'Team Three Name Required');
+    } else {
+      CustomLoading.show();
+      final randomGameId = _uuid.v1();
+      final randomTeamTwoId = _uuid.v4();
+      final randomTeamThreeId = _uuid.v4();
+      final teamOne = TeamModel(
         id: _auth.currentUser!.uid,
         name: _auth.currentUser!.displayName,
-        photo: _auth.currentUser!.photoURL);
-    final teamTwo =
-        TeamModel(id: randomTeamTwoId, name: twoName, photo: twoPhoto);
-    final teamThree =
-        TeamModel(id: randomTeamThreeId, name: threeName, photo: threePhoto);
-
-    final List<String> members = [teamOne.id!, teamTwo.id!, teamThree.id!]
-      ..sort((a, b) => b.compareTo(a));
-
-    gameModel = GameModel(
-      id: randomGameId,
-      name: selectedGame.value,
-      members: members,
-      createdAt: _createdAtTime,
-      maxScore: maxScore,
-      teams: [teamOne, teamTwo, teamThree],
-    );
-    await _fireStore
-        .collection(AppStrings.gamesCollection)
-        .doc(randomGameId)
-        .set(gameModel.toMap())
-        .whenComplete(() {
-      CustomLoading.dismiss();
-      Get.offNamed(AppRoute.gameView);
-    });
+        photo: _auth.currentUser!.photoURL,
+      );
+      final teamTwo = TeamModel(
+        id: twoId.isEmpty ? randomTeamTwoId : twoId,
+        name: twoName.isEmpty ? teamTwoName : twoName,
+        photo: twoPhoto,
+      );
+      final teamThree = TeamModel(
+        id: threeId.isEmpty ? randomTeamThreeId : threeId,
+        name: threeName.isEmpty ? teamThreeName : threeName,
+        photo: threePhoto,
+      );
+      final List<String> members = [teamOne.id!, teamTwo.id!, teamThree.id!]
+        ..sort((a, b) => b.compareTo(a));
+      gameModel = GameModel(
+        id: randomGameId,
+        name: selectedGame.value,
+        members: members,
+        createdAt: _createdAtTime,
+        maxScore: maxScore,
+        teams: [teamOne, teamTwo, teamThree],
+      );
+      await _fireStore
+          .collection(AppStrings.gamesCollection)
+          .doc(randomGameId)
+          .set(gameModel.toMap())
+          .whenComplete(() {
+        CustomLoading.dismiss();
+        Get.offNamed(AppRoute.gameView);
+      });
+    }
   }
 
   Future createGameFourTeamsOnlineMode(
@@ -606,12 +616,23 @@ class GameController extends GetxController {
   }
 
   void createTeamsUi() {
-    if (selectedNum.value == '') {
+    if (selectedGame.isEmpty) {
+      CustomLoading.toast(text: 'Select Game');
+    } else if (maxScoreController.text.isEmpty ||
+        maxScoreController.text == '') {
+      CustomLoading.toast(text: 'Max Score Required');
+    } else if (selectedNum.value == '') {
       CustomLoading.toast(text: 'Select a team number');
       return;
+    } else {
+      isCreated = !isCreated;
+      isCreated ? selectedNum.value : selectedNum.value = '';
+
+      const model = TeamModel(id: '', name: '', photo: '');
+      teamTwo = model;
+      teamThree = model;
+      teamFour = model;
     }
-    isCreated = !isCreated;
-    isCreated ? selectedNum.value : selectedNum.value = '';
   }
 
   void incrementScore({required String team}) {

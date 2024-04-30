@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
@@ -46,7 +46,7 @@ class GameTeamsItem extends StatelessWidget {
             ),
             //^ photo
             Container(
-              width: isTwoTeams ? 500.w : 180.w,
+              width: isTwoTeams ? 350.w : 180.w,
               height: 100.h,
               decoration: const BoxDecoration(
                 shape: BoxShape.rectangle,
@@ -67,6 +67,7 @@ class GameTeamsItem extends StatelessWidget {
                       ),
                     )
                   : photoUrl.contains('firebasestorage')
+                      //^ image from firebase
                       ? Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: isTwoTeams ? 20.w : 10.w),
@@ -80,6 +81,7 @@ class GameTeamsItem extends StatelessWidget {
                             ),
                           ),
                         )
+                      //^ image from local
                       : Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: isTwoTeams ? 20.w : 10.w),
@@ -90,8 +92,8 @@ class GameTeamsItem extends StatelessWidget {
                                   shape: BoxShape.rectangle),
                               width: 185,
                               height: 100,
-                              child: Image.file(
-                                File(photoUrl),
+                              child: Image.memory(
+                                base64Decode(photoUrl),
                                 fit: BoxFit.fill,
                               ),
                             ),

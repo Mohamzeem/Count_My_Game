@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
 import 'package:count_my_game/Models/team_model.dart';
@@ -75,17 +74,15 @@ class CreateTeamTwoItem extends StatelessWidget {
               ),
               child: friendsCont.fromFriendsTeamTwo
                   //^ pick name and photo from firebase
-                  ? InkWell(
-                      child: Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: CustomCachedImage(
-                            shape: BoxShape.rectangle,
-                            photoUrl: controller.teamTwo.isPhoto,
-                            width: 185,
-                            height: 100,
-                          ),
+                  ? Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: CustomCachedImage(
+                          shape: BoxShape.rectangle,
+                          photoUrl: controller.teamTwo.isPhoto,
+                          width: 185,
+                          height: 100,
                         ),
                       ),
                     )
@@ -128,9 +125,6 @@ class CreateTeamTwoItem extends StatelessWidget {
                                         );
                                         isManualPhoto = true;
                                         Get.back();
-
-                                        // print(
-                                        //     'pickedTeamTwoImage### ${controller.pickedTeamTwoImage}');
                                       },
                                       text: 'Gallary',
                                       width: 110,
@@ -181,10 +175,6 @@ class CreateTeamTwoItem extends StatelessWidget {
                                         shape: BoxShape.rectangle),
                                     width: 185,
                                     height: 100,
-                                    // child: Image.file(
-                                    //   File(controller.pickedTeamTwoImage),
-                                    //   fit: BoxFit.fill,
-                                    // ),
                                     child: Image.memory(
                                       base64Decode(
                                           controller.pickedTeamTwoImage),

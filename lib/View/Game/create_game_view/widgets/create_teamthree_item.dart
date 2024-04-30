@@ -75,17 +75,15 @@ class CreateTeamThreeItem extends StatelessWidget {
               ),
               child: friendsCont.fromFriendsTeamThree
                   //^ pick name and photo from firebase
-                  ? InkWell(
-                      child: Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: CustomCachedImage(
-                            shape: BoxShape.rectangle,
-                            photoUrl: controller.teamThree.isPhoto,
-                            width: 185,
-                            height: 100,
-                          ),
+                  ? Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: CustomCachedImage(
+                          shape: BoxShape.rectangle,
+                          photoUrl: controller.teamThree.isPhoto,
+                          width: 185,
+                          height: 100,
                         ),
                       ),
                     )
@@ -216,7 +214,6 @@ class PickFriendsIcon extends StatefulWidget {
   const PickFriendsIcon({
     super.key,
   });
-
   @override
   State<PickFriendsIcon> createState() => _PickFriendsIconState();
 }
@@ -297,7 +294,7 @@ class _PickFriendsIconState extends State<PickFriendsIcon> {
                                   name: friendModel.name,
                                   photo: friendModel.isPhoto,
                                 );
-                                gameCont.teamThree = teamModel;
+                                gameCont.teamTwo = teamModel;
 
                                 Get.back();
                               },

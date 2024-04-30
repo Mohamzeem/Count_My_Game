@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
@@ -99,8 +100,9 @@ class _ResultViewState extends State<ResultView> {
                               child: cont.gameModel.getWinnerPhoto().isEmpty
                                   ? CircularProgressIndicator(
                                       color: AppColors.kGold)
-                                  : Image.file(
-                                      File(cont.gameModel.getWinnerPhoto()),
+                                  : Image.memory(
+                                      base64Decode(
+                                          cont.gameModel.getWinnerPhoto()),
                                       fit: BoxFit.fill,
                                     ),
                             ),
