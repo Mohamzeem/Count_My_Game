@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/View_Model/friends_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -103,6 +102,9 @@ class CreateGameBody extends GetWidget<GameController> {
                   if (friendsController.fromFriendsTeamTwo == true) {
                     friendsController.fromFriendsTeamTwo = false;
                   }
+                  if (friendsController.fromFriendsTeamThree == true) {
+                    friendsController.fromFriendsTeamThree = false;
+                  }
                 },
                 text: controller.isCreated ? 'Reset Teams' : 'Set Teams',
                 width: double.infinity,
@@ -131,7 +133,7 @@ class CreateGameBody extends GetWidget<GameController> {
                                   twoName: controller.teamTwo.name!,
                                   twoPhoto: controller.teamTwo.photo!,
                                 );
-                              } else if (controller.selectedNum.value == '2') {
+                              } else if (controller.selectedNum.value == '3') {
                                 controller.createGameThreeTeamsOnlineMode(
                                   twoId: controller.teamTwo.id!,
                                   twoName: controller.teamTwo.name!,
@@ -140,7 +142,19 @@ class CreateGameBody extends GetWidget<GameController> {
                                   threeName: controller.teamThree.name!,
                                   threePhoto: controller.teamThree.photo!,
                                 );
-                              } else {}
+                              } else {
+                                controller.createGameFourTeamsOnlineMode(
+                                  twoId: controller.teamTwo.id!,
+                                  twoName: controller.teamTwo.name!,
+                                  twoPhoto: controller.teamTwo.photo!,
+                                  threeId: controller.teamThree.id!,
+                                  threeName: controller.teamThree.name!,
+                                  threePhoto: controller.teamThree.photo!,
+                                  fourId: controller.teamFour.id!,
+                                  fourName: controller.teamFour.name!,
+                                  fourPhoto: controller.teamFour.photo!,
+                                );
+                              }
                             },
                             text: 'Start Game',
                             width: double.infinity,

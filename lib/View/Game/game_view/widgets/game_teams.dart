@@ -29,12 +29,7 @@ class GameTeams extends StatelessWidget {
                     ),
                     GameTeamsItem(
                       doubleTap: () => controller.undoScore(team: 'B'),
-                      onTap: () {
-                        controller.incrementScore(team: 'B');
-                        print('#teamTwoName# ${controller.teamTwoName}');
-                        print('## ${controller.teamTwoNameController.text}');
-                        print('## ${controller.gameModel.teams![1].name!}');
-                      },
+                      onTap: () => controller.incrementScore(team: 'B'),
                       score: controller.teamBPoints.value.toString(),
                       photoUrl: controller.gameModel.teams![1].isPhoto,
                       teamName: controller.gameModel.teams![1].name!,

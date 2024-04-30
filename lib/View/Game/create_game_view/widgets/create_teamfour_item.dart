@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
 import 'package:count_my_game/Models/team_model.dart';
@@ -75,17 +74,15 @@ class CreateTeamFourItem extends StatelessWidget {
               ),
               child: friendsCont.fromFriendsTeamFour
                   //^ pick name and photo from firebase
-                  ? InkWell(
-                      child: Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: CustomCachedImage(
-                            shape: BoxShape.rectangle,
-                            photoUrl: controller.teamFour.isPhoto,
-                            width: 185,
-                            height: 100,
-                          ),
+                  ? Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: CustomCachedImage(
+                          shape: BoxShape.rectangle,
+                          photoUrl: controller.teamFour.isPhoto,
+                          width: 185,
+                          height: 100,
                         ),
                       ),
                     )
@@ -139,8 +136,8 @@ class CreateTeamFourItem extends StatelessWidget {
                                       onPressed: () {
                                         controller
                                             .setTeamImage(
-                                                source: ImageSource.camera,
-                                                pickedTeamNum: '4')
+                                                pickedTeamNum: '4',
+                                                source: ImageSource.camera)
                                             .then(
                                           (value) {
                                             TeamModel teamModel = TeamModel(
@@ -216,7 +213,6 @@ class PickFriendsIcon extends StatefulWidget {
   const PickFriendsIcon({
     super.key,
   });
-
   @override
   State<PickFriendsIcon> createState() => _PickFriendsIconState();
 }

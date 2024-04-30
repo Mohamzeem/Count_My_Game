@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
 import 'package:count_my_game/Models/team_model.dart';
@@ -294,7 +293,7 @@ class _PickFriendsIconState extends State<PickFriendsIcon> {
                                   name: friendModel.name,
                                   photo: friendModel.isPhoto,
                                 );
-                                gameCont.teamTwo = teamModel;
+                                gameCont.teamThree = teamModel;
 
                                 Get.back();
                               },

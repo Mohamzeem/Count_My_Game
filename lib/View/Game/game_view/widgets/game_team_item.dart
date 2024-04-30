@@ -39,7 +39,7 @@ class GameTeamsItem extends StatelessWidget {
               padding: EdgeInsets.all(5.r),
               child: CustomText(
                 text: teamName,
-                color: AppColors.kBlack,
+                color: AppColors.mainColor,
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
@@ -100,7 +100,7 @@ class GameTeamsItem extends StatelessWidget {
                           ),
                         ),
             ),
-            //^ score
+            //^ add score
             Padding(
               padding: EdgeInsets.all(5.r),
               child: Row(
