@@ -1,15 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
-import 'package:count_my_game/Core/Utils/app_strings.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:count_my_game/Core/Widgets/custom_text_button.dart';
 import 'package:count_my_game/Core/Widgets/text_form_field.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
-import 'package:count_my_game/Models/user_model.dart';
 import 'package:count_my_game/View/Authentication/widgets/auth_app_bar.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

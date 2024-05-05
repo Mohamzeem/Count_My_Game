@@ -612,11 +612,9 @@ class GameController extends GetxController {
       // }
       //^ arrange list by created time
       allGames = games..sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
-      print('OfflineGammes  ${allGames.length}');
     } else {
       final games = gameBox.values.toList();
       allGames = games;
-      print('OfflineGammes  ${allGames.length}');
     }
     CustomLoading.dismiss();
     return allGames;
