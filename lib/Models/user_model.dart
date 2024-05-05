@@ -53,8 +53,10 @@ class UserModel extends Equatable {
   }
 
   Map<String, dynamic> toJson() {
-    List<dynamic> friendsMapList =
-        friends!.map((team) => team.toJson()).toList();
+    List<FriendModel> friendsMapList = [];
+    if (friends != null) {
+      friends!.map((team) => team.toJson()).toList();
+    }
 
     return <String, dynamic>{
       'id': id,

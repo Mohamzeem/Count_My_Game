@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
+import 'package:count_my_game/Core/Services/pref_key.dart';
 import 'package:count_my_game/Core/Utils/app_strings.dart';
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
@@ -11,17 +12,18 @@ import 'package:count_my_game/Models/team_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:uuid/uuid.dart';
 
 class GameController extends GetxController {
-  // final _checker = InternetConnectionChecker();
+  final _checker = InternetConnectionChecker();
   final _fireStore = FirebaseFirestore.instance;
-  // final _fireStorage = FirebaseStorage.instance;
+  final gameBox = Hive.box<GameModel>(PrefKeys.game);
   final _auth = FirebaseAuth.instance;
   final _uuid = const Uuid();
   final ImagePicker _imagePicker = ImagePicker();
@@ -41,6 +43,13 @@ class GameController extends GetxController {
   final newScoreController = TextEditingController();
   final emailController = TextEditingController();
   final screenShotController = ScreenshotController();
+  List<GameModel> _allGames = [];
+
+  List<GameModel> get allGames => _allGames;
+  set allGames(List<GameModel> games) {
+    _allGames = games;
+    update();
+  }
 
   List<String> numList = ['2', '3', '4'];
   List<String> gamesList = ['Dominos', 'Cards', 'Playstation', 'Other'];
@@ -276,14 +285,21 @@ class GameController extends GetxController {
           createdAt: _createdAtTime,
           maxScore: maxScore,
           teams: [teamOne, teamTwo]);
-      await _fireStore
-          .collection(AppStrings.gamesCollection)
-          .doc(randomGameId)
-          .set(gameModel.toMap())
-          .whenComplete(() {
-        CustomLoading.dismiss();
-        Get.offNamed(AppRoute.gameView);
-      });
+
+      bool isConnected = await _checkInternet();
+      if (isConnected) {
+        await _fireStore
+            .collection(AppStrings.gamesCollection)
+            .doc(randomGameId)
+            .set(gameModel.toMap())
+            .whenComplete(() async {
+          await gameBox.add(gameModel);
+          CustomLoading.dismiss();
+          Get.offNamed(AppRoute.gameView);
+        });
+      } else {
+        await gameBox.add(gameModel);
+      }
     }
   }
 
@@ -567,18 +583,43 @@ class GameController extends GetxController {
             (error, stackTrace) => CustomLoading.toast(text: error.toString()));
   }
 
-  Stream<List<GameModel>> getPreviousGames() {
-    final result = FirebaseFirestore.instance
-        .collection(AppStrings.gamesCollection)
-        .where('members', arrayContains: _auth.currentUser!.uid)
-        // .orderBy('createdAt', descending: true)
-        .snapshots();
-    return result.map((snapshot) {
-      // Map each document snapshot into a GameModel object
-      return snapshot.docs.map((doc) {
-        return GameModel.fromMap(doc.data());
-      }).toList();
-    });
+  // Stream<List<GameModel>> getPreviousGames() {
+  //   final result = FirebaseFirestore.instance
+  //       .collection(AppStrings.gamesCollection)
+  //       .where('members', arrayContains: _auth.currentUser!.uid)
+  //       // .orderBy('createdAt', descending: true)
+  //       .snapshots();
+  //   return result.map((snapshot) {
+  //     // Map each document snapshot into a GameModel object
+  //     return snapshot.docs.map((doc) {
+  //       return GameModel.fromMap(doc.data());
+  //     }).toList();
+  //   });
+  // }
+
+  Future<List<GameModel>> getGames() async {
+    CustomLoading.show();
+    bool isConnected = await _checkInternet();
+    if (isConnected) {
+      var result = await FirebaseFirestore.instance
+          .collection(AppStrings.gamesCollection)
+          .where('members', arrayContains: _auth.currentUser!.uid)
+          .get();
+      final games =
+          result.docs.map((e) => GameModel.fromMap(e.data())).toList();
+      // for (var game in games) {
+      //   await gameBox.put(PrefKeys.game, game);
+      // }
+      //^ arrange list by created time
+      allGames = games..sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+      print('OfflineGammes  ${allGames.length}');
+    } else {
+      final games = gameBox.values.toList();
+      allGames = games;
+      print('OfflineGammes  ${allGames.length}');
+    }
+    CustomLoading.dismiss();
+    return allGames;
   }
 
   void createTeamsUi() {
@@ -719,11 +760,11 @@ class GameController extends GetxController {
   //   CustomLoading.dismiss();
   // }
 
-  // Future<bool> _checkInternet() async {
-  //   if (await _checker.hasConnection) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
+  Future<bool> _checkInternet() async {
+    if (await _checker.hasConnection) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

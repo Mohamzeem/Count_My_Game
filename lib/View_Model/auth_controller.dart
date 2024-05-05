@@ -14,13 +14,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AuthController extends GetxController {
   final _fireStorage = FirebaseStorage.instance;
-  final _storage = GetStorage();
+  final userBox = Hive.box(PrefKeys.profile);
   final ImagePicker _imagePicker = ImagePicker();
   final _fireStore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
@@ -159,19 +160,14 @@ class AuthController extends GetxController {
       CustomLoading.show();
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-            email: '${email.trim()}${AppStrings.defaultEmail}',
-            password: password,
-          )
-          .whenComplete(() {
-            _saveUserData();
-            Get.back();
-          })
-          .then(
-            (value) =>
-                CustomLoading.toast(text: 'Account Created successfully'),
-          )
-          .onError((error, stackTrace) =>
-              CustomLoading.toast(text: error.toString()));
+              email: '${email.trim()}${AppStrings.defaultEmail}',
+              password: password)
+          .then((value) async {
+        await _saveUserData(value.user!.uid);
+        Get.back();
+      }).whenComplete(
+        () => CustomLoading.toast(text: 'Account Created successfully'),
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         CustomLoading.toast(text: 'The password provided is too weak');
@@ -183,16 +179,16 @@ class AuthController extends GetxController {
     }
   }
 
-  Future _saveUserData() async {
+  Future _saveUserData(String id) async {
     await _auth.currentUser!.updateDisplayName(name);
     UserModel userModel = UserModel(
       name: name,
-      id: _auth.currentUser!.uid,
+      id: id,
       email: email,
     );
     await _fireStore
         .collection(AppStrings.usersCollection)
-        .doc(_auth.currentUser!.uid)
+        .doc(id)
         .set(userModel.toJson());
   }
 
@@ -205,9 +201,10 @@ class AuthController extends GetxController {
     newPhoto = user.photo!;
     newName = user.name!;
     final data = jsonEncode(user.toJson());
-    _storage.write(PrefKeys.profile, data);
+    // _storage.write(PrefKeys.profile, data);
+    await userBox.put(PrefKeys.profile, data);
     // SharedPref().setString(PrefKeys.profile, data);
-    _storage.write(PrefKeys.userId, user.id!);
+    // _storage.write(PrefKeys.userId, user.id!);
     // SharedPref().setString(PrefKeys.userId, user.id!);
 
     if (user.photo != null || user.photo != "") {
@@ -217,14 +214,10 @@ class AuthController extends GetxController {
   }
 
   Future<UserModel> _getOfflineProfile() async {
-    final result = _storage.read(PrefKeys.profile);
-    // final result = SharedPref().getString(PrefKeys.profile);
+    final result = await userBox.get(PrefKeys.profile);
     final data = jsonDecode(result!);
     UserModel userProfile = UserModel.fromJson(data);
     offlineProfile = userProfile;
-
-    // UserModel offlineProfile =
-    //     UserModel.fromJson(jsonDecode(GetStorage().read(PrefKeys.profile)));
     AppStrings.userId = userProfile.id;
     debugPrint('Offline Name ${userProfile.name}');
     return userProfile;
@@ -321,8 +314,7 @@ class AuthController extends GetxController {
         .signOut()
         .whenComplete(() {
           CustomLoading.dismiss();
-          _storage.remove(PrefKeys.userId);
-          _storage.remove(PrefKeys.profile);
+          userBox.delete(PrefKeys.profile);
           Get.offNamed(AppRoute.emailLogInView);
         })
         .then(

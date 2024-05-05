@@ -19,7 +19,7 @@ class PreviousGamesBody extends StatelessWidget {
           //^ appbar
           GetBuilder<AuthController>(
             builder: (controller) => CustomAppBar(
-              title: ' ${controller.offlineProfile.name!}',
+              title: 'Game History',
               photoUrl: controller.offlineProfile.isPhoto,
               isArrowBack: false,
             ),

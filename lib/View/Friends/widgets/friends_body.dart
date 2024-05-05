@@ -19,7 +19,7 @@ class FriendsBody extends StatelessWidget {
           //^ appbar
           GetBuilder<AuthController>(
             builder: (controller) => CustomAppBar(
-              title: ' ${controller.offlineProfile.name!}',
+              title: 'Your Friends',
               photoUrl: controller.offlineProfile.isPhoto,
               isArrowBack: false,
             ),

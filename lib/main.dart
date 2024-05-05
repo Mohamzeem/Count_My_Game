@@ -1,18 +1,22 @@
 import 'package:count_my_game/Core/App/app_info.dart';
 import 'package:count_my_game/Core/App/app_view.dart';
+import 'package:count_my_game/Core/Services/pref_key.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
+import 'package:count_my_game/Models/game_model.dart';
 import 'package:count_my_game/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:hive_flutter/adapters.dart';
 
 void main() async {
   // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   WidgetsFlutterBinding.ensureInitialized();
   // await Get.putAsync<SharedPref>(() => SharedPref().initPrefs());
-  await GetStorage.init();
+  await Hive.initFlutter();
+  await Hive.openBox(PrefKeys.profile);
+  await Hive.openBox<GameModel>(PrefKeys.game);
   MyApp.setSystemUi();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setPreferredOrientations(
