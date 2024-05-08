@@ -5,28 +5,41 @@ import 'package:count_my_game/View_Model/game_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class PreviousGamesView extends StatelessWidget {
+class PreviousGamesView extends StatefulWidget {
   const PreviousGamesView({super.key});
 
   @override
+  State<PreviousGamesView> createState() => _PreviousGamesViewState();
+}
+
+class _PreviousGamesViewState extends State<PreviousGamesView> {
+  final controller = Get.put(GameController());
+  @override
+  void initState() {
+    super.initState();
+    debugPrint('initState: 1');
+    controller.getPreviousGames();
+    controller.uploadOfflineGames();
+    debugPrint('initState: 2');
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Get.put(FriendsController());
-    return GetBuilder<GameController>(
-      init: GameController(),
-      builder: (controller) => Scaffold(
-        body: const SafeArea(child: PreviousGamesBody()),
-        //^ floating start btn
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 50.0),
-          child: FloatingActionButton(
-            elevation: 5,
-            backgroundColor: AppColors.mainColor,
-            onPressed: () => Get.toNamed(AppRoute.createdGameView),
-            child: const Icon(
-              Icons.play_arrow,
-              color: AppColors.kWhite,
-              size: 50,
-            ),
+    return Scaffold(
+      body: const SafeArea(
+        child: PreviousGamesBody(),
+      ),
+      //^ floating start btn
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 50.0),
+        child: FloatingActionButton(
+          elevation: 5,
+          backgroundColor: AppColors.mainColor,
+          onPressed: () => Get.toNamed(AppRoute.createdGameView),
+          child: const Icon(
+            Icons.play_arrow,
+            color: AppColors.kWhite,
+            size: 50,
           ),
         ),
       ),

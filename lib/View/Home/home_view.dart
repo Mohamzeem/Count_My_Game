@@ -1,13 +1,27 @@
 import 'dart:io';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
+import 'package:count_my_game/View_Model/game_controller.dart';
 import 'package:count_my_game/View_Model/home_controller.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  // final gameCont = Get.put(GameController());
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   gameCont.getPreviousGames();
+  //   debugPrint('###### Previous Games Loaded ######');
+  // }
 
   @override
   Widget build(BuildContext context) {

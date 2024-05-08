@@ -200,12 +200,7 @@ class AuthController extends GetxController {
     newPhoto = user.photo!;
     newName = user.name!;
     final data = jsonEncode(user.toJson());
-    // _storage.write(PrefKeys.profile, data);
     await userBox.put(PrefKeys.profile, data);
-    // SharedPref().setString(PrefKeys.profile, data);
-    // _storage.write(PrefKeys.userId, user.id!);
-    // SharedPref().setString(PrefKeys.userId, user.id!);
-
     if (user.photo != null || user.photo != "") {
       await _auth.currentUser!.updatePhotoURL(user.photo);
     }
@@ -301,9 +296,9 @@ class AuthController extends GetxController {
         _isFirstTime = false;
         return;
       }
-      CustomLoading.toast(text: 'Internet connection is active');
+      CustomLoading.toast(text: 'Internet connection Active');
     } else {
-      CustomLoading.toast(text: 'Internet connection is disconnected');
+      CustomLoading.toast(text: 'No Internet connection');
     }
   }
 

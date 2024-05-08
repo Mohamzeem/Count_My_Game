@@ -1,8 +1,10 @@
 import 'package:count_my_game/Core/App/app_info.dart';
 import 'package:count_my_game/Core/App/app_view.dart';
 import 'package:count_my_game/Core/Services/pref_key.dart';
-import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Models/game_model.dart';
+import 'package:count_my_game/Models/game_type_adaptor.dart';
+import 'package:count_my_game/Models/team_type_adaptor.dart';
+import 'package:count_my_game/Models/user_type_adaptor.dart';
 import 'package:count_my_game/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,11 +12,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/adapters.dart';
 
 void main() async {
-  // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   WidgetsFlutterBinding.ensureInitialized();
-  // await Get.putAsync<SharedPref>(() => SharedPref().initPrefs());
   await Hive.initFlutter();
+  Hive.registerAdapter(UserTypeAdaptor());
+  Hive.registerAdapter(GameTypeAdaptor());
+  Hive.registerAdapter(TeamTypeAdaptor());
   await Hive.openBox(PrefKeys.profile);
   await Hive.openBox<GameModel>(PrefKeys.game);
   MyApp.setSystemUi();
@@ -23,5 +25,4 @@ void main() async {
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]).then((_) {
     runApp(const AppView());
   });
-  CustomLoading();
 }

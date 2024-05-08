@@ -6,7 +6,6 @@ class GameModel extends Equatable {
   final String? name;
   final List? members;
   final int? maxScore;
-  final String? winner;
   final String? createdAt;
   final List<TeamModel>? teams;
   final bool? isEnded;
@@ -15,7 +14,6 @@ class GameModel extends Equatable {
     this.name,
     this.members,
     this.maxScore,
-    this.winner,
     this.createdAt,
     this.teams,
     this.isEnded,
@@ -68,7 +66,6 @@ class GameModel extends Equatable {
       'name': name ?? "",
       'members': members ?? [],
       'maxScore': maxScore ?? 0,
-      'winner': winner ?? "",
       'teams': teamsMapList,
       'createdAt': createdAt ?? "",
       'isEnded': isEnded ?? false,
@@ -87,13 +84,11 @@ class GameModel extends Equatable {
       name: map['name'] ?? "",
       members: map['members'],
       maxScore: map['maxScore'] ?? 0,
-      winner: map['winner'] ?? "",
       teams: teamsList,
       createdAt: map['createdAt'] ?? "",
       isEnded: map['isEnded'] ?? true,
     );
   }
   @override
-  List<Object?> get props =>
-      [id, name, members, maxScore, winner, teams, createdAt];
+  List<Object?> get props => [id, name, members, maxScore, teams, createdAt];
 }
