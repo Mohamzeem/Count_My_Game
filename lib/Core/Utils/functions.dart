@@ -80,7 +80,7 @@ class AppFunctions {
             )
           ],
         ),
-        SizedBox(height: 10.h),
+        10.verticalSpace,
         CustomTextFormField(
           obscureText: obscureText,
           suffixIconShow: suffixIconShow,
@@ -92,7 +92,7 @@ class AppFunctions {
           prefixIcon: prefixIcon,
           filled: AppColors.kGrey200,
         ),
-        SizedBox(height: 10.h),
+        10.verticalSpace,
         CustomButton(
           onPressed: onPressedbutton,
           text: buttonText,
@@ -103,7 +103,6 @@ class AppFunctions {
           backgroundColor: AppColors.mainColor,
           textColor: AppColors.kWhite,
         ),
-        // SizedBox(height: Platform.isIOS ? 0.h : 0.h),
       ],
     );
   }

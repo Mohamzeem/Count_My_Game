@@ -77,7 +77,7 @@ class _ResultViewState extends State<ResultView> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20.h),
+                    20.verticalSpace,
                     //^ winner photo
                     cont.gameModel.getWinnerPhoto().contains('firebasestorage')
                         ? ClipRRect(
@@ -157,14 +157,6 @@ class _ResultViewState extends State<ResultView> {
                     onPressed: () {
                       Get.offNamed(AppRoute.createdGameView);
                       cont.resetClearData();
-                      // print('1 ${cont.gameModel.getWinnerId()}');
-                      // controller.updateEndedgame();
-                      // print('1 ${controller.gameModel.id}');
-                      // print(
-                      //     'b ${controller.maxScore <= controller.teamBPoints.value ? 'Winner' : 'Loser'}');
-                      // print(
-                      //     'a ${controller.maxScore <= controller.teamAPoints.value ? 'Winner' : 'Loser'}');
-                      // controller.updateEndedgame();
                     },
                     text: 'Play Again',
                     width: 170,

@@ -3,6 +3,7 @@ import 'package:count_my_game/View/Profile/widgets/build_version_settings.dart';
 import 'package:count_my_game/View/Profile/widgets/change_image.dart';
 import 'package:count_my_game/View/Profile/widgets/change_name.dart';
 import 'package:count_my_game/View/Profile/widgets/change_password.dart';
+import 'package:count_my_game/View/Profile/widgets/delete_acc.dart';
 import 'package:count_my_game/View/Profile/widgets/logout.dart';
 import 'package:count_my_game/View/Profile/widgets/profile_image.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
@@ -40,7 +41,7 @@ class ProfileBody extends StatelessWidget {
             const ChangeImage(),
             SizedBox(height: 5.h),
             const LogOut(),
-            SizedBox(height: 5.h),
+            SizedBox(height: 5.h), const DeleteAccount(), SizedBox(height: 5.h),
             const BuildVerison(),
           ],
         ),

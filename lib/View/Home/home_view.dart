@@ -15,13 +15,13 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  // final gameCont = Get.put(GameController());
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   gameCont.getPreviousGames();
-  //   debugPrint('###### Previous Games Loaded ######');
-  // }
+  final gameCont = Get.put(GameController());
+  @override
+  void initState() {
+    super.initState();
+    gameCont.getPreviousGames();
+    debugPrint('###### Previous Games Loaded ######');
+  }
 
   @override
   Widget build(BuildContext context) {

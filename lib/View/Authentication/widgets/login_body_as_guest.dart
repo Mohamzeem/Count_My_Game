@@ -75,29 +75,24 @@ class LoginBodyAsGuest extends StatelessWidget {
               fontSize: 25,
               backgroundColor: AppColors.mainColor,
             ),
-            SizedBox(height: 10.h),
-            const Align(
-              alignment: Alignment.center,
-              child: CustomText(
-                text: 'OR',
-                fontWeight: FontWeight.w600,
-                fontSize: 25,
-                color: AppColors.kWhite,
-              ),
+            const CustomText(
+              text:
+                  'ــــــــــــــــــــــــــــــــــ OR ــــــــــــــــــــــــــــــــ',
+              textAlign: TextAlign.center,
+              color: AppColors.mainColor,
+              fontWeight: FontWeight.w700,
             ),
-            const Align(
-              alignment: Alignment.center,
-              child: CustomText(
-                text:
-                    'Turn on Your Internet and Create Account to save Your games score, or log in if you have one',
-                fontWeight: FontWeight.w500,
-                fontSize: 18,
-                color: AppColors.mainColor,
-              ),
+            const CustomText(
+              text:
+                  'Turn on Your Internet and Create Account to save Your games score, or log in if you have one',
+              fontWeight: FontWeight.w500,
+              fontSize: 18,
+              color: AppColors.mainColor,
+              textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10.h),
+            10.verticalSpace,
             CustomButton(
-              onPressed: () => Get.toNamed(AppRoute.registrationView),
+              onPressed: () => Get.off(AppRoute.registrationView),
               text: 'Create Account',
               width: double.infinity,
               height: 45,
@@ -107,9 +102,9 @@ class LoginBodyAsGuest extends StatelessWidget {
               backgroundColor: AppColors.kWhite,
               textColor: AppColors.mainColor,
             ),
-            SizedBox(height: 10.h),
+            SizedBox(height: 20.h),
             CustomButton(
-              onPressed: () => controller.fromGuestToLoginIfConnected(),
+              onPressed: () => Get.offNamed(AppRoute.emailLogInView),
               text: 'Log In',
               width: double.infinity,
               height: 45,

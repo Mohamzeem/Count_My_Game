@@ -1,7 +1,6 @@
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
-import 'package:count_my_game/Core/Widgets/custom_text_button.dart';
 import 'package:count_my_game/Core/Widgets/text_form_field.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/View/Authentication/widgets/auth_app_bar.dart';
@@ -25,7 +24,7 @@ class RegisterBody extends StatelessWidget {
               parent: BouncingScrollPhysics()),
           children: [
             const AuthAppBar(isArrowBack: true),
-            SizedBox(height: 10.h),
+            10.verticalSpace,
             //^ photo & title text
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -48,7 +47,7 @@ class RegisterBody extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 50.h),
+            50.verticalSpace,
             //^ welcome text
             const CustomText(
               text: 'Welcome,',
@@ -63,7 +62,7 @@ class RegisterBody extends StatelessWidget {
               fontWeight: FontWeight.w300,
               fontSize: 20,
             ),
-            SizedBox(height: 20.h),
+            20.verticalSpace,
             //^ text field username
             CustomTextFormField(
               maxLength: 50,
@@ -72,7 +71,7 @@ class RegisterBody extends StatelessWidget {
               keyBoard: TextInputType.name,
               prefixIcon: Icons.person_2,
             ),
-            SizedBox(height: 10.h),
+            10.verticalSpace,
             //^ text field email
             CustomTextFormField(
               label: 'Email',
@@ -80,7 +79,7 @@ class RegisterBody extends StatelessWidget {
               keyBoard: TextInputType.emailAddress,
               prefixIcon: Icons.email_rounded,
             ),
-            SizedBox(height: 10.h),
+            10.verticalSpace,
             //^ text field password
             CustomTextFormField(
               label: 'Password',
@@ -93,33 +92,10 @@ class RegisterBody extends StatelessWidget {
                   controller.showPassword = !controller.showPassword,
             ),
             //^ forgot password
-            Align(
-              alignment: Alignment.centerRight,
-              child: CustomTextButton(
-                text: 'Forgot Password',
-                onPressed: () => Get.toNamed(AppRoute.forgotPasswordView),
-                color: AppColors.mainColor,
-                fontSize: 20,
-              ),
-            ),
-            SizedBox(height: 10.h),
+            40.verticalSpace,
             //^ create account btn
             CustomButton(
-              onPressed: () async {
-                controller.registerFunction();
-
-                // await FirebaseAuth.instance.currentUser!
-                //     .updateDisplayName('name');
-                // const userModel = UserModel(
-                //   name: 'name',
-                //   id: 'SXQt8o5WGZYBtPTqSDDDgsc36A42',
-                //   email: '3333333',
-                // );
-                // await FirebaseFirestore.instance
-                //     .collection(AppStrings.usersCollection)
-                //     .doc('SXQt8o5WGZYBtPTqSDDDgsc36A42')
-                //     .set(userModel.toJson());
-              },
+              onPressed: () async => controller.registerFunction(),
               text: 'Create Account',
               width: double.infinity,
               height: 45,
@@ -127,6 +103,33 @@ class RegisterBody extends StatelessWidget {
               lastRadius: 5,
               fontSize: 25,
               backgroundColor: AppColors.mainColor,
+            ),
+            const CustomText(
+              text:
+                  'ــــــــــــــــــــــــــــــــــ OR ــــــــــــــــــــــــــــــــ',
+              textAlign: TextAlign.center,
+              color: AppColors.mainColor,
+              fontWeight: FontWeight.w700,
+            ),
+
+            const CustomText(
+              text: 'Offline Game for playing without internet',
+              color: AppColors.mainColor,
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+              textAlign: TextAlign.center,
+            ),
+            10.verticalSpace,
+            CustomButton(
+              onPressed: () => Get.offAllNamed(AppRoute.guestLogInView),
+              text: 'Offline Game',
+              width: double.infinity,
+              height: 45,
+              threeRadius: 5,
+              lastRadius: 5,
+              fontSize: 25,
+              backgroundColor: AppColors.kWhite,
+              textColor: AppColors.mainColor,
             ),
           ],
         ),

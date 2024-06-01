@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Services/pref_key.dart';
+import 'package:count_my_game/Core/Utils/app_stat.dart';
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
@@ -106,8 +107,7 @@ class AuthController extends GetxController {
   }
 
   Future _logIn() async {
-    bool isConnected = await _checkInternet();
-    if (isConnected) {
+    if (AppState.isOnline) {
       try {
         CustomLoading.show();
         await _auth
@@ -164,9 +164,8 @@ class AuthController extends GetxController {
           .then((value) async {
         await _saveUserData(value.user!.uid);
         Get.back();
-      }).whenComplete(
-        () => CustomLoading.toast(text: 'Account Created successfully'),
-      );
+        CustomLoading.toast(text: 'Account Created successfully');
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         CustomLoading.toast(text: 'The password provided is too weak');
@@ -379,7 +378,6 @@ class AuthController extends GetxController {
   }
 
   void navigateByConnection() async {
-    // final id = GetStorage().read(PrefKeys.userId);
     final id = offlineProfile.id;
     bool isConnected = await _checkInternet();
     if (id == '' || id == null || id.isEmpty) {
@@ -452,5 +450,24 @@ class AuthController extends GetxController {
     } else {
       _changePassword();
     }
+  }
+
+  void deleteAccount() async {
+    CustomLoading.show();
+    try {
+      await _auth.currentUser!.delete();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        CustomLoading.toast(
+            text:
+                'The user must relogin before this operation can be executed');
+      }
+    }
+    await FirebaseFirestore.instance
+        .collection(AppStrings.usersCollection)
+        .doc(_auth.currentUser!.uid)
+        .delete();
+    CustomLoading.toast(text: 'Account Deleted Successfully');
+    Get.offNamed(AppRoute.emailLogInView);
   }
 }

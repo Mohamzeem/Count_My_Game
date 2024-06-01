@@ -1,5 +1,6 @@
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
+import 'package:count_my_game/Core/Widgets/custom_text_button.dart';
 import 'package:count_my_game/Core/Widgets/text_form_field.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
@@ -73,7 +74,16 @@ class LoginBodyWithEmail extends StatelessWidget {
               suffixIconFunction: () =>
                   controller.showPassword = !controller.showPassword,
             ),
-            SizedBox(height: 40.h),
+            Align(
+              alignment: Alignment.centerRight,
+              child: CustomTextButton(
+                text: 'Forgot Password',
+                onPressed: () => Get.toNamed(AppRoute.forgotPasswordView),
+                color: AppColors.mainColor,
+                fontSize: 20,
+              ),
+            ),
+            20.verticalSpace,
             CustomButton(
               onPressed: () => controller.logInFunction(),
               text: 'Log In',
@@ -84,7 +94,21 @@ class LoginBodyWithEmail extends StatelessWidget {
               fontSize: 25,
               backgroundColor: AppColors.mainColor,
             ),
-            SizedBox(height: 20.h),
+            const CustomText(
+              text:
+                  'ــــــــــــــــــــــــــــــــــ OR ــــــــــــــــــــــــــــــــ',
+              textAlign: TextAlign.center,
+              color: AppColors.mainColor,
+              fontWeight: FontWeight.w700,
+            ),
+            const CustomText(
+              text: 'Create Account if you don\'t have account',
+              color: AppColors.mainColor,
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+              textAlign: TextAlign.center,
+            ),
+            10.verticalSpace,
             CustomButton(
               onPressed: () => Get.toNamed(AppRoute.registrationView),
               text: 'Create Account',
