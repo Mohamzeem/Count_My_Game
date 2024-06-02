@@ -3,11 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Services/pref_key.dart';
-<<<<<<< Updated upstream
 import 'package:count_my_game/Core/Utils/app_stat.dart';
-=======
-import 'package:count_my_game/Core/Utils/enums.dart';
->>>>>>> Stashed changes
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
@@ -39,7 +35,6 @@ class AuthController extends GetxController {
   final RxString _password = "".obs;
   final RxString _userPhoto = ''.obs;
   bool _isFirstTime = true;
-  AppMode onlineMode = AppMode.onlineMMode;
   bool _showPassword = true;
 
   UserModel get offlineProfile => _offlineProfile.value;
@@ -397,7 +392,6 @@ class AuthController extends GetxController {
   }
 
   void navigateByConnection() async {
-<<<<<<< Updated upstream
     await getOfflineProfile().whenComplete(() async {
       final id = offlineProfile.id;
       bool isConnected = await checkInternet();
@@ -407,15 +401,6 @@ class AuthController extends GetxController {
         } else if (!isConnected || AppState.isOnline == AppStrings.offline) {
           Get.offNamed(AppRoute.guestLogInView);
         }
-=======
-    // final id = GetStorage().read(PrefKeys.userId);
-    final id = offlineProfile.id;
-    bool isConnected = await _checkInternet();
-    if (id == '' || id == null || id.isEmpty) {
-      if (isConnected) {
-        Get.offNamed(AppRoute.emailLogInView);
-        onlineMode = AppMode.onlineMMode;
->>>>>>> Stashed changes
       } else {
         Get.offNamed(AppRoute.homeView);
       }
