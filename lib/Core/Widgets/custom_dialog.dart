@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class CustomDialog {
-  static Future<void> oneDialog({
+  static Future<void> oneDialogs({
     required BuildContext context,
     required String textBody,
     required void Function() onPressed,
@@ -44,12 +44,11 @@ class CustomDialog {
       builder: (context) {
         return AlertDialog(
           backgroundColor: AppColors.kWhite,
-          title: SizedBox(
-              width: 200.w,
-              height: 200.h,
-              child: const Icon(Icons.account_circle_sharp)),
           content: CustomText(
             text: textBody,
+            textAlign: TextAlign.center,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
           ),
           actions: [
             CustomButton(

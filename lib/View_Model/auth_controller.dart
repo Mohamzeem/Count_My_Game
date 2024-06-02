@@ -1,10 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Services/pref_key.dart';
-import 'package:count_my_game/Core/Utils/app_stat.dart';
 import 'package:count_my_game/Core/Utils/functions.dart';
+import 'package:count_my_game/Core/Widgets/custom_dialog.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_strings.dart';
@@ -206,6 +207,7 @@ class AuthController extends GetxController {
         .doc(_auth.currentUser!.uid)
         .get();
     final user = UserModel.fromJson(result.data()!);
+    offlineProfile = user;
     newPhoto = user.photo!;
     newName = user.name!;
     final data = jsonEncode(user.toJson());
@@ -314,7 +316,7 @@ class AuthController extends GetxController {
   Future logOut() async {
     CustomLoading.show();
     bool isConnected = await checkInternet();
-    if (AppState.isOnline == AppStrings.online && isConnected) {
+    if (isConnected) {
       try {
         await _auth.signOut().then((_) {
           userBox.delete(PrefKeys.profile);
@@ -391,15 +393,20 @@ class AuthController extends GetxController {
     CustomLoading.toast(text: 'No internet connection');
   }
 
-  void navigateByConnection() async {
+  void navigateByConnection(BuildContext context) async {
     await getOfflineProfile().whenComplete(() async {
       final id = offlineProfile.id;
       bool isConnected = await checkInternet();
       if (id == '' || id == null || id.isEmpty) {
-        if (isConnected || AppState.isOnline == AppStrings.online) {
+        if (isConnected) {
           Get.offNamed(AppRoute.emailLogInView);
-        } else if (!isConnected || AppState.isOnline == AppStrings.offline) {
-          Get.offNamed(AppRoute.guestLogInView);
+        } else {
+          CustomDialog.oneButtonDialog(
+            context: context,
+            textBody: 'Turn on internet connection',
+            onPressed: () => Get.offNamed(AppRoute.emailLogInView),
+            textButton: 'Done',
+          );
         }
       } else {
         Get.offNamed(AppRoute.homeView);

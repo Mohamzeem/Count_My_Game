@@ -18,8 +18,9 @@ class GameBody extends GetWidget<GameController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: ListView(
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      child: SingleChildScrollView(
+        child: Column(
           children: [
             //^ appbar
             GetBuilder<AuthController>(
@@ -84,7 +85,7 @@ class GameBody extends GetWidget<GameController> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 210.h),
+                  SizedBox(height: 150.h),
                   CustomButton(
                     onPressed: () => controller.closeAndDeleteGame(),
                     text: 'Close and Delete Game',
@@ -95,6 +96,8 @@ class GameBody extends GetWidget<GameController> {
               ),
             ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }

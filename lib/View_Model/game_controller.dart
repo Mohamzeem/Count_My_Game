@@ -687,40 +687,6 @@ class GameController extends GetxController {
     }
   }
 
-  // Future _uploadImage({
-  //   required File file,
-  //   required String userId,
-  // }) async {
-  //   CustomLoading.show();
-  //   final String imagePath = file.path.split('.').last;
-  //   final imageRef =
-  //       _fireStorage.ref('TeamsImages').child('$userId/$userId.$imagePath');
-  //   bool imageExists = await imageRef.getDownloadURL().then((value) {
-  //     return true;
-  //   }).catchError((error) {
-  //     if (error.code == 'object-not-found') {
-  //       return false;
-  //     }
-  //     throw error;
-  //   });
-  //   if (!imageExists) {
-  //     final ref =
-  //         _fireStorage.ref('TeamsImages').child('$userId/$userId.$imagePath');
-  //     await ref.putFile(file);
-  //     final String imageUrl = await ref.getDownloadURL();
-  //     // pickedTeamImage = imageUrl;
-  //     await _fireStore
-  //         .collection(AppStrings.usersCollection)
-  //         .doc(userId)
-  //         .update({
-  //       'teamPhotos': FieldValue.arrayUnion([imageUrl])
-  //     });
-  //   } else {
-  //     CustomLoading.toast(text: 'Image already exists');
-  //   }
-  //   CustomLoading.dismiss();
-  // }
-
   Future<bool> _checkInternet() async {
     if (await _checker.hasConnection) {
       return true;

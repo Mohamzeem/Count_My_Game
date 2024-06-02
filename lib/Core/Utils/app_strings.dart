@@ -7,8 +7,6 @@ class AppStrings {
   static String? userId = '';
   static String? userPhoto = '';
   static String? userName = '';
-  static const String online = 'online';
-  static const String offline = 'offline';
   static const String defaultAppPhoto =
       "https://firebasestorage.googleapis.com/v0/b/chat-app-df0f1.appspot.com/o/account.png?alt=media&token=fd6675d2-ead9-4f50-9e14-4fddbb4ce864";
   static const String noImage =
@@ -19,5 +17,4 @@ class AppStrings {
   static const String groupsCollection = 'Groups';
   static const String usersCollection = 'Users';
   static const String gamesCollection = 'Games';
-  static String notificationsCollection = 'Notifications';
 }

@@ -2,7 +2,7 @@ name: count_my_game
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: ">=3.3.0 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -51,7 +51,7 @@ dependencies:
   curved_navigation_bar: ^1.0.3
   intl: ^0.19.0
   flutter_svg: ^2.0.10+1
-  screenshot: ^3.0.0
+  screenshot: ^2.3.0
   image_gallery_saver: ^2.0.3
   permission_handler: ^11.3.0
   animate_do: ^3.3.4
@@ -59,24 +59,17 @@ dependencies:
   hive_flutter: ^1.1.0
   ansicolor: ^2.0.2
 
-  
-
-
-
-
 # flutter_native_splash:
 #   android: true
 #   web: false
 #   ios: true
 #   color: '#dd3e46'
 #   image: assets/images/score.png
-    
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
-
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -94,13 +87,11 @@ dev_dependencies:
 #   adaptive_icon_background: "assets/icon/ic_launcher_adaptive_back.png"
 #   image_path_ios: "assets/icon/Icon-App-60x60@3x.png"
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -129,7 +120,6 @@ flutter:
         - asset: assets/fonts/Cairo-Light.ttf
         - asset: assets/fonts/Cairo-Regular.ttf
 
- 
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
