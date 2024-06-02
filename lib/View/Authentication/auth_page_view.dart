@@ -3,12 +3,12 @@ import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AuthPageView extends GetView<AuthController> {
+class AuthPageView extends StatelessWidget {
   const AuthPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    controller.navigateByConnection();
+    Get.find<AuthController>().navigateByConnection();
 
     return Scaffold(
       body: Padding(

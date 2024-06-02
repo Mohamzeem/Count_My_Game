@@ -3,7 +3,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Services/pref_key.dart';
+<<<<<<< Updated upstream
 import 'package:count_my_game/Core/Utils/app_stat.dart';
+=======
+import 'package:count_my_game/Core/Utils/enums.dart';
+>>>>>>> Stashed changes
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
@@ -35,6 +39,7 @@ class AuthController extends GetxController {
   final RxString _password = "".obs;
   final RxString _userPhoto = ''.obs;
   bool _isFirstTime = true;
+  AppMode onlineMode = AppMode.onlineMMode;
   bool _showPassword = true;
 
   UserModel get offlineProfile => _offlineProfile.value;
@@ -88,7 +93,6 @@ class AuthController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await _getOfflineProfile();
     _showConnectionStatus();
   }
 
@@ -100,44 +104,40 @@ class AuthController extends GetxController {
     super.dispose();
   }
 
-  void _clearCons() {
+  void _clearControllers() {
     nameController.clear();
     emailController.clear();
     passwordController.clear();
   }
 
+  void logInFunction() {
+    String msg = '';
+    if (emailController.text == '') {
+      msg = 'Email required';
+    } else if (passwordController.text == '') {
+      msg = 'Password required';
+    } else {
+      _logIn();
+    }
+    CustomLoading.toast(
+        text: msg, toastPosition: EasyLoadingToastPosition.center);
+  }
+
   Future _logIn() async {
-    if (AppState.isOnline) {
+    bool isConnected = await checkInternet();
+    if (isConnected) {
       try {
         CustomLoading.show();
         await _auth
             .signInWithEmailAndPassword(
-          email: '${email.trim()}${AppStrings.defaultEmail}',
-          password: password,
-        )
-            .whenComplete(() async {
-          bool isConnected = await _checkInternet();
-          if (isConnected) {
+                email: '${email.trim()}${AppStrings.defaultEmail}',
+                password: password)
+            .then(
+          (value) async {
             await _getProfile();
-            await _getOfflineProfile();
-          } else {
-            await _getOfflineProfile();
-          }
-          CustomLoading.dismiss();
-          Get.offNamed(AppRoute.homeView);
-          _clearCons();
-        }).then(
-          (value) {
+            Get.offNamed(AppRoute.homeView);
+            _clearControllers();
             CustomLoading.toast(text: 'Welcome ${value.user!.displayName!}');
-          },
-        ).onError(
-          (error, stackTrace) {
-            if (error.toString() ==
-                'Null check operator used on a null value') {
-              CustomLoading.toast(text: 'Wrong email or password');
-            } else {
-              CustomLoading.toast(text: error.toString());
-            }
           },
         );
       } on FirebaseAuthException catch (e) {
@@ -152,6 +152,21 @@ class AuthController extends GetxController {
     } else {
       CustomLoading.toast(text: 'No internet connection');
     }
+  }
+
+  void registerFunction() {
+    String msg = '';
+    if (nameController.text == '') {
+      msg = 'Name required';
+    } else if (passwordController.text == '') {
+      msg = 'Email required';
+    } else if (passwordController.text == '') {
+      msg = 'Password required';
+    } else {
+      _register();
+    }
+    CustomLoading.toast(
+        text: msg, toastPosition: EasyLoadingToastPosition.center);
   }
 
   Future _register() async {
@@ -200,19 +215,19 @@ class AuthController extends GetxController {
     newName = user.name!;
     final data = jsonEncode(user.toJson());
     await userBox.put(PrefKeys.profile, data);
+
     if (user.photo != null || user.photo != "") {
       await _auth.currentUser!.updatePhotoURL(user.photo);
     }
     return user;
   }
 
-  Future<UserModel> _getOfflineProfile() async {
+  Future<UserModel> getOfflineProfile() async {
     final result = await userBox.get(PrefKeys.profile);
     final data = jsonDecode(result!);
     UserModel userProfile = UserModel.fromJson(data);
     offlineProfile = userProfile;
     AppStrings.userId = userProfile.id;
-    debugPrint('Offline Name ${userProfile.name}');
     return userProfile;
   }
 
@@ -233,7 +248,7 @@ class AuthController extends GetxController {
         .doc(userId)
         .update({'photo': imageUrl}).then((value) async {
       await _getProfile();
-      await _getOfflineProfile();
+      await getOfflineProfile();
     });
     CustomLoading.toast(
         text: 'Image changed successfully',
@@ -241,7 +256,7 @@ class AuthController extends GetxController {
   }
 
   Future _changeUserName({required String userName}) async {
-    bool isConnected = await _checkInternet();
+    bool isConnected = await checkInternet();
     if (isConnected) {
       CustomLoading.show();
       await _auth.currentUser!.updateDisplayName(userName);
@@ -250,7 +265,7 @@ class AuthController extends GetxController {
           .doc(_auth.currentUser!.uid)
           .update({'name': userName}).then((value) async {
         await _getProfile();
-        await _getOfflineProfile();
+        await getOfflineProfile();
       }).whenComplete(
         () => CustomLoading.toast(text: 'Success, $userName updated'),
       );
@@ -258,7 +273,7 @@ class AuthController extends GetxController {
   }
 
   Future _changePassword() async {
-    bool isConnected = await _checkInternet();
+    bool isConnected = await checkInternet();
     if (isConnected) {
       CustomLoading.show();
       await _auth.currentUser!
@@ -280,7 +295,7 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<bool> _checkInternet() async {
+  Future<bool> checkInternet() async {
     if (await _checker.hasConnection) {
       return true;
     } else {
@@ -289,7 +304,7 @@ class AuthController extends GetxController {
   }
 
   void _showConnectionStatus() async {
-    bool isConnected = await _checkInternet();
+    bool isConnected = await checkInternet();
     if (isConnected) {
       if (_isFirstTime) {
         _isFirstTime = false;
@@ -303,25 +318,26 @@ class AuthController extends GetxController {
 
   Future logOut() async {
     CustomLoading.show();
-    await _auth
-        .signOut()
-        .whenComplete(() {
-          CustomLoading.dismiss();
+    bool isConnected = await checkInternet();
+    if (AppState.isOnline == AppStrings.online && isConnected) {
+      try {
+        await _auth.signOut().then((_) {
           userBox.delete(PrefKeys.profile);
+          userBox.delete(PrefKeys.onelineMode);
           Get.offNamed(AppRoute.emailLogInView);
-        })
-        .then(
-          (value) => CustomLoading.toast(
+          CustomLoading.toast(
               text: 'Logged Out Successfully',
-              toastPosition: EasyLoadingToastPosition.bottom),
-        )
-        .onError(
-          (error, stackTrace) => CustomLoading.toast(text: error.toString()),
-        );
+              toastPosition: EasyLoadingToastPosition.bottom);
+        });
+      } on FirebaseException catch (e) {
+        CustomLoading.toast(text: e.toString());
+      }
+    }
+    CustomLoading.dismiss();
   }
 
   Future forgotPassword() async {
-    bool isConnected = await _checkInternet();
+    bool isConnected = await checkInternet();
     if (isConnected) {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(
@@ -336,7 +352,7 @@ class AuthController extends GetxController {
   }
 
   Future setProfileImage({required ImageSource source}) async {
-    bool isConnected = await _checkInternet();
+    bool isConnected = await checkInternet();
     if (isConnected) {
       try {
         final image = await _imagePicker.pickImage(
@@ -345,6 +361,7 @@ class AuthController extends GetxController {
           maxHeight: 800,
           maxWidth: 800,
         );
+
         if (image != null) {
           _uploadImage(
             file: File(image.path),
@@ -360,11 +377,13 @@ class AuthController extends GetxController {
           CustomLoading.toast(text: e.toString());
         }
       }
+    } else {
+      CustomLoading.toast(text: 'No internet connection');
     }
   }
 
   Future changeEmail({required String email}) async {
-    bool isConnected = await _checkInternet();
+    bool isConnected = await checkInternet();
     if (isConnected) {
       CustomLoading.show();
       await _auth.currentUser!.verifyBeforeUpdateEmail(email);
@@ -378,56 +397,29 @@ class AuthController extends GetxController {
   }
 
   void navigateByConnection() async {
+<<<<<<< Updated upstream
+    await getOfflineProfile().whenComplete(() async {
+      final id = offlineProfile.id;
+      bool isConnected = await checkInternet();
+      if (id == '' || id == null || id.isEmpty) {
+        if (isConnected || AppState.isOnline == AppStrings.online) {
+          Get.offNamed(AppRoute.emailLogInView);
+        } else if (!isConnected || AppState.isOnline == AppStrings.offline) {
+          Get.offNamed(AppRoute.guestLogInView);
+        }
+=======
+    // final id = GetStorage().read(PrefKeys.userId);
     final id = offlineProfile.id;
     bool isConnected = await _checkInternet();
     if (id == '' || id == null || id.isEmpty) {
       if (isConnected) {
         Get.offNamed(AppRoute.emailLogInView);
+        onlineMode = AppMode.onlineMMode;
+>>>>>>> Stashed changes
       } else {
-        Get.offNamed(AppRoute.guestLogInView);
+        Get.offNamed(AppRoute.homeView);
       }
-    } else {
-      Get.offNamed(AppRoute.homeView);
-    }
-  }
-
-  void fromGuestToLoginIfConnected() async {
-    bool isConnected = await _checkInternet();
-    if (isConnected) {
-      Get.toNamed(AppRoute.emailLogInView);
-    } else {
-      CustomLoading.toast(
-          text: 'No internet connection',
-          toastPosition: EasyLoadingToastPosition.bottom);
-    }
-  }
-
-  void logInFunction() {
-    String msg = '';
-    if (emailController.text == '') {
-      msg = 'Email required';
-    } else if (passwordController.text == '') {
-      msg = 'Password required';
-    } else {
-      _logIn();
-    }
-    CustomLoading.toast(
-        text: msg, toastPosition: EasyLoadingToastPosition.center);
-  }
-
-  void registerFunction() {
-    String msg = '';
-    if (nameController.text == '') {
-      msg = 'Name required';
-    } else if (passwordController.text == '') {
-      msg = 'Email required';
-    } else if (passwordController.text == '') {
-      msg = 'Password required';
-    } else {
-      _register();
-    }
-    CustomLoading.toast(
-        text: msg, toastPosition: EasyLoadingToastPosition.center);
+    });
   }
 
   void changeUserNameFunction() {
@@ -453,21 +445,28 @@ class AuthController extends GetxController {
   }
 
   void deleteAccount() async {
-    CustomLoading.show();
-    try {
-      await _auth.currentUser!.delete();
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'requires-recent-login') {
-        CustomLoading.toast(
-            text:
-                'The user must relogin before this operation can be executed');
+    bool isConnected = await checkInternet();
+    if (isConnected) {
+      CustomLoading.show();
+      try {
+        await _auth.currentUser!.delete();
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'requires-recent-login') {
+          CustomLoading.toast(
+              text:
+                  'The user must relogin before this operation can be executed');
+        }
       }
+      await FirebaseFirestore.instance
+          .collection(AppStrings.usersCollection)
+          .doc(_auth.currentUser!.uid)
+          .delete();
+      userBox.delete(PrefKeys.profile);
+      CustomLoading.toast(text: 'Account Deleted Successfully');
+      Get.offNamed(AppRoute.emailLogInView);
+    } else {
+      CustomLoading.toast(text: 'No internet connection');
     }
-    await FirebaseFirestore.instance
-        .collection(AppStrings.usersCollection)
-        .doc(_auth.currentUser!.uid)
-        .delete();
-    CustomLoading.toast(text: 'Account Deleted Successfully');
-    Get.offNamed(AppRoute.emailLogInView);
+    CustomLoading.dismiss();
   }
 }

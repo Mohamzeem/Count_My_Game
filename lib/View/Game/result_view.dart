@@ -55,7 +55,7 @@ class _ResultViewState extends State<ResultView> {
                             color: AppColors.kGold,
                           ),
                           SizedBox(
-                            width: 270,
+                            width: 270.w,
                             child: CustomText(
                               textAlign: TextAlign.center,
                               text: cont.gameModel.getWinnerName(),
@@ -85,7 +85,7 @@ class _ResultViewState extends State<ResultView> {
                             child: CustomCachedImage(
                               shape: BoxShape.rectangle,
                               photoUrl: cont.gameModel.getWinnerPhoto(),
-                              height: 200,
+                              height: 200.h,
                               width: double.infinity,
                             ),
                           )

@@ -1,4 +1,5 @@
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
+import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Core/Widgets/custom_text.dart';
 import 'package:count_my_game/Core/Widgets/text_form_field.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
@@ -25,6 +26,7 @@ class LoginBodyAsGuest extends StatelessWidget {
           children: [
             const AuthAppBar(),
             SizedBox(height: 10.h),
+            //^ logo and title
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -43,12 +45,14 @@ class LoginBodyAsGuest extends StatelessWidget {
               ],
             ),
             SizedBox(height: 50.h),
+            //^ welcome text
             const CustomText(
               text: 'Welcome,',
               color: AppColors.mainColor,
               fontWeight: FontWeight.w500,
               fontSize: 25,
             ),
+            //^ sub welcome text
             const CustomText(
               text:
                   'We here because your internet is off, You can login with local Database',
@@ -57,16 +61,20 @@ class LoginBodyAsGuest extends StatelessWidget {
               fontSize: 18,
             ),
             SizedBox(height: 10.h),
+            //^ user name field
             CustomTextFormField(
               label: 'User Name',
               controller: controller.nameController,
               keyBoard: TextInputType.name,
               prefixIcon: Icons.person_2,
+              maxLength: 20,
             ),
-            SizedBox(height: 10.h),
-            SizedBox(height: 10.h),
+            20.verticalSpace,
+            //^ start button
             CustomButton(
-              onPressed: () {},
+              onPressed: () {
+                // controller.fromGuest();
+              },
               text: 'Start Count Your Games',
               width: double.infinity,
               height: 45,
@@ -75,6 +83,7 @@ class LoginBodyAsGuest extends StatelessWidget {
               fontSize: 25,
               backgroundColor: AppColors.mainColor,
             ),
+            //^ or text
             const CustomText(
               text:
                   'ــــــــــــــــــــــــــــــــــ OR ــــــــــــــــــــــــــــــــ',
@@ -82,6 +91,7 @@ class LoginBodyAsGuest extends StatelessWidget {
               color: AppColors.mainColor,
               fontWeight: FontWeight.w700,
             ),
+            //^ sub or text
             const CustomText(
               text:
                   'Turn on Your Internet and Create Account to save Your games score, or log in if you have one',
@@ -91,8 +101,16 @@ class LoginBodyAsGuest extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             10.verticalSpace,
+            //^ create account button
             CustomButton(
-              onPressed: () => Get.off(AppRoute.registrationView),
+              onPressed: () async {
+                bool isConnected = await controller.checkInternet();
+                if (isConnected) {
+                  Get.toNamed(AppRoute.registrationView);
+                } else {
+                  CustomLoading.toast(text: 'No Internet connection');
+                }
+              },
               text: 'Create Account',
               width: double.infinity,
               height: 45,
@@ -103,8 +121,16 @@ class LoginBodyAsGuest extends StatelessWidget {
               textColor: AppColors.mainColor,
             ),
             SizedBox(height: 20.h),
+            //^ log in button
             CustomButton(
-              onPressed: () => Get.offNamed(AppRoute.emailLogInView),
+              onPressed: () async {
+                bool isConnected = await controller.checkInternet();
+                if (isConnected) {
+                  Get.toNamed(AppRoute.emailLogInView);
+                } else {
+                  CustomLoading.toast(text: 'No Internet connection');
+                }
+              },
               text: 'Log In',
               width: double.infinity,
               height: 45,

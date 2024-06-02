@@ -26,6 +26,7 @@ class LoginBodyWithEmail extends StatelessWidget {
           children: [
             const AuthAppBar(),
             SizedBox(height: 10.h),
+            //^ logo and title
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,12 +45,14 @@ class LoginBodyWithEmail extends StatelessWidget {
               ],
             ),
             SizedBox(height: 50.h),
+            //^ welcome text
             const CustomText(
               text: 'Welcome,',
               color: AppColors.mainColor,
               fontWeight: FontWeight.w500,
               fontSize: 25,
             ),
+            //^ login text
             const CustomText(
               text: 'Log in if you have account or create a new account.',
               color: AppColors.mainColor,
@@ -57,6 +60,7 @@ class LoginBodyWithEmail extends StatelessWidget {
               fontSize: 18,
             ),
             SizedBox(height: 20.h),
+            //^ email
             CustomTextFormField(
               label: 'Email',
               controller: controller.emailController,
@@ -64,6 +68,7 @@ class LoginBodyWithEmail extends StatelessWidget {
               prefixIcon: Icons.email_rounded,
             ),
             SizedBox(height: 10.h),
+            //^ password
             CustomTextFormField(
               label: 'Password',
               controller: controller.passwordController,
@@ -74,6 +79,7 @@ class LoginBodyWithEmail extends StatelessWidget {
               suffixIconFunction: () =>
                   controller.showPassword = !controller.showPassword,
             ),
+            //^ forgot password
             Align(
               alignment: Alignment.centerRight,
               child: CustomTextButton(
@@ -84,6 +90,7 @@ class LoginBodyWithEmail extends StatelessWidget {
               ),
             ),
             20.verticalSpace,
+            //^ login button
             CustomButton(
               onPressed: () => controller.logInFunction(),
               text: 'Log In',
@@ -94,6 +101,7 @@ class LoginBodyWithEmail extends StatelessWidget {
               fontSize: 25,
               backgroundColor: AppColors.mainColor,
             ),
+            //^ OR text
             const CustomText(
               text:
                   'ــــــــــــــــــــــــــــــــــ OR ــــــــــــــــــــــــــــــــ',
@@ -101,6 +109,7 @@ class LoginBodyWithEmail extends StatelessWidget {
               color: AppColors.mainColor,
               fontWeight: FontWeight.w700,
             ),
+            //^ create account text
             const CustomText(
               text: 'Create Account if you don\'t have account',
               color: AppColors.mainColor,
@@ -109,6 +118,7 @@ class LoginBodyWithEmail extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             10.verticalSpace,
+            //^ create account button
             CustomButton(
               onPressed: () => Get.toNamed(AppRoute.registrationView),
               text: 'Create Account',

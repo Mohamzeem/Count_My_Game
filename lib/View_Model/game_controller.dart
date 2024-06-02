@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Services/pref_key.dart';
 import 'package:count_my_game/Core/Utils/app_strings.dart';
+import 'package:count_my_game/Core/Utils/enums.dart';
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/Models/game_model.dart';
@@ -27,6 +28,7 @@ class GameController extends GetxController {
   final _auth = FirebaseAuth.instance;
   final _uuid = const Uuid();
   final ImagePicker _imagePicker = ImagePicker();
+  final AppMode onlineMode = AppMode.onlineMMode;
   RxInt teamAPoints = 0.obs;
   RxInt teamBPoints = 0.obs;
   RxInt teamCPoints = 0.obs;
@@ -244,14 +246,11 @@ class GameController extends GetxController {
         await _fireStore
             .collection(AppStrings.gamesCollection)
             .doc(randomGameId)
-            .set(gameModel.toMap())
-            .then((_) async {
-          Get.offNamed(AppRoute.gameView);
-        });
+            .set(gameModel.toMap());
       } else {
         gameBox.add(gameModel);
-        Get.offNamed(AppRoute.gameView);
       }
+      Get.offNamed(AppRoute.gameView);
       CustomLoading.dismiss();
     }
   }
