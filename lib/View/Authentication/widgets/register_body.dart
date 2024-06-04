@@ -46,7 +46,7 @@ class RegisterBody extends StatelessWidget {
                 ),
               ],
             ),
-            50.verticalSpace,
+            40.verticalSpace,
             //^ welcome text
             const CustomText(
               text: 'Welcome,',
@@ -59,9 +59,9 @@ class RegisterBody extends StatelessWidget {
               text: 'Register if you have account or create a new account.',
               color: AppColors.mainColor,
               fontWeight: FontWeight.w300,
-              fontSize: 20,
+              fontSize: 18,
             ),
-            20.verticalSpace,
+            15.verticalSpace,
             //^ text field username
             CustomTextFormField(
               maxLength: 50,

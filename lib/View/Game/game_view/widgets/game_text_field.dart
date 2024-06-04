@@ -58,15 +58,23 @@ class GameTextField extends StatelessWidget {
           fillColor: filled,
           filled: true,
           border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide(width: 0.5, color: AppColors.kGrey200)),
           enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide(width: 0.5, color: AppColors.kGrey200)),
-          focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(width: 0.5, color: AppColors.mainColor)),
-          errorBorder: const OutlineInputBorder(
-              borderSide: BorderSide(width: 0.5, color: AppColors.mainColor)),
-          focusedErrorBorder: const OutlineInputBorder(
-              borderSide: BorderSide(width: 0.5, color: AppColors.mainColor)),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+              borderSide:
+                  const BorderSide(width: 0.5, color: AppColors.mainColor)),
+          errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+              borderSide:
+                  const BorderSide(width: 0.5, color: AppColors.mainColor)),
+          focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+              borderSide:
+                  const BorderSide(width: 0.5, color: AppColors.mainColor)),
         ),
       ),
     );

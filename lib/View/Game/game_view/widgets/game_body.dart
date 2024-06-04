@@ -48,7 +48,7 @@ class GameBody extends GetWidget<GameController> {
                           const CustomText(
                             text: 'Add Score',
                             color: AppColors.kWhite,
-                            fontSize: 22,
+                            fontSize: 20,
                             fontWeight: FontWeight.w600,
                           ),
                           CustomText(
@@ -61,7 +61,7 @@ class GameBody extends GetWidget<GameController> {
                       ),
                       GameTextField(
                         keyBoard: TextInputType.number,
-                        height: 40,
+                        height: 35,
                         maxLength: 3,
                         width: 70,
                         controller: controller.newScoreController,
@@ -78,19 +78,19 @@ class GameBody extends GetWidget<GameController> {
                       ),
                       SizedBox(width: 5.w),
                       const CustomText(
-                        text: 'Double Click Team to Undo Last Added Score',
+                        text: 'Double Click Team to Undo Score',
                         color: AppColors.kWhite,
-                        fontSize: 17,
+                        fontSize: 15,
                         fontWeight: FontWeight.w400,
                       ),
                     ],
                   ),
-                  SizedBox(height: 150.h),
+                  SizedBox(height: 100.h),
                   CustomButton(
                     onPressed: () => controller.closeAndDeleteGame(),
                     text: 'Close and Delete Game',
                     width: double.infinity,
-                    height: 45,
+                    height: 40,
                   )
                 ],
               ),

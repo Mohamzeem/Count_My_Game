@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:count_my_game/View_Model/friends_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,14 +37,13 @@ class CreateGameBody extends GetWidget<GameController> {
                   isArrowBack: true,
                 ),
               ),
-              SizedBox(height: 20.h),
-              //^ info text
+              //^ Start Your Game text
               const CustomText(
                 text: 'Start Your Game',
                 fontWeight: FontWeight.w600,
                 color: AppColors.kWhite,
               ),
-              SizedBox(height: 10.h),
+              10.verticalSpace,
               //^ game name
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,13 +51,16 @@ class CreateGameBody extends GetWidget<GameController> {
                   CustomText(
                     text: 'Game Name',
                     color: AppColors.mainColor,
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.w400,
                   ),
-                  DropDownWidget(isGameName: true),
+                  DropDownWidget(
+                    isGameName: true,
+                    width: 100,
+                  ),
                 ],
               ),
-              SizedBox(height: 10.h),
+              10.verticalSpace,
               //^ game score
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,20 +68,20 @@ class CreateGameBody extends GetWidget<GameController> {
                   const CustomText(
                     text: 'Game Score',
                     color: AppColors.mainColor,
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.w400,
                   ),
                   GameTextField(
                     keyBoard: TextInputType.number,
                     maxLength: 3,
-                    height: 35,
+                    height: 30,
                     width: 70,
                     lable: 'Score',
                     controller: controller.maxScoreController,
                   ),
                 ],
               ),
-              SizedBox(height: 10.h),
+              10.verticalSpace,
               //^ team number
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,13 +89,16 @@ class CreateGameBody extends GetWidget<GameController> {
                   CustomText(
                     text: 'Teams Number',
                     color: AppColors.mainColor,
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.w400,
                   ),
-                  DropDownWidget(isGameName: false),
+                  DropDownWidget(
+                    isGameName: false,
+                    width: 100,
+                  ),
                 ],
               ),
-              SizedBox(height: 20.h),
+              10.verticalSpace,
               //^ create teamsUi btn
               CustomButton(
                 onPressed: () {
@@ -108,22 +112,20 @@ class CreateGameBody extends GetWidget<GameController> {
                 },
                 text: controller.isCreated ? 'Reset Teams' : 'Set Teams',
                 width: double.infinity,
-                height: 45,
+                height: 40,
                 backgroundColor: controller.isCreated
                     ? AppColors.kBlack
                     : AppColors.mainColor,
                 textColor:
                     controller.isCreated ? AppColors.kWhite : AppColors.kWhite,
               ),
-              SizedBox(height: 20.h),
+              5.verticalSpace,
               //^ start game btn and teams
               SizedBox(
-                height: Platform.isIOS ? 510.h : 490.h,
                 child: controller.isCreated
                     ? Column(
                         children: [
                           const CreatedTeams(),
-                          const Spacer(),
                           //^ start game btn
                           CustomButton(
                             onPressed: () {
@@ -158,7 +160,7 @@ class CreateGameBody extends GetWidget<GameController> {
                             },
                             text: 'Start Game',
                             width: double.infinity,
-                            height: 50,
+                            height: 40,
                           ),
                         ],
                       )

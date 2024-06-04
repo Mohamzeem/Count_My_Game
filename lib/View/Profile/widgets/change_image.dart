@@ -24,7 +24,7 @@ class ChangeImage extends GetWidget<AuthController> {
               title: const Center(
                   child: CustomText(
                 text: 'Pick image from?',
-                fontSize: 22,
+                fontSize: 20,
                 fontWeight: FontWeight.w700,
                 color: AppColors.mainColor,
               )),
@@ -38,8 +38,8 @@ class ChangeImage extends GetWidget<AuthController> {
                         Get.back();
                       },
                       text: 'Gallary',
-                      width: 110,
-                      height: 40,
+                      width: 95,
+                      height: 30,
                       fontSize: 16,
                     ),
                     CustomButton(
@@ -48,8 +48,8 @@ class ChangeImage extends GetWidget<AuthController> {
                         Get.back();
                       },
                       text: 'Camera',
-                      width: 110,
-                      height: 40,
+                      width: 95,
+                      height: 30,
                       fontSize: 16,
                     ),
                   ],

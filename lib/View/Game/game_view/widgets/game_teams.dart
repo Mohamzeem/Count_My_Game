@@ -11,29 +11,33 @@ class GameTeams extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final friendsController = Get.put(FriendsController());
     return GetBuilder<GameController>(
       builder: (controller) => Column(
         children: [
           controller.selectedNum.value == '2'
               ? Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    GameTeamsItem(
-                      isUser: true,
-                      doubleTap: () => controller.undoScore(team: 'A'),
-                      onTap: () => controller.incrementScore(team: 'A'),
-                      score: controller.teamAPoints.value.toString(),
-                      photoUrl: controller.gameModel.teams![0].isPhoto,
-                      teamName: controller.gameModel.teams![0].name!,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GameTeamsItem(
+                          isUser: true,
+                          doubleTap: () => controller.undoScore(team: 'A'),
+                          onTap: () => controller.incrementScore(team: 'A'),
+                          score: controller.teamAPoints.value.toString(),
+                          photoUrl: controller.gameModel.teams![0].isPhoto,
+                          teamName: controller.gameModel.teams![0].name!,
+                        ),
+                        GameTeamsItem(
+                          doubleTap: () => controller.undoScore(team: 'B'),
+                          onTap: () => controller.incrementScore(team: 'B'),
+                          score: controller.teamBPoints.value.toString(),
+                          photoUrl: controller.gameModel.teams![1].isPhoto,
+                          teamName: controller.gameModel.teams![1].name!,
+                        ),
+                      ],
                     ),
-                    GameTeamsItem(
-                      doubleTap: () => controller.undoScore(team: 'B'),
-                      onTap: () => controller.incrementScore(team: 'B'),
-                      score: controller.teamBPoints.value.toString(),
-                      photoUrl: controller.gameModel.teams![1].isPhoto,
-                      teamName: controller.gameModel.teams![1].name!,
-                    ),
+                    175.verticalSpace,
                   ],
                 )
               : controller.selectedNum.value == '3'
@@ -64,12 +68,16 @@ class GameTeams extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: 10.h),
-                        GameTeamsItem(
-                          doubleTap: () => controller.undoScore(team: 'C'),
-                          onTap: () => controller.incrementScore(team: 'C'),
-                          score: controller.teamCPoints.value.toString(),
-                          photoUrl: controller.gameModel.teams![2].isPhoto,
-                          teamName: controller.gameModel.teams![2].name!,
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 81.w),
+                          child: GameTeamsItem(
+                            isTwoTeams: false,
+                            doubleTap: () => controller.undoScore(team: 'C'),
+                            onTap: () => controller.incrementScore(team: 'C'),
+                            score: controller.teamCPoints.value.toString(),
+                            photoUrl: controller.gameModel.teams![2].isPhoto,
+                            teamName: controller.gameModel.teams![2].name!,
+                          ),
                         ),
                       ],
                     )

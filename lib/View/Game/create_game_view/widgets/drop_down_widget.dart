@@ -6,18 +6,20 @@ import 'package:count_my_game/View_Model/game_controller.dart';
 
 class DropDownWidget extends GetWidget<GameController> {
   final bool isGameName;
+  final double width;
 
   const DropDownWidget({
     super.key,
     required this.isGameName,
+    this.width = 140,
   });
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => Container(
-        width: 140.w,
-        height: 40.h,
+        width: width.w,
+        height: 35.h,
         decoration: BoxDecoration(
           color: AppColors.kWhite,
           borderRadius: BorderRadius.circular(10),

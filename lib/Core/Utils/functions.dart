@@ -97,7 +97,7 @@ class AppFunctions {
           onPressed: onPressedbutton,
           text: buttonText,
           width: double.infinity,
-          height: 45,
+          height: 35,
           threeRadius: 10,
           lastRadius: 10,
           backgroundColor: AppColors.mainColor,

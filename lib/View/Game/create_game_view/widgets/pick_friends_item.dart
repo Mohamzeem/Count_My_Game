@@ -8,7 +8,7 @@ class PickFriendsItem extends StatelessWidget {
   final String name;
   final String photoUrl;
   final void Function() onTap;
-
+  final double height;
   final bool isOnline;
   const PickFriendsItem({
     super.key,
@@ -16,6 +16,7 @@ class PickFriendsItem extends StatelessWidget {
     required this.photoUrl,
     required this.onTap,
     this.isOnline = true,
+    this.height = 60.0,
   });
 
   @override
@@ -23,7 +24,7 @@ class PickFriendsItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: SizedBox(
-        height: 60.h,
+        height: height.h,
         child: Card(
           surfaceTintColor: Colors.transparent,
           elevation: 5,
@@ -35,19 +36,6 @@ class PickFriendsItem extends StatelessWidget {
                 //^ photo
                 CustomCachedImage(
                   photoUrl: photoUrl,
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: Container(
-                      height: 10.h,
-                      width: 10.w,
-                      decoration: BoxDecoration(
-                        color: isOnline
-                            ? AppColors.kGreen
-                            : AppColors.secColor.withOpacity(0.7),
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
                 ),
                 SizedBox(width: 10.w),
                 //^  name

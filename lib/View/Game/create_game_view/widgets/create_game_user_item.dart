@@ -23,26 +23,16 @@ class CreateGameUserItem extends StatelessWidget {
         const CustomText(
           text: 'TEAM 1',
           color: AppColors.mainColor,
-          fontSize: 20,
+          fontSize: 18,
           fontWeight: FontWeight.w600,
         ),
-        SizedBox(height: 5.h),
         //^ team name field & friends pick
-        SizedBox(
-          width: 185.w,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              UserField(initValue: user.displayName!, width: 185.w),
-              const SizedBox.shrink(),
-            ],
-          ),
-        ),
+        UserField(initValue: user.displayName!, width: 130.w),
         SizedBox(height: 10.h),
         //^ photo
         GetBuilder<AuthController>(
           builder: (authCont) => Container(
-            width: 185.w,
+            width: 150.w,
             height: 100.h,
             decoration: const BoxDecoration(
               shape: BoxShape.rectangle,
@@ -56,6 +46,7 @@ class CreateGameUserItem extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: CustomCachedImage(
+                  isBorder: false,
                   shape: BoxShape.rectangle,
                   photoUrl: authCont.offlineProfile.isPhoto,
                 ),

@@ -8,18 +8,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomCachedImage extends StatelessWidget {
   final String photoUrl;
   final Widget? child;
-  final double? width;
-  final double? height;
+  final double width;
+  final double height;
   final BoxFit fit;
   final BoxShape shape;
-  const CustomCachedImage(
-      {super.key,
-      required this.photoUrl,
-      this.child = const SizedBox.shrink(),
-      this.width = 40,
-      this.height = 40,
-      this.shape = BoxShape.circle,
-      this.fit = BoxFit.fill});
+  final bool? isBorder;
+  const CustomCachedImage({
+    super.key,
+    required this.photoUrl,
+    this.child = const SizedBox.shrink(),
+    this.width = 40,
+    this.height = 40,
+    this.shape = BoxShape.circle,
+    this.fit = BoxFit.fill,
+    this.isBorder = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +35,16 @@ class CustomCachedImage extends StatelessWidget {
             : photoUrl,
         fit: BoxFit.fill,
         imageBuilder: (context, imageProvider) => Container(
-          width: width!.w,
-          height: height!.h,
+          width: width.w,
+          height: height.h,
           decoration: BoxDecoration(
             shape: shape,
-            // color: AppColors.mainColor,
-            // border: Border.all(width: 0.5, color: AppColors.mainColor,),
+            border: isBorder!
+                ? Border.all(
+                    width: 0.5,
+                    color: AppColors.mainColor,
+                  )
+                : Border.all(width: 0, color: Colors.transparent),
             image: DecorationImage(
               image: imageProvider,
               fit: fit,

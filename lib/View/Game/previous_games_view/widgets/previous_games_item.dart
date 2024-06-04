@@ -38,34 +38,37 @@ class PreviousGamesItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: ExpansionTile(
+                  leading: winner
+                      ? SvgPicture.asset(
+                          height: 35.h,
+                          'assets/images/winner.svg',
+                          colorFilter: ColorFilter.mode(
+                            AppColors.kGold,
+                            BlendMode.srcIn,
+                          ),
+                        )
+                      : SvgPicture.asset(
+                          height: 35.h,
+                          'assets/images/loser.svg',
+                          colorFilter: const ColorFilter.mode(
+                            AppColors.kRed,
+                            BlendMode.srcIn,
+                          ),
+                        ),
                   title: Row(
                     children: [
-                      winner
-                          ? SvgPicture.asset(
-                              height: 40.h,
-                              'assets/images/winner.svg',
-                              colorFilter: ColorFilter.mode(
-                                  AppColors.kGold, BlendMode.srcIn),
-                            )
-                          : SvgPicture.asset(
-                              height: 40.h,
-                              'assets/images/loser.svg',
-                              colorFilter: const ColorFilter.mode(
-                                  AppColors.kRed, BlendMode.srcIn),
-                            ),
-                      SizedBox(width: 15.w),
                       CustomText(
                         text: winner ? 'Winner' : 'Loser',
-                        color: AppColors.kBlack,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w500,
+                        color: winner ? AppColors.kGold : AppColors.kRed,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
                       ),
                       const Spacer(),
                       CustomText(
                         text: gameModel.name!,
                         color: AppColors.kBlack,
                         fontSize: 20,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w400,
                       ),
                     ],
                   ),
@@ -74,12 +77,12 @@ class PreviousGamesItem extends StatelessWidget {
                     child: CustomText(
                       text: formattedTime,
                       color: AppColors.secColor,
-                      fontSize: 15,
+                      fontSize: 14,
                     ),
                   ),
                   iconColor: AppColors.mainColor,
                   collapsedIconColor: AppColors.kBlack,
-                  childrenPadding: const EdgeInsets.symmetric(horizontal: 20),
+                  childrenPadding: EdgeInsets.symmetric(horizontal: 20.w),
                   children: [
                     ListView.builder(
                       itemCount: gameModel.teams!.length,
@@ -88,7 +91,9 @@ class PreviousGamesItem extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final team = gameModel.teams![index];
                         return TeamsInPreviousGamesItem(
-                            team: team, gameModel: gameModel);
+                          team: team,
+                          gameModel: gameModel,
+                        );
                       },
                     ),
                     SizedBox(height: 8.h),

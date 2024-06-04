@@ -25,7 +25,7 @@ class LoginBodyWithEmail extends StatelessWidget {
               parent: BouncingScrollPhysics()),
           children: [
             const AuthAppBar(),
-            SizedBox(height: 10.h),
+            10.verticalSpace,
             //^ logo and title
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -44,7 +44,7 @@ class LoginBodyWithEmail extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 50.h),
+            40.verticalSpace,
             //^ welcome text
             const CustomText(
               text: 'Welcome,',
@@ -56,10 +56,10 @@ class LoginBodyWithEmail extends StatelessWidget {
             const CustomText(
               text: 'Log in if you have account or create a new account.',
               color: AppColors.mainColor,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w300,
               fontSize: 18,
             ),
-            SizedBox(height: 20.h),
+            15.verticalSpace,
             //^ email
             CustomTextFormField(
               label: 'Email',
@@ -67,7 +67,7 @@ class LoginBodyWithEmail extends StatelessWidget {
               keyBoard: TextInputType.emailAddress,
               prefixIcon: Icons.email_rounded,
             ),
-            SizedBox(height: 10.h),
+            10.verticalSpace,
             //^ password
             CustomTextFormField(
               label: 'Password',
@@ -86,10 +86,10 @@ class LoginBodyWithEmail extends StatelessWidget {
                 text: 'Forgot Password',
                 onPressed: () => Get.toNamed(AppRoute.forgotPasswordView),
                 color: AppColors.mainColor,
-                fontSize: 20,
+                fontSize: 18,
               ),
             ),
-            20.verticalSpace,
+            15.verticalSpace,
             //^ login button
             CustomButton(
               onPressed: () => controller.logInFunction(),
@@ -101,23 +101,16 @@ class LoginBodyWithEmail extends StatelessWidget {
               fontSize: 25,
               backgroundColor: AppColors.mainColor,
             ),
-            //^ OR text
-            const CustomText(
-              text:
-                  'ــــــــــــــــــــــــــــــــــ OR ــــــــــــــــــــــــــــــــ',
-              textAlign: TextAlign.center,
-              color: AppColors.mainColor,
-              fontWeight: FontWeight.w700,
-            ),
+            5.verticalSpace,
             //^ create account text
             const CustomText(
               text: 'Create Account if you don\'t have account',
               color: AppColors.mainColor,
               fontWeight: FontWeight.w500,
-              fontSize: 20,
+              fontSize: 18,
               textAlign: TextAlign.center,
             ),
-            10.verticalSpace,
+            5.verticalSpace,
             //^ create account button
             CustomButton(
               onPressed: () => Get.toNamed(AppRoute.registrationView),

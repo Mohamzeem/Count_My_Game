@@ -30,7 +30,7 @@ class FriendsItem extends StatelessWidget {
       text: text,
       color: color,
       child: SizedBox(
-        height: 60.h,
+        height: 50.h,
         child: Card(
           surfaceTintColor: Colors.transparent,
           elevation: 5,
@@ -38,39 +38,27 @@ class FriendsItem extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 //^ photo
-                CustomCachedImage(
-                  photoUrl: photoUrl,
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: Container(
-                      height: 10.h,
-                      width: 10.w,
-                      decoration: const BoxDecoration(
-                        color: AppColors.kGreen,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: CustomCachedImage(
+                    photoUrl: photoUrl,
+                    width: 45,
+                    height: 45,
+                    child: const Align(alignment: Alignment.bottomRight),
                   ),
                 ),
-                SizedBox(width: 10.w),
                 //^  name
                 CustomText(
                   text: name,
-                  fontSize: 20,
+                  fontSize: 22,
                   color: AppColors.mainColor,
+                  textAlign: TextAlign.center,
+                  fontWeight: FontWeight.w500,
                 ),
-                const Spacer(),
-                SizedBox(width: 5.w),
-                //^ icon
-                withIcon
-                    ? const Icon(
-                        Icons.person_add,
-                        color: AppColors.mainColor,
-                        size: 30,
-                      )
-                    : const SizedBox.shrink()
+                50.horizontalSpace
               ],
             ),
           ),

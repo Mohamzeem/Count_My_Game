@@ -15,17 +15,20 @@ class UserField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40.h,
-      width: width,
+      height: 35.h,
+      width: width.w,
       decoration: BoxDecoration(
-          color: AppColors.kWhite, borderRadius: BorderRadius.circular(5)),
+        color: AppColors.kWhite,
+        borderRadius: BorderRadius.circular(5),
+      ),
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
+          padding: EdgeInsets.symmetric(horizontal: 5.w),
           child: CustomText(
             text: initValue,
             color: AppColors.mainColor,
             textOverflow: TextOverflow.ellipsis,
+            fontSize: 18,
           ),
         ),
       ),

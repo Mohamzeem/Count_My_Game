@@ -13,7 +13,7 @@ class ProfileImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 30.h),
+      padding: EdgeInsets.symmetric(vertical: 20.h),
       child: Container(
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(

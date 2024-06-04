@@ -19,7 +19,7 @@ class CreatedTeams extends GetWidget<GameController> {
       children: [
         controller.selectedNum.value == '2'
             ? Padding(
-                padding: EdgeInsets.only(bottom: 0.h),
+                padding: EdgeInsets.only(bottom: 178.h),
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -29,41 +29,35 @@ class CreatedTeams extends GetWidget<GameController> {
                 ),
               )
             : controller.selectedNum.value == '3'
-                ? Padding(
-                    padding: EdgeInsets.only(bottom: 0.h),
-                    child: const Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomFadeInLeft(child: CreateGameUserItem()),
-                            CustomFadeInRight(child: CreateTeamTwoItem()),
-                          ],
-                        ),
-                        CustomFadeInUp(child: CreateTeamThreeItem())
-                      ],
-                    ),
+                ? const Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomFadeInLeft(child: CreateGameUserItem()),
+                          CustomFadeInRight(child: CreateTeamTwoItem()),
+                        ],
+                      ),
+                      CustomFadeInUp(child: CreateTeamThreeItem())
+                    ],
                   )
-                : Padding(
-                    padding: EdgeInsets.only(bottom: 0.h),
-                    child: const Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomFadeInLeft(child: CreateGameUserItem()),
-                            CustomFadeInRight(child: CreateTeamTwoItem()),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomFadeInLeft(child: CreateTeamThreeItem()),
-                            CustomFadeInRight(child: CreateTeamFourItem()),
-                          ],
-                        ),
-                      ],
-                    ),
+                : const Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomFadeInLeft(child: CreateGameUserItem()),
+                          CustomFadeInRight(child: CreateTeamTwoItem()),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomFadeInLeft(child: CreateTeamThreeItem()),
+                          CustomFadeInRight(child: CreateTeamFourItem()),
+                        ],
+                      ),
+                    ],
                   ),
       ],
     );

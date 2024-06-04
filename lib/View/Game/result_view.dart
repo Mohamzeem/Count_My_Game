@@ -55,14 +55,14 @@ class _ResultViewState extends State<ResultView> {
                             color: AppColors.kGold,
                           ),
                           SizedBox(
-                            width: 270.w,
+                            width: 200.w,
                             child: CustomText(
                               textAlign: TextAlign.center,
                               text: cont.gameModel.getWinnerName(),
                               fontSize:
                                   cont.gameModel.getWinnerName().length > 10
-                                      ? 33
-                                      : 38,
+                                      ? 28
+                                      : 32,
                               fontWeight: FontWeight.w600,
                               textOverflow: TextOverflow.fade,
                               color: AppColors.kWhite,
@@ -83,19 +83,21 @@ class _ResultViewState extends State<ResultView> {
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: CustomCachedImage(
+                              isBorder: false,
                               shape: BoxShape.rectangle,
                               photoUrl: cont.gameModel.getWinnerPhoto(),
-                              height: 200.h,
-                              width: double.infinity,
+                              height: 170.h,
+                              width: 250.w,
                             ),
                           )
                         : ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: Container(
                               decoration: const BoxDecoration(
-                                  shape: BoxShape.rectangle),
-                              height: 200.h,
-                              width: double.infinity,
+                                shape: BoxShape.rectangle,
+                              ),
+                              height: 170.h,
+                              width: 250.w,
                               child: cont.gameModel.getWinnerPhoto().isEmpty
                                   ? CircularProgressIndicator(
                                       color: AppColors.kGold)
@@ -106,23 +108,23 @@ class _ResultViewState extends State<ResultView> {
                                     ),
                             ),
                           ),
-                    SizedBox(height: 30.h),
+                    SizedBox(height: 20.h),
                     //^ winner cup
                     Image.asset(
                       width: double.infinity,
-                      height: 300.h,
+                      height: 260.h,
                       'assets/images/success.png',
                       fit: BoxFit.fill,
                       color: AppColors.kGold,
                     ),
-                    SizedBox(height: 40.h),
+                    SizedBox(height: 20.h),
                     //^ game time & score
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         CustomText(
                           text: formattedTime,
-                          fontSize: 22,
+                          fontSize: 18,
                           fontWeight: FontWeight.w600,
                           color: AppColors.kWhite,
                         ),
@@ -130,13 +132,13 @@ class _ResultViewState extends State<ResultView> {
                           children: [
                             CustomText(
                               text: cont.gameModel.getWinnerScore(),
-                              fontSize: 26,
+                              fontSize: 22,
                               fontWeight: FontWeight.w600,
                               color: AppColors.kGold,
                             ),
                             CustomText(
                               text: '/${cont.gameModel.maxScore.toString()}',
-                              fontSize: 26,
+                              fontSize: 22,
                               fontWeight: FontWeight.w400,
                               color: AppColors.kWhite,
                             ),
@@ -144,7 +146,7 @@ class _ResultViewState extends State<ResultView> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20.h)
+                    SizedBox(height: 10.h)
                   ],
                 ),
               ),
@@ -159,8 +161,8 @@ class _ResultViewState extends State<ResultView> {
                       cont.resetClearData();
                     },
                     text: 'Play Again',
-                    width: 170,
-                    height: 50,
+                    width: 150,
+                    height: 35,
                     backgroundColor: AppColors.mainColor,
                   ),
                   //^ close btn
@@ -170,8 +172,8 @@ class _ResultViewState extends State<ResultView> {
                       cont.clearAllData();
                     },
                     text: 'Close',
-                    width: 170,
-                    height: 50,
+                    width: 150,
+                    height: 35,
                     backgroundColor: AppColors.kGrey100,
                     textColor: AppColors.kBlack,
                   ),
@@ -183,7 +185,7 @@ class _ResultViewState extends State<ResultView> {
                 onPressed: () => controller.screenShot(),
                 text: 'Screenshot',
                 width: 170,
-                height: 50,
+                height: 35,
                 backgroundColor: AppColors.kGrey100,
                 textColor: AppColors.kBlack,
               ),

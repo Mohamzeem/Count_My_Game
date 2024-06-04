@@ -24,11 +24,11 @@ class TeamsInPreviousGamesItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: 180.w,
+              width: 170.w,
               child: CustomText(
                 text: team.name!,
                 color: AppColors.mainColor,
-                // fontWeight: FontWeight.w600,
+                fontSize: 18,
                 textOverflow: TextOverflow.fade,
                 softWrap: false,
               ),
@@ -36,7 +36,7 @@ class TeamsInPreviousGamesItem extends StatelessWidget {
             CustomText(
               text: '${team.score!}/${gameModel.maxScore}',
               color: AppColors.mainColor,
-              // fontWeight: FontWeight.w600,
+              fontSize: 18,
             ),
             team.isWinner == true
                 ? SvgPicture.asset(
