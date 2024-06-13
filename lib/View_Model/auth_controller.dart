@@ -122,11 +122,12 @@ class AuthController extends GetxController {
   Future _logIn() async {
     bool isConnected = await checkInternet();
     if (isConnected) {
+      CustomLoading.show();
       try {
-        CustomLoading.show();
         await _auth
             .signInWithEmailAndPassword(
-                email: '${email.trim()}${AppStrings.defaultEmail}',
+                // email: '${email.trim()}${AppStrings.defaultEmail}',
+                email: email.trim(),
                 password: password)
             .then(
           (value) async {
@@ -166,11 +167,12 @@ class AuthController extends GetxController {
   }
 
   Future _register() async {
+    CustomLoading.show();
     try {
-      CustomLoading.show();
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-              email: '${email.trim()}${AppStrings.defaultEmail}',
+              // email: '${email.trim()}${AppStrings.defaultEmail}',
+              email: email.trim(),
               password: password)
           .then((value) async {
         await _saveUserData(value.user!.uid);
@@ -194,6 +196,7 @@ class AuthController extends GetxController {
       name: name,
       id: id,
       email: email,
+      photo: AppStrings.defaultAppPhoto,
     );
     await _fireStore
         .collection(AppStrings.usersCollection)
@@ -335,16 +338,28 @@ class AuthController extends GetxController {
 
   Future forgotPassword() async {
     bool isConnected = await checkInternet();
-    if (isConnected) {
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(
-              email: '${email.trim()}${AppStrings.defaultEmail}')
-          .whenComplete(() {
-        CustomLoading.toast(text: 'Email sent Successfully, Check your email');
-        Get.offNamed(AppRoute.emailLogInView);
-      }).onError(
-        (error, stackTrace) => CustomLoading.toast(text: error.toString()),
-      );
+    if (emailController.text == '') {
+      CustomLoading.toast(text: 'Please enter email');
+    } else if (!emailController.text.contains('@')) {
+      CustomLoading.toast(text: 'Please enter a valid email');
+    } else if (emailController.text.contains(' ')) {
+      CustomLoading.toast(text: 'Email should not contain spaces');
+    } else {
+      if (isConnected) {
+        await FirebaseAuth.instance
+            .sendPasswordResetEmail(
+                // email: '${email.trim()}${AppStrings.defaultEmail}')
+                email: email.trim())
+            .whenComplete(() {
+          CustomLoading.toast(
+              text: 'Email sent Successfully, Check your email');
+          Get.offNamed(AppRoute.emailLogInView);
+        }).onError(
+          (error, stackTrace) {
+            CustomLoading.toast(text: error.toString());
+          },
+        );
+      }
     }
   }
 

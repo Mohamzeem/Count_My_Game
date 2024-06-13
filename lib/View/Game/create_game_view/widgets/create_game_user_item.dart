@@ -27,7 +27,7 @@ class CreateGameUserItem extends StatelessWidget {
           fontWeight: FontWeight.w600,
         ),
         //^ team name field & friends pick
-        UserField(initValue: user.displayName!, width: 130.w),
+        UserField(initValue: user.displayName!, width: 125.w),
         SizedBox(height: 10.h),
         //^ photo
         GetBuilder<AuthController>(

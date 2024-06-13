@@ -1,4 +1,3 @@
-import 'package:count_my_game/Core/Widgets/custom_loading.dart';
 import 'package:count_my_game/View/Authentication/widgets/auth_app_bar.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
@@ -46,17 +45,7 @@ class ForgotPasswordBody extends StatelessWidget {
           ),
           20.verticalSpace,
           CustomButton(
-            onPressed: () {
-              if (controller.emailController.text == '') {
-                CustomLoading.toast(text: 'Please enter email');
-              } else if (!controller.emailController.text.contains('@')) {
-                CustomLoading.toast(text: 'Please enter a valid email');
-              } else if (controller.emailController.text.contains(' ')) {
-                CustomLoading.toast(text: 'Email should not contain spaces');
-              } else {
-                controller.forgotPassword();
-              }
-            },
+            onPressed: () => controller.forgotPassword(),
             text: 'Send Email',
             width: double.infinity,
             height: 45,

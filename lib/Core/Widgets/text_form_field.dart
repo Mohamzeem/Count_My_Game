@@ -25,7 +25,7 @@ class CustomTextFormField extends StatelessWidget {
     this.suffixIconShow = false,
     this.obscureText = false,
     required this.keyBoard,
-    this.maxLength = 6,
+    this.maxLength = 50,
     this.filled = AppColors.kWhite,
   });
 

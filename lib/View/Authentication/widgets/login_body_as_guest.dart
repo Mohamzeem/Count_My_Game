@@ -67,7 +67,7 @@ class LoginBodyAsGuest extends StatelessWidget {
               controller: controller.nameController,
               keyBoard: TextInputType.name,
               prefixIcon: Icons.person_2,
-              maxLength: 20,
+              maxLength: 25,
             ),
             20.verticalSpace,
             //^ start button

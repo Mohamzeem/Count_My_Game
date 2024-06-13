@@ -79,38 +79,44 @@ class FriendsController extends GetxController {
   @override
   void dispose() {
     nameController.dispose();
-//     nameController.clear();
-//     passwordController.dispose();
-//     passwordController.clear();
     super.dispose();
   }
 
   Future addFriend() async {
-    CustomLoading.show();
-    final result = await _fireStore
-        .collection(AppStrings.usersCollection)
-        .where('email', isEqualTo: nameController.text.trim())
-        .get();
-    final friendEmail = UserModel.fromJson(result.docs[0].data());
-
-    FriendModel friendModel = FriendModel(
-        id: friendEmail.id, name: friendEmail.name, photo: friendEmail.photo);
-
-    if (friendEmail.email != nameController.text.trim() ||
-        friendEmail.id != _auth.currentUser!.uid) {
-      await _fireStore
-          .collection(AppStrings.usersCollection)
-          .doc(_auth.currentUser!.uid)
-          .update({
-        'friends': FieldValue.arrayUnion([friendModel.toJson()])
-      }).whenComplete(() {
-        CustomLoading.toast(text: '${friendEmail.name} added');
-        nameController.clear();
-        Get.back();
-      }).onError((error, stackTrace) =>
-              CustomLoading.toast(text: error.toString()));
+    if (nameController.text == '') {
+      CustomLoading.toast(text: 'Please enter email');
+    } else if (!nameController.text.contains('@')) {
+      CustomLoading.toast(text: 'Please enter a valid email');
+    } else if (nameController.text.contains(' ')) {
+      CustomLoading.toast(text: 'Email should not contain spaces');
     } else {
-      CustomLoading.toast(text: 'Email not found');
+      CustomLoading.show();
+      final result = await _fireStore
+          .collection(AppStrings.usersCollection)
+          .where('email', isEqualTo: nameController.text.trim())
+          .get();
+      final friendEmail = UserModel.fromJson(result.docs[0].data());
+
+      FriendModel friendModel = FriendModel(
+          id: friendEmail.id, name: friendEmail.name, photo: friendEmail.photo);
+
+      if (friendEmail.email != nameController.text.trim() ||
+          friendEmail.id != _auth.currentUser!.uid) {
+        await _fireStore
+            .collection(AppStrings.usersCollection)
+            .doc(_auth.currentUser!.uid)
+            .update({
+          'friends': FieldValue.arrayUnion([friendModel.toJson()])
+        }).then((_) {
+          CustomLoading.toast(text: '${friendEmail.name} added');
+          nameController.clear();
+          Get.back();
+        }).onError((error, stackTrace) {
+          CustomLoading.toast(text: error.toString());
+        });
+      } else {
+        CustomLoading.toast(text: 'Email not found');
+      }
     }
     CustomLoading.dismiss();
   }
@@ -175,12 +181,4 @@ class FriendsController extends GetxController {
         .onError(
             (error, stackTrace) => CustomLoading.toast(text: error.toString()));
   }
-
-  // Future<bool> _checkInternet() async {
-  //   if (await _checker.hasConnection) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
 }

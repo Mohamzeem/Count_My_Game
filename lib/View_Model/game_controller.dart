@@ -250,7 +250,7 @@ class GameController extends GetxController {
       } else {
         gameBox.add(gameModel);
       }
-      Get.offNamed(AppRoute.gameView);
+      Get.offAllNamed(AppRoute.gameView);
       CustomLoading.dismiss();
     }
   }
@@ -309,10 +309,10 @@ class GameController extends GetxController {
             .doc(randomGameId)
             .set(gameModel.toMap())
             .then((_) {
-          Get.offNamed(AppRoute.gameView);
+          Get.offAllNamed(AppRoute.gameView);
         });
       } else {
-        Get.offNamed(AppRoute.gameView);
+        CustomLoading.toast(text: 'No internet connection');
       }
       CustomLoading.dismiss();
     }
@@ -392,10 +392,10 @@ class GameController extends GetxController {
             .doc(randomGameId)
             .set(gameModel.toMap())
             .then((_) {
-          Get.offNamed(AppRoute.gameView);
+          Get.offAllNamed(AppRoute.gameView);
         });
       } else {
-        Get.offNamed(AppRoute.gameView);
+        CustomLoading.toast(text: 'No internet connection');
       }
       CustomLoading.dismiss();
     }
@@ -561,23 +561,19 @@ class GameController extends GetxController {
   }
 
   Future<List<GameModel>> getPreviousGames() async {
-    CustomLoading.show();
     bool isConnected = await _checkInternet();
     if (isConnected) {
+      CustomLoading.show();
       var result = await FirebaseFirestore.instance
           .collection(AppStrings.gamesCollection)
           .where('members', arrayContains: _auth.currentUser!.uid)
           .get();
       final games =
           result.docs.map((e) => GameModel.fromMap(e.data())).toList();
-      // await gameBox.addAll(games);
       //^ arrange list by created time
       // allGames.addAll(games);
       allGames = List.from(
           games..sort((a, b) => b.createdAt!.compareTo(a.createdAt!)));
-    } else {
-      final games = gameBox.values.toList();
-      allGames = List.from(games);
     }
     CustomLoading.dismiss();
     return allGames;

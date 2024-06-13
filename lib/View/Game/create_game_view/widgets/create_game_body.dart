@@ -165,7 +165,7 @@ class CreateGameBody extends GetWidget<GameController> {
                         ],
                       )
                     : const SizedBox.shrink(),
-              )
+              ),
             ],
           ),
         ),

@@ -47,7 +47,7 @@ class CreateTeamTwoItem extends StatelessWidget {
                           initValue: controller.teamTwo.name == null
                               ? ''
                               : controller.teamTwo.name!,
-                          width: 105.w,
+                          width: 100.w,
                         )
                       : GameTextField(
                           lable: 'Team Name',
