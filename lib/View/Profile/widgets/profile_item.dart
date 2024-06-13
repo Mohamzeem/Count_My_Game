@@ -36,7 +36,7 @@ class ProfileItem extends StatelessWidget {
               children: [
                 Icon(
                   icon,
-                  size: 30,
+                  size: 30.sp,
                   color: AppColors.mainColor,
                 ),
                 SizedBox(width: 10.w),
@@ -67,10 +67,10 @@ class ProfileItem extends StatelessWidget {
                     ? Row(
                         children: [
                           SizedBox(width: 5.w),
-                          const Icon(
+                          Icon(
                             Icons.arrow_forward_ios,
                             color: AppColors.mainColor,
-                            size: 25,
+                            size: 25.sp,
                           )
                         ],
                       )

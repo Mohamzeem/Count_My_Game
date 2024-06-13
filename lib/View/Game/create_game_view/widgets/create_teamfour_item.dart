@@ -117,8 +117,8 @@ class CreateTeamFourItem extends StatelessWidget {
                                             TeamModel teamModel = TeamModel(
                                               id: const Uuid().v4(),
                                               name: controller.teamFourName,
-                                              photo: controller
-                                                  .pickedTeamFourImage,
+                                              // photo: controller
+                                              //     .pickedTeamFourImage,
                                             );
                                             controller.teamFour = teamModel;
                                           },
@@ -143,8 +143,8 @@ class CreateTeamFourItem extends StatelessWidget {
                                             TeamModel teamModel = TeamModel(
                                               id: const Uuid().v4(),
                                               name: controller.teamFourName,
-                                              photo: controller
-                                                  .pickedTeamFourImage,
+                                              // photo: controller
+                                              //     .pickedTeamFourImage,
                                             );
                                             controller.teamFour = teamModel;
                                           },

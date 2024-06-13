@@ -32,7 +32,9 @@ class GameTeams extends StatelessWidget {
                           doubleTap: () => controller.undoScore(team: 'B'),
                           onTap: () => controller.incrementScore(team: 'B'),
                           score: controller.teamBPoints.value.toString(),
-                          photoUrl: controller.gameModel.teams![1].isPhoto,
+                          photoUrl: controller.pickedTeamTwoImage.isEmpty
+                              ? controller.gameModel.teams![1].isPhoto
+                              : controller.pickedTeamTwoImage,
                           teamName: controller.gameModel.teams![1].name!,
                         ),
                       ],
@@ -62,7 +64,9 @@ class GameTeams extends StatelessWidget {
                                 controller.incrementScore(team: 'B');
                               },
                               score: controller.teamBPoints.value.toString(),
-                              photoUrl: controller.gameModel.teams![1].isPhoto,
+                              photoUrl: controller.pickedTeamTwoImage.isEmpty
+                                  ? controller.gameModel.teams![1].isPhoto
+                                  : controller.pickedTeamTwoImage,
                               teamName: controller.gameModel.teams![1].name!,
                             ),
                           ],
@@ -75,7 +79,9 @@ class GameTeams extends StatelessWidget {
                             doubleTap: () => controller.undoScore(team: 'C'),
                             onTap: () => controller.incrementScore(team: 'C'),
                             score: controller.teamCPoints.value.toString(),
-                            photoUrl: controller.gameModel.teams![2].isPhoto,
+                            photoUrl: controller.pickedTeamThreeImage.isEmpty
+                                ? controller.gameModel.teams![2].isPhoto
+                                : controller.pickedTeamThreeImage,
                             teamName: controller.gameModel.teams![2].name!,
                           ),
                         ),
@@ -102,7 +108,9 @@ class GameTeams extends StatelessWidget {
                                 controller.incrementScore(team: 'B');
                               },
                               score: controller.teamBPoints.value.toString(),
-                              photoUrl: controller.gameModel.teams![1].isPhoto,
+                              photoUrl: controller.pickedTeamTwoImage.isEmpty
+                                  ? controller.gameModel.teams![1].isPhoto
+                                  : controller.pickedTeamTwoImage,
                               teamName: controller.gameModel.teams![1].name!,
                             ),
                           ],
@@ -116,7 +124,9 @@ class GameTeams extends StatelessWidget {
                               doubleTap: () => controller.undoScore(team: 'C'),
                               onTap: () => controller.incrementScore(team: 'C'),
                               score: controller.teamCPoints.value.toString(),
-                              photoUrl: controller.gameModel.teams![2].isPhoto,
+                              photoUrl: controller.pickedTeamThreeImage.isEmpty
+                                  ? controller.gameModel.teams![2].isPhoto
+                                  : controller.pickedTeamThreeImage,
                               teamName: controller.gameModel.teams![2].name!,
                             ),
                             GameTeamsItem(
@@ -124,7 +134,9 @@ class GameTeams extends StatelessWidget {
                               doubleTap: () => controller.undoScore(team: 'D'),
                               onTap: () => controller.incrementScore(team: 'D'),
                               score: controller.teamDPoints.value.toString(),
-                              photoUrl: controller.gameModel.teams![3].isPhoto,
+                              photoUrl: controller.pickedTeamFourImage.isEmpty
+                                  ? controller.gameModel.teams![3].isPhoto
+                                  : controller.pickedTeamFourImage,
                               teamName: controller.gameModel.teams![3].name!,
                             ),
                           ],

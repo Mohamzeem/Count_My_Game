@@ -56,7 +56,7 @@ class CreateGameBody extends GetWidget<GameController> {
                   ),
                   DropDownWidget(
                     isGameName: true,
-                    width: 100,
+                    width: 120,
                   ),
                 ],
               ),
@@ -131,31 +131,31 @@ class CreateGameBody extends GetWidget<GameController> {
                             onPressed: () {
                               if (controller.selectedNum.value == '2') {
                                 controller.createTwoTeamsGameOnlineMode(
-                                  twoId: controller.teamTwo.id!,
-                                  twoName: controller.teamTwo.name!,
-                                  twoPhoto: controller.teamTwo.photo!,
-                                );
+                                    // twoId: controller.teamTwo.id!,
+                                    // twoName: controller.teamTwo.name!,
+                                    // twoPhoto: controller.teamTwo.photo!,
+                                    );
                               } else if (controller.selectedNum.value == '3') {
                                 controller.createGameThreeTeamsOnlineMode(
-                                  twoId: controller.teamTwo.id!,
-                                  twoName: controller.teamTwo.name!,
-                                  twoPhoto: controller.teamTwo.photo!,
-                                  threeId: controller.teamThree.id!,
-                                  threeName: controller.teamThree.name!,
-                                  threePhoto: controller.teamThree.photo!,
-                                );
+                                    // twoId: controller.teamTwo.id!,
+                                    // twoName: controller.teamTwo.name!,
+                                    // twoPhoto: controller.teamTwo.photo!,
+                                    // threeId: controller.teamThree.id!,
+                                    // threeName: controller.teamThree.name!,
+                                    // threePhoto: controller.teamThree.photo!,
+                                    );
                               } else {
                                 controller.createGameFourTeamsOnlineMode(
-                                  twoId: controller.teamTwo.id!,
-                                  twoName: controller.teamTwo.name!,
-                                  twoPhoto: controller.teamTwo.photo!,
-                                  threeId: controller.teamThree.id!,
-                                  threeName: controller.teamThree.name!,
-                                  threePhoto: controller.teamThree.photo!,
-                                  fourId: controller.teamFour.id!,
-                                  fourName: controller.teamFour.name!,
-                                  fourPhoto: controller.teamFour.photo!,
-                                );
+                                    // twoId: controller.teamTwo.id!,
+                                    // twoName: controller.teamTwo.name!,
+                                    // twoPhoto: controller.teamTwo.photo!,
+                                    // threeId: controller.teamThree.id!,
+                                    // threeName: controller.teamThree.name!,
+                                    // threePhoto: controller.teamThree.photo!,
+                                    // fourId: controller.teamFour.id!,
+                                    // fourName: controller.teamFour.name!,
+                                    // fourPhoto: controller.teamFour.photo!,
+                                    );
                               }
                             },
                             text: 'Start Game',

@@ -98,14 +98,10 @@ class _ResultViewState extends State<ResultView> {
                               ),
                               height: 170.h,
                               width: 250.w,
-                              child: cont.gameModel.getWinnerPhoto().isEmpty
-                                  ? CircularProgressIndicator(
-                                      color: AppColors.kGold)
-                                  : Image.memory(
-                                      base64Decode(
-                                          cont.gameModel.getWinnerPhoto()),
-                                      fit: BoxFit.fill,
-                                    ),
+                              child: Image.memory(
+                                base64Decode(cont.gameModel.getWinnerPhoto()),
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
                     SizedBox(height: 20.h),
