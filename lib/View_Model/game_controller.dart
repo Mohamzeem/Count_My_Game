@@ -686,3 +686,84 @@ class GameController extends GetxController {
     }
   }
 }
+
+
+
+ //TODO: Try image picker from chatgpt
+
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   runApp(MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: ImagePickerSave(),
+//     );
+//   }
+// }
+
+// class ImagePickerSave extends StatefulWidget {
+//   @override
+//   _ImagePickerSaveState createState() => _ImagePickerSaveState();
+// }
+
+// class _ImagePickerSaveState extends State<ImagePickerSave> {
+//   File? _image;
+//   final ImagePicker _picker = ImagePicker();
+//   final DatabaseReference _database = FirebaseDatabase.instance.ref(); // For Realtime Database
+//   // final CollectionReference _collection = FirebaseFirestore.instance.collection('images'); // For Firestore
+
+//   Future<void> _pickImage() async {
+//     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+//     if (pickedFile != null) {
+//       setState(() {
+//         _image = File(pickedFile.path);
+//       });
+//     }
+//   }
+
+//   Future<void> _saveImagePath() async {
+//     if (_image == null) return;
+//     try {
+//       String imagePath = _image!.path;
+//       await _database.child('images').push().set({'path': imagePath}); // For Realtime Database
+//       // await _collection.add({'path': imagePath}); // For Firestore
+//     } catch (e) {
+//       print('Error saving image path: $e');
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Image Picker & Save Path'),
+//       ),
+//       body: Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             _image == null
+//                 ? Text('No image selected.')
+//                 : Image.file(_image!),
+//             SizedBox(height: 20),
+//             ElevatedButton(
+//               onPressed: _pickImage,
+//               child: Text('Pick Image from Gallery'),
+//             ),
+//             SizedBox(height: 20),
+//             ElevatedButton(
+//               onPressed: _saveImagePath,
+//               child: Text('Save Image Path to Firebase'),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
