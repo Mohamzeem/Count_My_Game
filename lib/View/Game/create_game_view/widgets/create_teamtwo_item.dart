@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
@@ -179,7 +178,7 @@ class CreateTeamTwoItem extends StatelessWidget {
                                     child: Image.file(
                                       File(controller.pickedTeamTwoImage),
                                       fit: BoxFit.fill,
-                                    ), //TODO
+                                    ),
                                   ),
                                 ),
                               ),
