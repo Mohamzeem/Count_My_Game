@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:io';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
@@ -98,10 +98,19 @@ class _ResultViewState extends State<ResultView> {
                               ),
                               height: 170.h,
                               width: 250.w,
-                              child: Image.memory(
-                                base64Decode(cont.gameModel.getWinnerPhoto()),
-                                fit: BoxFit.fill,
-                              ),
+                              child:
+                                  cont.gameModel.getWinnerPhoto().isNotEmpty &&
+                                          File(cont.gameModel.getWinnerPhoto())
+                                              .existsSync()
+                                      ? Image.file(
+                                          File(cont.gameModel.getWinnerPhoto()),
+                                          fit: BoxFit.fill,
+                                        )
+                                      : Center(
+                                          child: CustomText(
+                                              text:
+                                                  'No Image ${cont.gameModel.getWinnerPhoto()}'),
+                                        ),
                             ),
                           ),
                     SizedBox(height: 20.h),

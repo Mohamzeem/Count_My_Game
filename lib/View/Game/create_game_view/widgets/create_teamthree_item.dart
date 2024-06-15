@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
 import 'package:count_my_game/Models/team_model.dart';
@@ -117,8 +118,8 @@ class CreateTeamThreeItem extends StatelessWidget {
                                             TeamModel teamModel = TeamModel(
                                               id: const Uuid().v4(),
                                               name: controller.teamThreeName,
-                                              // photo: controller
-                                              //     .pickedTeamThreeImage,
+                                              photo: controller
+                                                  .pickedTeamThreeImage,
                                             );
                                             controller.teamThree = teamModel;
                                           },
@@ -143,8 +144,8 @@ class CreateTeamThreeItem extends StatelessWidget {
                                             TeamModel teamModel = TeamModel(
                                               id: const Uuid().v4(),
                                               name: controller.teamThreeName,
-                                              // photo: controller
-                                              //     .pickedTeamThreeImage,
+                                              photo: controller
+                                                  .pickedTeamThreeImage,
                                             );
                                             controller.teamThree = teamModel;
                                           },
@@ -175,9 +176,8 @@ class CreateTeamThreeItem extends StatelessWidget {
                                         shape: BoxShape.rectangle),
                                     width: 185.w,
                                     height: 100.h,
-                                    child: Image.memory(
-                                      base64Decode(
-                                          controller.pickedTeamThreeImage),
+                                    child: Image.file(
+                                      File(controller.pickedTeamThreeImage),
                                       fit: BoxFit.fill,
                                     ),
                                   ),

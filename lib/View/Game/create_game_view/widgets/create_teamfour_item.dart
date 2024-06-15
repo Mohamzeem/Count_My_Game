@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:io';
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
 import 'package:count_my_game/Models/team_model.dart';
@@ -117,8 +117,8 @@ class CreateTeamFourItem extends StatelessWidget {
                                             TeamModel teamModel = TeamModel(
                                               id: const Uuid().v4(),
                                               name: controller.teamFourName,
-                                              // photo: controller
-                                              //     .pickedTeamFourImage,
+                                              photo: controller
+                                                  .pickedTeamFourImage,
                                             );
                                             controller.teamFour = teamModel;
                                           },
@@ -143,8 +143,8 @@ class CreateTeamFourItem extends StatelessWidget {
                                             TeamModel teamModel = TeamModel(
                                               id: const Uuid().v4(),
                                               name: controller.teamFourName,
-                                              // photo: controller
-                                              //     .pickedTeamFourImage,
+                                              photo: controller
+                                                  .pickedTeamFourImage,
                                             );
                                             controller.teamFour = teamModel;
                                           },
@@ -175,9 +175,8 @@ class CreateTeamFourItem extends StatelessWidget {
                                         shape: BoxShape.rectangle),
                                     width: 185.w,
                                     height: 100.h,
-                                    child: Image.memory(
-                                      base64Decode(
-                                          controller.pickedTeamFourImage),
+                                    child: Image.file(
+                                      File(controller.pickedTeamFourImage),
                                       fit: BoxFit.fill,
                                     ),
                                   ),

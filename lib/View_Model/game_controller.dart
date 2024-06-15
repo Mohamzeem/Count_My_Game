@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
@@ -29,6 +30,7 @@ class GameController extends GetxController {
   final _auth = FirebaseAuth.instance;
   final _uuid = const Uuid();
   final ImagePicker _imagePicker = ImagePicker();
+  File? imageFile;
   final AppMode onlineMode = AppMode.onlineMMode;
   RxInt teamAPoints = 0.obs;
   RxInt teamBPoints = 0.obs;
@@ -196,6 +198,7 @@ class GameController extends GetxController {
     selectedNum = ''.obs;
     _gameCreated = false.obs;
     selectedGame = ''.obs;
+    Get.delete<GameController>();
   }
 
   void resetClearData() {
@@ -211,31 +214,30 @@ class GameController extends GetxController {
   }
 
   Future createTwoTeamsGameOnlineMode() async {
-    bool isConnected = await _checkInternet();
-    if (isConnected) {
-      if (pickedTeamTwoImage == '' && teamTwo.photo! == '') {
-        CustomLoading.toast(text: 'image Required');
-      } else if (teamTwo.name == '' && teamTwoNameController.text.isEmpty) {
-        CustomLoading.toast(text: 'Name Required');
-      } else {
-        CustomLoading.show();
-        final randomGameId = _uuid.v1();
-        teamOne = TeamModel(
-          id: _auth.currentUser!.uid,
-          name: _auth.currentUser!.displayName,
-          photo: _auth.currentUser!.photoURL,
-        );
-        final List<String> members = [teamOne.id!, teamTwo.id!]
-          ..sort((a, b) => b.compareTo(a));
+    if (pickedTeamTwoImage == '' && teamTwo.photo! == '') {
+      CustomLoading.toast(text: 'Team Two image Required');
+    } else if (teamTwo.name == '' && teamTwoName == '') {
+      CustomLoading.toast(text: 'Team Two Name Required');
+    } else {
+      CustomLoading.show();
+      final randomGameId = _uuid.v1();
+      teamOne = TeamModel(
+        id: _auth.currentUser!.uid,
+        name: _auth.currentUser!.displayName,
+        photo: _auth.currentUser!.photoURL,
+      );
+      final List<String> members = [teamOne.id!, teamTwo.id!]
+        ..sort((a, b) => b.compareTo(a));
 
-        gameModel = GameModel(
-            id: randomGameId,
-            name: selectedGame.value,
-            members: members,
-            createdAt: _createdAtTime,
-            maxScore: maxScore,
-            teams: [teamOne, teamTwo]);
-
+      gameModel = GameModel(
+          id: randomGameId,
+          name: selectedGame.value,
+          members: members,
+          createdAt: _createdAtTime,
+          maxScore: maxScore,
+          teams: [teamOne, teamTwo]);
+      bool isConnected = await _checkInternet();
+      if (isConnected) {
         try {
           await _fireStore
               .collection(AppStrings.gamesCollection)
@@ -244,6 +246,8 @@ class GameController extends GetxController {
         } on Exception catch (e) {
           CustomLoading.toast(text: e.toString());
         }
+      } else {
+        CustomLoading.toast(text: 'No internet connection');
       }
       Get.offNamed(AppRoute.gameView);
       CustomLoading.dismiss();
@@ -262,23 +266,11 @@ class GameController extends GetxController {
     } else {
       CustomLoading.show();
       final randomGameId = _uuid.v1();
-      // final randomTeamTwoId = _uuid.v4();
-      // final randomTeamThreeId = _uuid.v4();
       final teamOne = TeamModel(
         id: _auth.currentUser!.uid,
         name: _auth.currentUser!.displayName,
         photo: _auth.currentUser!.photoURL,
       );
-      // final teamTwo = TeamModel(
-      //   id: twoId.isEmpty ? randomTeamTwoId : twoId,
-      //   name: twoName.isEmpty ? teamTwoName : twoName,
-      //   photo: twoPhoto,
-      // );
-      // final teamThree = TeamModel(
-      //   id: threeId.isEmpty ? randomTeamThreeId : threeId,
-      //   name: threeName.isEmpty ? teamThreeName : threeName,
-      //   photo: threePhoto,
-      // );
       final List<String> members = [teamOne.id!, teamTwo.id!, teamThree.id!]
         ..sort((a, b) => b.compareTo(a));
       gameModel = GameModel(
@@ -292,16 +284,18 @@ class GameController extends GetxController {
 
       bool isConnected = await _checkInternet();
       if (isConnected) {
-        await _fireStore
-            .collection(AppStrings.gamesCollection)
-            .doc(randomGameId)
-            .set(gameModel.toMap())
-            .then((_) {
-          Get.offNamed(AppRoute.gameView);
-        });
+        try {
+          await _fireStore
+              .collection(AppStrings.gamesCollection)
+              .doc(randomGameId)
+              .set(gameModel.toMap());
+        } on Exception catch (e) {
+          CustomLoading.toast(text: e.toString());
+        }
       } else {
         CustomLoading.toast(text: 'No internet connection');
       }
+      Get.offNamed(AppRoute.gameView);
       CustomLoading.dismiss();
     }
   }
@@ -321,33 +315,12 @@ class GameController extends GetxController {
       CustomLoading.toast(text: 'Team Four Name Required');
     } else {
       CustomLoading.show();
-
       final randomGameId = _uuid.v1();
-      // final randomTeamTwoId = _uuid.v4();
-      // final randomTeamThreeId = _uuid.v4();
-      // final randomTeamFourId = _uuid.v4();
-
       final teamOne = TeamModel(
         id: _auth.currentUser!.uid,
         name: _auth.currentUser!.displayName,
         photo: _auth.currentUser!.photoURL,
       );
-      // final teamTwo = TeamModel(
-      //   id: twoId.isEmpty ? randomTeamTwoId : twoId,
-      //   name: twoName.isEmpty ? teamTwoName : twoName,
-      //   photo: twoPhoto,
-      // );
-      // final teamThree = TeamModel(
-      //   id: threeId.isEmpty ? randomTeamThreeId : threeId,
-      //   name: threeName.isEmpty ? teamThreeName : threeName,
-      //   photo: threePhoto,
-      // );
-      // final teamFour = TeamModel(
-      //   id: fourId.isEmpty ? randomTeamFourId : fourId,
-      //   name: fourName.isEmpty ? teamFourName : fourName,
-      //   photo: fourPhoto,
-      // );
-
       final List<String> members = [
         teamOne.id!,
         teamTwo.id!,
@@ -369,13 +342,11 @@ class GameController extends GetxController {
         await _fireStore
             .collection(AppStrings.gamesCollection)
             .doc(randomGameId)
-            .set(gameModel.toMap())
-            .then((_) {
-          Get.offNamed(AppRoute.gameView);
-        });
+            .set(gameModel.toMap());
       } else {
         CustomLoading.toast(text: 'No internet connection');
       }
+      Get.offNamed(AppRoute.gameView);
       CustomLoading.dismiss();
     }
   }
@@ -434,8 +405,9 @@ class GameController extends GetxController {
               isWinner: maxScore <= teamAPoints.value ? true : false),
           TeamModel(
               id: gameModel.teams![1].id,
-              photo:
-                  pickedTeamTwoImage.isEmpty ? gameModel.teams![1].photo : "",
+              photo: pickedTeamTwoImage.isEmpty
+                  ? gameModel.teams![1].photo
+                  : pickedTeamTwoImage, //Todo
               name: gameModel.teams![1].name,
               score: teamBPoints.value.toString(),
               isWinner: maxScore <= teamBPoints.value ? true : false)
@@ -450,15 +422,17 @@ class GameController extends GetxController {
               isWinner: maxScore <= teamAPoints.value ? true : false),
           TeamModel(
               id: gameModel.teams![1].id,
-              photo:
-                  pickedTeamTwoImage.isEmpty ? gameModel.teams![1].photo : "",
+              photo: pickedTeamTwoImage.isEmpty
+                  ? gameModel.teams![1].photo
+                  : pickedTeamTwoImage,
               name: gameModel.teams![1].name,
               score: teamBPoints.value.toString(),
               isWinner: maxScore <= teamBPoints.value ? true : false),
           TeamModel(
               id: gameModel.teams![2].id,
-              photo:
-                  pickedTeamThreeImage.isEmpty ? gameModel.teams![2].photo : "",
+              photo: pickedTeamThreeImage.isEmpty
+                  ? gameModel.teams![2].photo
+                  : pickedTeamThreeImage,
               name: gameModel.teams![2].name,
               score: teamCPoints.value.toString(),
               isWinner: maxScore <= teamCPoints.value ? true : false)
@@ -473,22 +447,25 @@ class GameController extends GetxController {
               isWinner: maxScore <= teamAPoints.value ? true : false),
           TeamModel(
               id: gameModel.teams![1].id,
-              photo:
-                  pickedTeamTwoImage.isEmpty ? gameModel.teams![1].photo : "",
+              photo: pickedTeamTwoImage.isEmpty
+                  ? gameModel.teams![1].photo
+                  : pickedTeamTwoImage,
               name: gameModel.teams![1].name,
               score: teamBPoints.value.toString(),
               isWinner: maxScore <= teamBPoints.value ? true : false),
           TeamModel(
               id: gameModel.teams![2].id,
-              photo:
-                  pickedTeamThreeImage.isEmpty ? gameModel.teams![2].photo : "",
+              photo: pickedTeamThreeImage.isEmpty
+                  ? gameModel.teams![2].photo
+                  : pickedTeamThreeImage,
               name: gameModel.teams![2].name,
               score: teamCPoints.value.toString(),
               isWinner: maxScore <= teamCPoints.value ? true : false),
           TeamModel(
               id: gameModel.teams![3].id,
-              photo:
-                  pickedTeamFourImage.isEmpty ? gameModel.teams![3].photo : "",
+              photo: pickedTeamFourImage.isEmpty
+                  ? gameModel.teams![3].photo
+                  : pickedTeamFourImage,
               name: gameModel.teams![3].name,
               score: teamDPoints.value.toString(),
               isWinner: maxScore <= teamDPoints.value ? true : false)
@@ -656,14 +633,13 @@ class GameController extends GetxController {
     try {
       final image = await _imagePicker.pickImage(source: source);
       if (image != null) {
-        final bytes = await image.readAsBytes();
+        imageFile = File(image.path);
         if (pickedTeamNum == '2') {
-          pickedTeamTwoImage = base64Encode(bytes);
-          // Prints.debug(message: pickedTeamTwoImage);
+          pickedTeamTwoImage = imageFile!.path;
         } else if (pickedTeamNum == '3') {
-          pickedTeamThreeImage = base64Encode(bytes);
+          pickedTeamThreeImage = imageFile!.path;
         } else {
-          pickedTeamFourImage = base64Encode(bytes);
+          pickedTeamFourImage = imageFile!.path;
         }
       } else {
         return;
@@ -696,7 +672,6 @@ class GameController extends GetxController {
 //   await Firebase.initializeApp();
 //   runApp(MyApp());
 // }
-
 // class MyApp extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {
@@ -715,7 +690,7 @@ class GameController extends GetxController {
 //   File? _image;
 //   final ImagePicker _picker = ImagePicker();
 //   final DatabaseReference _database = FirebaseDatabase.instance.ref(); // For Realtime Database
-//   // final CollectionReference _collection = FirebaseFirestore.instance.collection('images'); // For Firestore
+  // final CollectionReference _collection = FirebaseFirestore.instance.collection('images'); // For Firestore
 
 //   Future<void> _pickImage() async {
 //     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);

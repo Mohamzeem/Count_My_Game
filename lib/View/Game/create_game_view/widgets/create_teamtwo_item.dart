@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:count_my_game/Core/Utils/functions.dart';
 import 'package:count_my_game/Core/Widgets/custom_button.dart';
 import 'package:count_my_game/Models/team_model.dart';
@@ -57,7 +58,7 @@ class CreateTeamTwoItem extends StatelessWidget {
                           controller: controller.teamTwoNameController,
                           maxLength: 9,
                         ),
-                  const PickFriendsIcon()
+                  const PickFriendsIcon(),
                 ],
               ),
             ),
@@ -86,7 +87,7 @@ class CreateTeamTwoItem extends StatelessWidget {
                         ),
                       ),
                     )
-                  //^ pick name and photo manually
+                  //^ pick photo manually
                   : InkWell(
                       onTap: () => Get.dialog(
                         AlertDialog(
@@ -117,8 +118,8 @@ class CreateTeamTwoItem extends StatelessWidget {
                                             TeamModel teamModel = TeamModel(
                                               id: const Uuid().v4(),
                                               name: controller.teamTwoName,
-                                              // photo:
-                                              //     controller.pickedTeamTwoImage,
+                                              photo:
+                                                  controller.pickedTeamTwoImage,
                                             );
                                             controller.teamTwo = teamModel;
                                           },
@@ -143,8 +144,8 @@ class CreateTeamTwoItem extends StatelessWidget {
                                             TeamModel teamModel = TeamModel(
                                               id: const Uuid().v4(),
                                               name: controller.teamTwoName,
-                                              // photo:
-                                              //     controller.pickedTeamTwoImage,
+                                              photo:
+                                                  controller.pickedTeamTwoImage,
                                             );
                                             controller.teamTwo = teamModel;
                                           },
@@ -175,11 +176,10 @@ class CreateTeamTwoItem extends StatelessWidget {
                                         shape: BoxShape.rectangle),
                                     width: 185.w,
                                     height: 100.h,
-                                    child: Image.memory(
-                                      base64Decode(
-                                          controller.pickedTeamTwoImage),
+                                    child: Image.file(
+                                      File(controller.pickedTeamTwoImage),
                                       fit: BoxFit.fill,
-                                    ),
+                                    ), //TODO
                                   ),
                                 ),
                               ),

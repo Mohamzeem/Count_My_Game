@@ -85,7 +85,7 @@ class GameBody extends GetWidget<GameController> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 100.h),
+                  SizedBox(height: 90.h),
                   CustomButton(
                     onPressed: () => controller.closeAndDeleteGame(),
                     text: 'Close and Delete Game',

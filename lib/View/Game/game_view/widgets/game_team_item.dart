@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
@@ -86,8 +87,8 @@ class GameTeamsItem extends StatelessWidget {
                             child: Container(
                               decoration: const BoxDecoration(
                                   shape: BoxShape.rectangle),
-                              child: Image.memory(
-                                base64Decode(photoUrl),
+                              child: Image.file(
+                                File(photoUrl),
                                 fit: BoxFit.fill,
                               ),
                             ),
