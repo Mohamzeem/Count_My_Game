@@ -56,7 +56,7 @@ class CreateGameBody extends GetWidget<GameController> {
                   ),
                   DropDownWidget(
                     isGameName: true,
-                    width: 120,
+                    width: 130,
                   ),
                 ],
               ),
@@ -94,7 +94,7 @@ class CreateGameBody extends GetWidget<GameController> {
                   ),
                   DropDownWidget(
                     isGameName: false,
-                    width: 100,
+                    width: 110,
                   ),
                 ],
               ),

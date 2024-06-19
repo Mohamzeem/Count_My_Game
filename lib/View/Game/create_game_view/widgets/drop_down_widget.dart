@@ -28,7 +28,7 @@ class DropDownWidget extends GetWidget<GameController> {
         child: Center(
           child: DropdownButton<String>(
             iconEnabledColor: Colors.grey,
-            style: const TextStyle(color: AppColors.mainColor, fontSize: 20),
+            style: TextStyle(color: AppColors.mainColor, fontSize: 20.sp),
             elevation: 10,
             alignment: Alignment.center,
             dropdownColor: AppColors.kWhite,
