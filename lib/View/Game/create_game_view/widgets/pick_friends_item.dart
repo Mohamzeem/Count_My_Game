@@ -36,6 +36,8 @@ class PickFriendsItem extends StatelessWidget {
                 //^ photo
                 CustomCachedImage(
                   photoUrl: photoUrl,
+                  height: 40,
+                  width: 40,
                 ),
                 SizedBox(width: 10.w),
                 //^  name

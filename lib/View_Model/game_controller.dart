@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
-import 'package:count_my_game/Core/Services/pref_key.dart';
 import 'package:count_my_game/Core/Utils/app_strings.dart';
 import 'package:count_my_game/Core/Utils/enums.dart';
 import 'package:count_my_game/Core/Utils/functions.dart';
@@ -13,7 +12,6 @@ import 'package:count_my_game/Models/team_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -24,7 +22,6 @@ import 'package:uuid/uuid.dart';
 class GameController extends GetxController {
   final _checker = InternetConnectionChecker();
   final _fireStore = FirebaseFirestore.instance;
-  final gameBox = Hive.box<GameModel>(PrefKeys.game);
   final _auth = FirebaseAuth.instance;
   final _uuid = const Uuid();
   final ImagePicker _imagePicker = ImagePicker();
@@ -372,23 +369,6 @@ class GameController extends GetxController {
     }
   }
 
-  Future uploadOfflineGames() async {
-    final randomGameId = _uuid.v1();
-    var games = gameBox.values;
-    bool isConnected = await _checkInternet();
-    if (games.isNotEmpty && isConnected) {
-      for (GameModel element in games) {
-        await _fireStore
-            .collection(AppStrings.gamesCollection)
-            .doc(randomGameId)
-            .set(element.toMap());
-        await gameBox.delete(PrefKeys.game);
-      }
-      debugPrint('##### games saved in database');
-      getPreviousGames();
-    }
-  }
-
   Future updateEndedgame() async {
     CustomLoading.show();
     List<TeamModel> teams() {
@@ -520,7 +500,6 @@ class GameController extends GetxController {
       }).onError((error, stackTrace) =>
               CustomLoading.toast(text: error.toString()));
     } else {
-      gameBox.deleteAt(index);
       CustomLoading.toast(text: 'Game deleted successfully');
     }
     getPreviousGames();
@@ -660,83 +639,3 @@ class GameController extends GetxController {
     }
   }
 }
-
-
-
- //TODO: Try image picker from chatgpt
-
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   runApp(MyApp());
-// }
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: ImagePickerSave(),
-//     );
-//   }
-// }
-
-// class ImagePickerSave extends StatefulWidget {
-//   @override
-//   _ImagePickerSaveState createState() => _ImagePickerSaveState();
-// }
-
-// class _ImagePickerSaveState extends State<ImagePickerSave> {
-//   File? _image;
-//   final ImagePicker _picker = ImagePicker();
-//   final DatabaseReference _database = FirebaseDatabase.instance.ref(); // For Realtime Database
-  // final CollectionReference _collection = FirebaseFirestore.instance.collection('images'); // For Firestore
-
-//   Future<void> _pickImage() async {
-//     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-//     if (pickedFile != null) {
-//       setState(() {
-//         _image = File(pickedFile.path);
-//       });
-//     }
-//   }
-
-//   Future<void> _saveImagePath() async {
-//     if (_image == null) return;
-//     try {
-//       String imagePath = _image!.path;
-//       await _database.child('images').push().set({'path': imagePath}); // For Realtime Database
-//       // await _collection.add({'path': imagePath}); // For Firestore
-//     } catch (e) {
-//       print('Error saving image path: $e');
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Image Picker & Save Path'),
-//       ),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             _image == null
-//                 ? Text('No image selected.')
-//                 : Image.file(_image!),
-//             SizedBox(height: 20),
-//             ElevatedButton(
-//               onPressed: _pickImage,
-//               child: Text('Pick Image from Gallery'),
-//             ),
-//             SizedBox(height: 20),
-//             ElevatedButton(
-//               onPressed: _saveImagePath,
-//               child: Text('Save Image Path to Firebase'),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-

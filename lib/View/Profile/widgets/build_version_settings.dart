@@ -23,19 +23,22 @@ class BuildVerison extends GetWidget<AuthController> {
           mainText: 'Build Verison',
           suppText: '',
           withGoIcon: false,
-          widget: FutureBuilder<String>(
-            future: AppInfoUtil().getAppVersion(context),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return CustomText(
-                  text: snapshot.data.toString(),
-                  fontSize: 18,
-                  color: AppColors.kGrey200,
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            },
+          widget: Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            child: FutureBuilder<String>(
+              future: AppInfoUtil().getAppVersion(context),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return CustomText(
+                    text: snapshot.data.toString(),
+                    fontSize: 18,
+                    color: AppColors.kGrey200,
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            ),
           ),
         ),
       ],

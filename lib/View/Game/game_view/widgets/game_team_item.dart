@@ -59,6 +59,8 @@ class GameTeamsItem extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: CustomCachedImage(
+                          height: 40,
+                          width: 40,
                           isBorder: false,
                           shape: BoxShape.rectangle,
                           photoUrl: photoUrl,
@@ -72,6 +74,8 @@ class GameTeamsItem extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: CustomCachedImage(
+                              height: 40,
+                              width: 40,
                               isBorder: false,
                               shape: BoxShape.rectangle,
                               photoUrl: photoUrl,

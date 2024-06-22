@@ -30,7 +30,7 @@ class ChangeImage extends GetWidget<AuthController> {
               )),
               actions: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomButton(
                       onPressed: () {
