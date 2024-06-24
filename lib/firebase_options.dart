@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,38 +49,20 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDKMDacY7K5ssBXNQlep3W6APxV26MgJtc',
-    appId: '1:135490803354:web:0866160887b96af284b123',
-    messagingSenderId: '135490803354',
-    projectId: 'countmygame-87e2b',
-    authDomain: 'countmygame-87e2b.firebaseapp.com',
-    storageBucket: 'countmygame-87e2b.appspot.com',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBNVqevz65I6GKDAZmKrWj2lM-n5-OK7PE',
-    appId: '1:135490803354:android:3a60751c97d6114884b123',
-    messagingSenderId: '135490803354',
-    projectId: 'countmygame-87e2b',
-    storageBucket: 'countmygame-87e2b.appspot.com',
+    apiKey: 'AIzaSyACEffw_NzRK_bmcAuFdr3C4IMattAxulI',
+    appId: '1:1006174565501:android:05b31650480f93bc582d14',
+    messagingSenderId: '1006174565501',
+    projectId: 'count-my-game-cad7f',
+    storageBucket: 'count-my-game-cad7f.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBoa49ZIzllb41Ics7EImkVOzGjmFUQ31g',
-    appId: '1:135490803354:ios:bb7f3120a124ccf084b123',
-    messagingSenderId: '135490803354',
-    projectId: 'countmygame-87e2b',
-    storageBucket: 'countmygame-87e2b.appspot.com',
+    apiKey: 'AIzaSyCDRgATCIQm9KwxsG1au1KBGMtrkpz41Xo',
+    appId: '1:1006174565501:ios:090acf637733388a582d14',
+    messagingSenderId: '1006174565501',
+    projectId: 'count-my-game-cad7f',
+    storageBucket: 'count-my-game-cad7f.appspot.com',
     iosBundleId: 'com.example.countMyGame',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBoa49ZIzllb41Ics7EImkVOzGjmFUQ31g',
-    appId: '1:135490803354:ios:032571267ea246a584b123',
-    messagingSenderId: '135490803354',
-    projectId: 'countmygame-87e2b',
-    storageBucket: 'countmygame-87e2b.appspot.com',
-    iosBundleId: 'com.example.countMyGame.RunnerTests',
   );
 }
