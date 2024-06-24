@@ -13,9 +13,7 @@ class FriendsView extends StatelessWidget {
     return GetBuilder<FriendsController>(
       init: FriendsController(),
       builder: (controller) => Scaffold(
-        body: const SafeArea(
-          child: FriendsBody(),
-        ),
+        body: const FriendsBody(),
         //^ floating add btn
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(bottom: 50.0),

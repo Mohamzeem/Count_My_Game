@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,17 +11,17 @@ class MyApp {
 
 //~ appbar states
   static void setSystemUi() {
-    if (Platform.isAndroid) {
-      SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
-        statusBarColor: AppColors.secColor,
-        statusBarBrightness: Brightness.light,
-        statusBarIconBrightness: Brightness.light,
-        systemNavigationBarDividerColor: Colors.transparent,
-        systemNavigationBarColor: AppColors.secColor,
-        systemNavigationBarIconBrightness: Brightness.light,
-      );
-      SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
-    }
+    // if (Platform.isAndroid) {
+    SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
+      statusBarColor: AppColors.secColor,
+      statusBarBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarDividerColor: Colors.transparent,
+      systemNavigationBarColor: AppColors.secColor,
+      systemNavigationBarIconBrightness: Brightness.light,
+    );
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+    // }
   }
 }
 

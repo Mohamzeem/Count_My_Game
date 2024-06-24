@@ -24,7 +24,8 @@ class ProfileItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Flexible(
+      child: SizedBox(
+        height: 55.h,
         child: Card(
           surfaceTintColor: Colors.transparent,
           elevation: 5,
@@ -32,6 +33,8 @@ class ProfileItem extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
                   icon,
@@ -42,7 +45,7 @@ class ProfileItem extends StatelessWidget {
                 withGoIcon
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        // mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CustomText(
                             text: mainText,

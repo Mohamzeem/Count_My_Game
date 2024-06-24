@@ -9,10 +9,12 @@ class CustomAppBar extends StatelessWidget {
   final String title;
   final String photoUrl;
   final bool isArrowBack;
+  final bool isAPhoto;
 
   const CustomAppBar({
     super.key,
     required this.title,
+    this.isAPhoto = false,
     required this.photoUrl,
     this.isArrowBack = false,
   });
@@ -24,8 +26,8 @@ class CustomAppBar extends StatelessWidget {
       children: [
         isArrowBack
             ? Container(
-                height: 40.h,
-                width: 40.w,
+                height: 45.h,
+                width: 45.w,
                 decoration: const BoxDecoration(
                   color: AppColors.mainColor,
                   shape: BoxShape.circle,
@@ -41,9 +43,9 @@ class CustomAppBar extends StatelessWidget {
                   ),
                 ),
               )
-            : SizedBox(height: 40.h, width: 40.w),
+            : SizedBox(height: 45.h, width: 45.w),
         SizedBox(
-          width: 230.w,
+          width: 220.w,
           child: Center(
             child: CustomText(
               text: title,
@@ -54,11 +56,13 @@ class CustomAppBar extends StatelessWidget {
             ),
           ),
         ),
-        CustomCachedImage(
-          height: 45,
-          width: 45,
-          photoUrl: photoUrl,
-        ),
+        isAPhoto
+            ? CustomCachedImage(
+                height: 50,
+                width: 50,
+                photoUrl: photoUrl,
+              )
+            : SizedBox(height: 50.h, width: 50.w),
       ],
     );
   }

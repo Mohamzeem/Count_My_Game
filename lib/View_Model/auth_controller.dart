@@ -126,9 +126,9 @@ class AuthController extends GetxController {
       try {
         await _auth
             .signInWithEmailAndPassword(
-                // email: '${email.trim()}${AppStrings.defaultEmail}',
-                email: email.trim(),
-                password: password)
+          email: email.trim(),
+          password: password,
+        )
             .then(
           (value) async {
             await _getProfile();

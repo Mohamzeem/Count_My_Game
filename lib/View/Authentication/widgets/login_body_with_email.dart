@@ -4,7 +4,6 @@ import 'package:count_my_game/Core/Widgets/custom_text_button.dart';
 import 'package:count_my_game/Core/Widgets/text_form_field.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
-import 'package:count_my_game/View/Authentication/widgets/auth_app_bar.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,8 +23,7 @@ class LoginBodyWithEmail extends StatelessWidget {
           physics: const AlwaysScrollableScrollPhysics(
               parent: BouncingScrollPhysics()),
           children: [
-            const AuthAppBar(),
-            10.verticalSpace,
+            // 10.verticalSpace,
             //^ logo and title
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -34,7 +32,8 @@ class LoginBodyWithEmail extends StatelessWidget {
                 Image.asset(
                   'assets/images/score.png',
                   color: AppColors.mainColor,
-                  scale: 3,
+                  height: 150.h,
+                  width: double.infinity,
                 ),
                 const CustomText(
                   text: 'Count Your Games',
@@ -44,7 +43,7 @@ class LoginBodyWithEmail extends StatelessWidget {
                 ),
               ],
             ),
-            40.verticalSpace,
+            20.verticalSpace,
             //^ welcome text
             const CustomText(
               text: 'Welcome,',
@@ -123,6 +122,7 @@ class LoginBodyWithEmail extends StatelessWidget {
               backgroundColor: AppColors.kWhite,
               textColor: AppColors.mainColor,
             ),
+            20.verticalSpace,
           ],
         ),
       ),

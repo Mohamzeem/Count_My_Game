@@ -56,7 +56,7 @@ class CreateGameUserItem extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 10.h),
+        10.verticalSpace,
       ],
     );
   }

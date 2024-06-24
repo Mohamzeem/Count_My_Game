@@ -23,9 +23,9 @@ class ChangeImage extends GetWidget<AuthController> {
             AlertDialog(
               title: const Center(
                   child: CustomText(
-                text: 'Pick image from?',
+                text: 'Pick image from',
                 fontSize: 20,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w500,
                 color: AppColors.mainColor,
               )),
               actions: [
@@ -40,7 +40,7 @@ class ChangeImage extends GetWidget<AuthController> {
                       text: 'Gallary',
                       width: 95,
                       height: 30,
-                      fontSize: 16,
+                      fontSize: 15,
                     ),
                     CustomButton(
                       onPressed: () {
@@ -50,7 +50,7 @@ class ChangeImage extends GetWidget<AuthController> {
                       text: 'Camera',
                       width: 95,
                       height: 30,
-                      fontSize: 16,
+                      fontSize: 15,
                     ),
                   ],
                 ),

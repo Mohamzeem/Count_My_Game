@@ -31,54 +31,59 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: keyBoard,
-      inputFormatters: [LengthLimitingTextInputFormatter(maxLength)],
-      cursorColor: AppColors.mainColor,
-      textInputAction: TextInputAction.done,
-      obscureText: obscureText,
-      maxLines: 1,
-      style: const TextStyle(
-          fontSize: 20,
+    return SizedBox(
+      // height: 40.h,
+      // width: double.infinity,
+      child: TextFormField(
+        controller: controller,
+        keyboardType: keyBoard,
+        inputFormatters: [LengthLimitingTextInputFormatter(maxLength)],
+        cursorColor: AppColors.mainColor,
+        textInputAction: TextInputAction.done,
+        obscureText: obscureText,
+        maxLines: 1,
+        style: TextStyle(
+          fontSize: 20.sp,
           color: AppColors.mainColor,
-          fontWeight: FontWeight.w500),
-      decoration: InputDecoration(
-        prefixIcon: Icon(
-          prefixIcon,
-          color: AppColors.mainColor,
+          fontWeight: FontWeight.w500,
         ),
-        suffixIcon: suffixIconShow
-            ? InkWell(
-                onTap: suffixIconFunction,
-                child: obscureText
-                    ? const Icon(
-                        Icons.visibility_off,
-                        color: AppColors.mainColor,
-                      )
-                    : const Icon(
-                        Icons.visibility,
-                        color: AppColors.mainColor,
-                      ))
-            : const SizedBox(),
-        contentPadding: EdgeInsets.symmetric(horizontal: 10.w),
-        fillColor: filled,
-        filled: true,
-        label: CustomText(
-          text: label,
-          color: AppColors.mainColor,
-          fontSize: 20,
+        decoration: InputDecoration(
+          prefixIcon: Icon(
+            prefixIcon,
+            color: AppColors.mainColor,
+          ),
+          suffixIcon: suffixIconShow
+              ? InkWell(
+                  onTap: suffixIconFunction,
+                  child: obscureText
+                      ? const Icon(
+                          Icons.visibility_off,
+                          color: AppColors.mainColor,
+                        )
+                      : const Icon(
+                          Icons.visibility,
+                          color: AppColors.mainColor,
+                        ))
+              : const SizedBox(),
+          contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 0.h),
+          fillColor: filled,
+          filled: true,
+          label: CustomText(
+            text: label,
+            color: AppColors.mainColor,
+            fontSize: 20,
+          ),
+          border: OutlineInputBorder(
+              borderSide: BorderSide(width: 0.5, color: AppColors.kGrey200)),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 0.5, color: AppColors.kGrey200)),
+          focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(width: 0.5, color: AppColors.mainColor)),
+          errorBorder: const OutlineInputBorder(
+              borderSide: BorderSide(width: 0.5, color: AppColors.mainColor)),
+          focusedErrorBorder: const OutlineInputBorder(
+              borderSide: BorderSide(width: 0.5, color: AppColors.mainColor)),
         ),
-        border: OutlineInputBorder(
-            borderSide: BorderSide(width: 0.5, color: AppColors.kGrey200)),
-        enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 0.5, color: AppColors.kGrey200)),
-        focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(width: 0.5, color: AppColors.mainColor)),
-        errorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(width: 0.5, color: AppColors.mainColor)),
-        focusedErrorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(width: 0.5, color: AppColors.mainColor)),
       ),
     );
   }

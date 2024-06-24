@@ -35,6 +35,7 @@ class CreateGameBody extends GetWidget<GameController> {
                   title: 'Create a new game',
                   photoUrl: controller.offlineProfile.isPhoto,
                   isArrowBack: true,
+                  isAPhoto: true,
                 ),
               ),
               //^ Start Your Game text
@@ -130,32 +131,11 @@ class CreateGameBody extends GetWidget<GameController> {
                           CustomButton(
                             onPressed: () {
                               if (controller.selectedNum.value == '2') {
-                                controller.createTwoTeamsGameOnlineMode(
-                                    // twoId: controller.teamTwo.id!,
-                                    // twoName: controller.teamTwo.name!,
-                                    // twoPhoto: controller.teamTwo.photo!,
-                                    );
+                                controller.createTwoTeamsGameOnlineMode();
                               } else if (controller.selectedNum.value == '3') {
-                                controller.createGameThreeTeamsOnlineMode(
-                                    // twoId: controller.teamTwo.id!,
-                                    // twoName: controller.teamTwo.name!,
-                                    // twoPhoto: controller.teamTwo.photo!,
-                                    // threeId: controller.teamThree.id!,
-                                    // threeName: controller.teamThree.name!,
-                                    // threePhoto: controller.teamThree.photo!,
-                                    );
+                                controller.createGameThreeTeamsOnlineMode();
                               } else {
-                                controller.createGameFourTeamsOnlineMode(
-                                    // twoId: controller.teamTwo.id!,
-                                    // twoName: controller.teamTwo.name!,
-                                    // twoPhoto: controller.teamTwo.photo!,
-                                    // threeId: controller.teamThree.id!,
-                                    // threeName: controller.teamThree.name!,
-                                    // threePhoto: controller.teamThree.photo!,
-                                    // fourId: controller.teamFour.id!,
-                                    // fourName: controller.teamFour.name!,
-                                    // fourPhoto: controller.teamFour.photo!,
-                                    );
+                                controller.createGameFourTeamsOnlineMode();
                               }
                             },
                             text: 'Start Game',
