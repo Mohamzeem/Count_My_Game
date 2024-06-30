@@ -399,16 +399,24 @@ class AuthController extends GetxController {
     CustomLoading.toast(text: 'No internet connection');
   }
 
-  void navigateByConnection(BuildContext context) async {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user == null) {
-        Get.offNamed(AppRoute.emailLogInView);
-      } else {
-        Get.offNamed(AppRoute.homeView);
-      }
-    });
+  // Stream navigateByConnection() {
+  //   FirebaseAuth.instance.authStateChanges().listen((User? user) {
+  //     if (user == null) {
+  //       Get.offNamed(AppRoute.emailLogInView);
+  //     } else {
+  //       Get.offNamed(AppRoute.homeView);
+  //     }
+  //   });
+  // }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> userInfo() {
+    return _fireStore
+        .collection(AppStrings.usersCollection)
+        .doc(_auth.currentUser!.uid)
+        .snapshots();
   }
 
+  Stream<User?> get authState => _auth.authStateChanges();
   void changeUserNameFunction() {
     if (nameController.text.isEmpty) {
       CustomLoading.toast(

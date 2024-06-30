@@ -15,8 +15,12 @@ class AppPages {
   AppPages();
 
   static final List<GetPage> routes = [
+    // GetPage(
+    //   name: AppRoute.initial,
+    //   page: () => const AuthPageView(),
+    // ),
     GetPage(
-      name: AppRoute.initial,
+      name: AppRoute.emailLogInView,
       page: () => const EmailLoginView(),
     ),
     GetPage(
