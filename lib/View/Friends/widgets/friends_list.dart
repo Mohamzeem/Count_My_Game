@@ -20,9 +20,9 @@ class FriendsList extends StatelessWidget {
           if (snapshot.hasData) {
             final List<FriendModel> frinedsList = snapshot.data!;
 
-            if (frinedsList.isEmpty || frinedsList == []) {
+            if (frinedsList.isEmpty || frinedsList == [] || !snapshot.hasData) {
               return Padding(
-                padding: EdgeInsets.only(top: 300.h),
+                padding: EdgeInsets.only(top: 260.h),
                 child: const CustomText(
                   text: 'No Friends Found !!!',
                   color: AppColors.mainColor,

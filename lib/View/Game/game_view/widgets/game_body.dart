@@ -6,6 +6,7 @@ import 'package:count_my_game/View/Game/game_view/widgets/game_teams.dart';
 import 'package:count_my_game/View/Game/game_view/widgets/game_text_field.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:count_my_game/View_Model/game_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -28,7 +29,7 @@ class GameBody extends GetWidget<GameController> {
                 isArrowBack: false,
                 title:
                     '${controller.selectedGame.value} / ${controller.maxScoreController.text}',
-                photoUrl: contAuth.offlineProfile.isPhoto,
+                photoUrl: FirebaseAuth.instance.currentUser!.photoURL!,
               ),
             ),
             SizedBox(height: 20.h),

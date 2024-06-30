@@ -274,9 +274,9 @@ class _PickFriendsIconState extends State<PickFriendsIcon> {
                     SizedBox(height: 10.h),
                     Expanded(
                       child: ListView.builder(
-                        itemCount: controller.frinedsList.length,
+                        itemCount: controller.friendsList.length,
                         itemBuilder: (context, index) {
-                          final friendModel = controller.frinedsList[index];
+                          final friendModel = controller.friendsList[index];
                           return GetBuilder<GameController>(
                             builder: (gameCont) => PickFriendsItem(
                               height: 50,

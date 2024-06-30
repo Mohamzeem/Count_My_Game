@@ -1,4 +1,5 @@
 import 'package:count_my_game/View_Model/friends_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -33,7 +34,7 @@ class CreateGameBody extends GetWidget<GameController> {
               GetBuilder<AuthController>(
                 builder: (controller) => CustomAppBar(
                   title: 'Create a new game',
-                  photoUrl: controller.offlineProfile.isPhoto,
+                  photoUrl: FirebaseAuth.instance.currentUser!.photoURL!,
                   isArrowBack: true,
                   isAPhoto: true,
                 ),

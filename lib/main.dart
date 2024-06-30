@@ -1,7 +1,6 @@
 import 'package:count_my_game/Core/App/app_info.dart';
 import 'package:count_my_game/Core/App/app_view.dart';
 import 'package:count_my_game/Core/Services/pref_key.dart';
-import 'package:count_my_game/Models/team_type_adaptor.dart';
 import 'package:count_my_game/Models/user_type_adaptor.dart';
 import 'package:count_my_game/firebase_options.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(UserTypeAdaptor());
-  Hive.registerAdapter(TeamTypeAdaptor());
   await Hive.openBox(PrefKeys.profile);
   MyApp.setSystemUi();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

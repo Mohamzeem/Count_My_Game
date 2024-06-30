@@ -6,6 +6,7 @@ import 'package:count_my_game/Models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class FriendsController extends GetxController {
@@ -13,18 +14,18 @@ class FriendsController extends GetxController {
   final RxBool _fromFriendsTeamTwo = false.obs;
   final RxBool _fromFriendsTeamThree = false.obs;
   final RxBool _fromFriendsTeamFour = false.obs;
-  // final _checker = InternetConnectionChecker();
-  List<FriendModel> _frinedsList = [];
+  List<FriendModel> _friendsList = [];
   final Rx<FriendModel> _friendOneModel = const FriendModel().obs;
   final Rx<FriendModel> _friendTwoModel = const FriendModel().obs;
   final Rx<FriendModel> _friendThreeModel = const FriendModel().obs;
   final Rx<FriendModel> _friendFourModel = const FriendModel().obs;
+  UserModel friendFound = const UserModel();
   final _auth = FirebaseAuth.instance;
   TextEditingController nameController = TextEditingController();
 
-  List<FriendModel> get frinedsList => _frinedsList;
-  set frinedsList(List<FriendModel> val) {
-    _frinedsList = val;
+  List<FriendModel> get friendsList => _friendsList;
+  set friendsList(List<FriendModel> val) {
+    _friendsList = val;
     update();
   }
 
@@ -84,38 +85,60 @@ class FriendsController extends GetxController {
 
   Future addFriend() async {
     if (nameController.text == '') {
-      CustomLoading.toast(text: 'Please enter email');
-    } else if (!nameController.text.contains('@')) {
+      CustomLoading.toast(
+          text: 'Please enter email',
+          toastPosition: EasyLoadingToastPosition.center);
+    } else if (!RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(nameController.text)) {
       CustomLoading.toast(text: 'Please enter a valid email');
-    } else if (nameController.text.contains(' ')) {
-      CustomLoading.toast(text: 'Email should not contain spaces');
     } else {
       CustomLoading.show();
-      final result = await _fireStore
-          .collection(AppStrings.usersCollection)
-          .where('email', isEqualTo: nameController.text.trim())
-          .get();
-      final friendEmail = UserModel.fromJson(result.docs[0].data());
-
-      FriendModel friendModel = FriendModel(
-          id: friendEmail.id, name: friendEmail.name, photo: friendEmail.photo);
-
-      if (friendEmail.email != nameController.text.trim() ||
-          friendEmail.id != _auth.currentUser!.uid) {
-        await _fireStore
+      try {
+        //^ get friend from users collection
+        final result = await _fireStore
             .collection(AppStrings.usersCollection)
-            .doc(_auth.currentUser!.uid)
-            .update({
-          'friends': FieldValue.arrayUnion([friendModel.toJson()])
-        }).then((_) {
-          CustomLoading.toast(text: '${friendEmail.name} added');
-          nameController.clear();
-          Get.back();
-        }).onError((error, stackTrace) {
-          CustomLoading.toast(text: error.toString());
-        });
-      } else {
-        CustomLoading.toast(text: 'Email not found');
+            .where('email', isEqualTo: nameController.text.trim())
+            .get();
+
+        //^ if friend found in users collection
+        if (result.docs.isNotEmpty) {
+          friendFound = UserModel.fromJson(result.docs[0].data());
+          FriendModel friendModel = FriendModel(
+            id: friendFound.id,
+            name: friendFound.name,
+            photo: friendFound.photo,
+          );
+
+          //^ if friend found in friends list
+          friendsList = await getFriendsForPick();
+          bool friendAdded =
+              friendsList.any((element) => element.id == friendFound.id);
+
+          if (friendAdded == true) {
+            CustomLoading.toast(text: 'already added');
+          } else {
+            if (friendFound.email == nameController.text.trim() &&
+                friendFound.id != _auth.currentUser!.uid) {
+              await _fireStore
+                  .collection(AppStrings.usersCollection)
+                  .doc(_auth.currentUser!.uid)
+                  .update({
+                'friends': FieldValue.arrayUnion([friendModel.toJson()])
+              }).then((_) {
+                CustomLoading.toast(text: '${friendFound.name} added');
+                nameController.clear();
+                Get.back();
+              });
+            } else {
+              CustomLoading.toast(text: 'Its Your email');
+            }
+          }
+        } else {
+          CustomLoading.toast(text: 'Invalid email');
+        }
+      } on FirebaseException catch (e) {
+        CustomLoading.toast(text: e.message.toString());
       }
     }
     CustomLoading.dismiss();
@@ -158,7 +181,7 @@ class FriendsController extends GetxController {
         ),
       ),
     );
-    frinedsList = list;
+    friendsList = list;
     return list;
   }
 

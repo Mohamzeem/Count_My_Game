@@ -10,7 +10,6 @@ class AppRoute {
   static const contactsView = '/contactsView';
   static const gameView = '/gameView';
   static const profileView = '/profileView';
-  static const authView = '/authView';
   // static const createGroupsView = '/createGroupsView';
   // static const groupDetailsView = '/groupDetailsView';
 }

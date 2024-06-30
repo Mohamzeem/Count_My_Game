@@ -3,7 +3,6 @@ import 'package:count_my_game/Core/App/app_info.dart';
 import 'package:count_my_game/Core/Routes/app_pages.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_theme.dart';
-import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,7 +15,6 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(AuthController(), permanent: true);
     return ScreenUtilInit(
       designSize: AppConfig().designSize,
       minTextAdapt: true,

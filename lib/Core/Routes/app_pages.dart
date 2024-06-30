@@ -1,5 +1,4 @@
 import 'package:count_my_game/Core/Routes/app_routes.dart';
-import 'package:count_my_game/View/Authentication/auth_page_view.dart';
 import 'package:count_my_game/View/Authentication/register_view.dart';
 import 'package:count_my_game/View/Authentication/forgot_password_view.dart';
 import 'package:count_my_game/View/Authentication/email_login_view.dart';
@@ -18,10 +17,6 @@ class AppPages {
   static final List<GetPage> routes = [
     GetPage(
       name: AppRoute.initial,
-      page: () => const AuthPageView(),
-    ),
-    GetPage(
-      name: AppRoute.emailLogInView,
       page: () => const EmailLoginView(),
     ),
     GetPage(

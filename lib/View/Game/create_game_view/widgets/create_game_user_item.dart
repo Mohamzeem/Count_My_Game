@@ -50,7 +50,7 @@ class CreateGameUserItem extends StatelessWidget {
                   width: 40,
                   isBorder: false,
                   shape: BoxShape.rectangle,
-                  photoUrl: authCont.offlineProfile.isPhoto,
+                  photoUrl: FirebaseAuth.instance.currentUser!.photoURL!,
                 ),
               ),
             ),

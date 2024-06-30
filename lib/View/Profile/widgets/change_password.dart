@@ -19,7 +19,7 @@ class ChangePassword extends StatelessWidget {
           builder: (controller) => ProfileItem(
             onTap: () => AppFunctions.showBtmSheetWithTextAndButton(
               obscureText: controller.showPassword,
-              suffixIconShow: true,
+              suffixIconShow: false,
               context: context,
               controller: controller.passwordController,
               title: 'Enter your new password',

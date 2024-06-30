@@ -92,6 +92,8 @@ class LoginBodyWithEmail extends StatelessWidget {
             //^ login button
             CustomButton(
               onPressed: () => controller.logInFunction(),
+              // onPressed: () => FirebaseServices()
+              //     .login(controller.email.trim(), controller.password.trim()),
               text: 'Log In',
               width: double.infinity,
               height: 45,
