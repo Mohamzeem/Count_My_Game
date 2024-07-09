@@ -4,6 +4,7 @@ import 'package:count_my_game/Core/Widgets/custom_text_button.dart';
 import 'package:count_my_game/Core/Widgets/text_form_field.dart';
 import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
+import 'package:count_my_game/View/Authentication/widgets/auth_app_bar.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +24,8 @@ class LoginBodyWithEmail extends StatelessWidget {
           physics: const AlwaysScrollableScrollPhysics(
               parent: BouncingScrollPhysics()),
           children: [
-            // 10.verticalSpace,
+            //^ appbar
+            const AuthAppBar(isArrowBack: false),
             //^ logo and title
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -96,7 +98,7 @@ class LoginBodyWithEmail extends StatelessWidget {
               //     .login(controller.email.trim(), controller.password.trim()),
               text: 'Log In',
               width: double.infinity,
-              height: 45,
+              height: 40,
               threeRadius: 5,
               lastRadius: 5,
               fontSize: 25,
@@ -117,7 +119,7 @@ class LoginBodyWithEmail extends StatelessWidget {
               onPressed: () => Get.toNamed(AppRoute.registrationView),
               text: 'Create Account',
               width: double.infinity,
-              height: 45,
+              height: 40,
               threeRadius: 5,
               lastRadius: 5,
               fontSize: 25,

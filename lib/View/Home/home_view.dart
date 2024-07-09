@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:count_my_game/Core/Utils/app_colors.dart';
-import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:count_my_game/View_Model/game_controller.dart';
 import 'package:count_my_game/View_Model/home_controller.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -16,13 +14,10 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final gameCont = Get.put(GameController());
-
   @override
   void initState() {
     super.initState();
-    Get.put(AuthController(), permanent: true);
-    gameCont.getPreviousGames();
+    Get.find<GameController>().getPreviousGames();
   }
 
   @override
@@ -39,7 +34,7 @@ class _HomeViewState extends State<HomeView> {
                 backgroundColor: Colors.transparent,
                 color: AppColors.secColor, //todo color
                 animationDuration: const Duration(milliseconds: 300),
-                height: Platform.isAndroid ? 55.h : 42.h,
+                height: 45.h,
                 buttonBackgroundColor: AppColors.mainColor,
                 index: controller.index,
                 onTap: (value) => controller.index = value,

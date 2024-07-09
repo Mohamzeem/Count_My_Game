@@ -237,7 +237,7 @@ class _PickFriendsIconState extends State<PickFriendsIcon> {
               Container(
                 decoration: BoxDecoration(
                   color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 height: 400.h,
                 child: Column(
@@ -311,7 +311,7 @@ class _PickFriendsIconState extends State<PickFriendsIcon> {
           width: 25.w,
           decoration: const BoxDecoration(
             color: AppColors.mainColor,
-            borderRadius: BorderRadius.all(Radius.circular(5)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           child: const Icon(
             Icons.person_2,

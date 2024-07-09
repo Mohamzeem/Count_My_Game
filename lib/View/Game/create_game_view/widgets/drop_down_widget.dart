@@ -19,7 +19,7 @@ class DropDownWidget extends GetWidget<GameController> {
     return Obx(
       () => Container(
         width: width.w,
-        height: 35.h,
+        height: 30.h,
         decoration: BoxDecoration(
           color: AppColors.kWhite,
           borderRadius: BorderRadius.circular(10),

@@ -193,7 +193,6 @@ class GameController extends GetxController {
     selectedNum = ''.obs;
     _gameCreated = false.obs;
     selectedGame = ''.obs;
-    Get.delete<GameController>();
   }
 
   void resetClearData() {
@@ -356,15 +355,14 @@ class GameController extends GetxController {
             .doc(gameModel.id)
             .delete()
             .then((_) {
-          Get.offNamed(AppRoute.homeView);
-          Get.delete<GameController>();
+          Get.offAllNamed(AppRoute.homeView);
+
           CustomLoading.dismiss();
         });
       } on Exception catch (e) {
         CustomLoading.toast(text: e.toString());
       }
     } else {
-      Get.delete<GameController>();
       Get.offAllNamed(AppRoute.homeView);
     }
   }
@@ -475,6 +473,8 @@ class GameController extends GetxController {
       } on Exception catch (e) {
         CustomLoading.toast(text: e.toString());
       }
+    } else {
+      CustomLoading.toast(text: 'No Internet Connection');
     }
     CustomLoading.dismiss();
   }
@@ -491,18 +491,22 @@ class GameController extends GetxController {
   Future deletePerviousGame(int index, {required String gameId}) async {
     bool isConnected = await _checkInternet();
     if (isConnected) {
-      await _fireStore
-          .collection(AppStrings.gamesCollection)
-          .doc(gameId)
-          .delete()
-          .whenComplete(() {
-        CustomLoading.toast(text: 'Game deleted successfully');
-      }).onError((error, stackTrace) =>
-              CustomLoading.toast(text: error.toString()));
+      CustomLoading.show();
+      try {
+        await _fireStore
+            .collection(AppStrings.gamesCollection)
+            .doc(gameId)
+            .delete()
+            .then((_) {
+          getPreviousGames().whenComplete(
+              () => CustomLoading.toast(text: 'Game deleted successfully'));
+        });
+      } on Exception catch (e) {
+        CustomLoading.toast(text: e.toString());
+      }
     } else {
-      CustomLoading.toast(text: 'Game deleted successfully');
+      CustomLoading.toast(text: 'No Internet Connection');
     }
-    getPreviousGames();
   }
 
   Future<List<GameModel>> getPreviousGames() async {

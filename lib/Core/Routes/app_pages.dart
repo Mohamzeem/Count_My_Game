@@ -2,7 +2,6 @@ import 'package:count_my_game/Core/Routes/app_routes.dart';
 import 'package:count_my_game/View/Authentication/register_view.dart';
 import 'package:count_my_game/View/Authentication/forgot_password_view.dart';
 import 'package:count_my_game/View/Authentication/email_login_view.dart';
-import 'package:count_my_game/View/Authentication/guest_login_view.dart';
 import 'package:count_my_game/View/Friends/friends_view.dart';
 import 'package:count_my_game/View/Game/create_game_view/create_game_view.dart';
 import 'package:count_my_game/View/Game/game_view/game_view.dart';
@@ -27,10 +26,7 @@ class AppPages {
       name: AppRoute.createdGameView,
       page: () => const CreateGameView(),
     ),
-    GetPage(
-      name: AppRoute.guestLogInView,
-      page: () => const GuestLoginView(),
-    ),
+
     GetPage(
       name: AppRoute.forgotPasswordView,
       page: () => const ForgotPasswordView(),

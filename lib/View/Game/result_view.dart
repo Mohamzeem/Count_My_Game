@@ -173,7 +173,7 @@ class _ResultViewState extends State<ResultView> {
                   //^ close btn
                   CustomButton(
                     onPressed: () {
-                      Get.offNamed(AppRoute.homeView);
+                      Get.offAllNamed(AppRoute.homeView);
                       cont.clearAllData();
                     },
                     text: 'Close',

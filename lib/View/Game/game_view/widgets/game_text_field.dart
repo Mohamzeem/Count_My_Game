@@ -54,27 +54,29 @@ class GameTextField extends StatelessWidget {
               color: AppColors.mainColor,
             ),
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 10.w),
+          contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 0),
           fillColor: filled,
           filled: true,
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
-              borderSide: BorderSide(width: 0.5, color: AppColors.kGrey200)),
+              borderRadius: BorderRadius.circular(10),
+              borderSide:
+                  const BorderSide(width: 2, color: AppColors.mainColor)),
           enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
-              borderSide: BorderSide(width: 0.5, color: AppColors.kGrey200)),
+              borderRadius: BorderRadius.circular(10),
+              borderSide:
+                  const BorderSide(width: 2, color: AppColors.mainColor)),
           focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(10),
               borderSide:
-                  const BorderSide(width: 0.5, color: AppColors.mainColor)),
+                  const BorderSide(width: 2, color: AppColors.mainColor)),
           errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(10),
               borderSide:
-                  const BorderSide(width: 0.5, color: AppColors.mainColor)),
+                  const BorderSide(width: 2, color: AppColors.mainColor)),
           focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(10),
               borderSide:
-                  const BorderSide(width: 0.5, color: AppColors.mainColor)),
+                  const BorderSide(width: 2, color: AppColors.mainColor)),
         ),
       ),
     );

@@ -54,7 +54,7 @@ class CreateGameBody extends GetWidget<GameController> {
                     text: 'Game Name',
                     color: AppColors.mainColor,
                     fontSize: 18,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w600,
                   ),
                   DropDownWidget(
                     isGameName: true,
@@ -71,7 +71,7 @@ class CreateGameBody extends GetWidget<GameController> {
                     text: 'Game Score',
                     color: AppColors.mainColor,
                     fontSize: 18,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w600,
                   ),
                   GameTextField(
                     keyBoard: TextInputType.number,
@@ -92,11 +92,11 @@ class CreateGameBody extends GetWidget<GameController> {
                     text: 'Teams Number',
                     color: AppColors.mainColor,
                     fontSize: 18,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w600,
                   ),
                   DropDownWidget(
                     isGameName: false,
-                    width: 110,
+                    width: 100,
                   ),
                 ],
               ),
@@ -114,7 +114,7 @@ class CreateGameBody extends GetWidget<GameController> {
                 },
                 text: controller.isCreated ? 'Reset Teams' : 'Set Teams',
                 width: double.infinity,
-                height: 40,
+                height: 35,
                 backgroundColor: controller.isCreated
                     ? AppColors.kBlack
                     : AppColors.mainColor,
@@ -141,7 +141,7 @@ class CreateGameBody extends GetWidget<GameController> {
                             },
                             text: 'Start Game',
                             width: double.infinity,
-                            height: 40,
+                            height: 35,
                           ),
                         ],
                       )

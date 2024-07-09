@@ -26,8 +26,8 @@ class CustomAppBar extends StatelessWidget {
       children: [
         isArrowBack
             ? Container(
-                height: 45.h,
-                width: 45.w,
+                height: 40.h,
+                width: 40.w,
                 decoration: const BoxDecoration(
                   color: AppColors.mainColor,
                   shape: BoxShape.circle,
@@ -43,7 +43,7 @@ class CustomAppBar extends StatelessWidget {
                   ),
                 ),
               )
-            : SizedBox(height: 45.h, width: 45.w),
+            : SizedBox(height: 40.h, width: 40.w),
         SizedBox(
           width: 220.w,
           child: Center(

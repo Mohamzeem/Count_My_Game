@@ -2,7 +2,6 @@ class AppRoute {
   static const initial = '/';
   // static const authView = '/authView';
   static const emailLogInView = '/emailLogInView';
-  static const guestLogInView = '/guestLogInView';
   static const forgotPasswordView = '/forgotPassword';
   static const registrationView = '/registrationView';
   static const homeView = '/homeView';

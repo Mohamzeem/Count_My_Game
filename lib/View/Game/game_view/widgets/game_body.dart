@@ -32,13 +32,13 @@ class GameBody extends GetWidget<GameController> {
                 photoUrl: FirebaseAuth.instance.currentUser!.photoURL!,
               ),
             ),
-            SizedBox(height: 20.h),
+            20.verticalSpace,
             GetBuilder<GameController>(
               builder: (contGame) => Column(
                 children: [
                   //^ team items
                   const GameTeams(),
-                  SizedBox(height: 20.h),
+                  20.verticalSpace,
                   //^ add score + field
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,7 +69,7 @@ class GameBody extends GetWidget<GameController> {
                       )
                     ],
                   ),
-                  SizedBox(height: 20.h),
+                  20.verticalSpace,
                   //^info undo
                   Row(
                     children: [
@@ -86,7 +86,7 @@ class GameBody extends GetWidget<GameController> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 90.h),
+                  75.verticalSpace,
                   CustomButton(
                     onPressed: () => controller.closeAndDeleteGame(),
                     text: 'Close and Delete Game',

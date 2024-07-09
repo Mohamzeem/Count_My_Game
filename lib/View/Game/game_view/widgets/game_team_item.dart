@@ -37,16 +37,20 @@ class GameTeamsItem extends StatelessWidget {
             //^ team name
             Padding(
               padding: EdgeInsets.all(5.r),
-              child: CustomText(
-                text: teamName,
-                color: AppColors.mainColor,
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
+              child: SizedBox(
+                width: 140.w,
+                child: CustomText(
+                  textAlign: TextAlign.center,
+                  text: teamName,
+                  color: AppColors.mainColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  textOverflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
             //^ photo
             Container(
-              // width: isTwoTeams ? 350.w : 150.w,
               width: 150.w,
               height: 90.h,
               decoration: const BoxDecoration(

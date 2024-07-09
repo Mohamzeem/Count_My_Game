@@ -1,4 +1,4 @@
-import 'package:count_my_game/Core/Widgets/custom_app_bar.dart';
+import 'package:count_my_game/View/Authentication/widgets/auth_app_bar.dart';
 import 'package:count_my_game/View_Model/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,8 +21,7 @@ class ForgotPasswordBody extends StatelessWidget {
       child: ListView(
         children: [
           //^ appbar
-          const CustomAppBar(
-            photoUrl: '',
+          const AuthAppBar(
             title: 'Forgot Password',
             isArrowBack: true,
           ),

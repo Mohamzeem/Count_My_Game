@@ -18,9 +18,9 @@ class UserField extends StatelessWidget {
       height: 35.h,
       width: width.w,
       decoration: BoxDecoration(
-        color: AppColors.kWhite,
-        borderRadius: BorderRadius.circular(5),
-      ),
+          color: AppColors.kWhite,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(width: 2, color: AppColors.mainColor)),
       child: Center(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 5.w),

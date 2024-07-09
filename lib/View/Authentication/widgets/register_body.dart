@@ -19,8 +19,6 @@ class RegisterBody extends StatelessWidget {
       builder: (controller) => Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: ListView(
-          physics: const AlwaysScrollableScrollPhysics(
-              parent: BouncingScrollPhysics()),
           children: [
             const AuthAppBar(isArrowBack: true),
             10.verticalSpace,
@@ -90,48 +88,18 @@ class RegisterBody extends StatelessWidget {
               suffixIconFunction: () =>
                   controller.showPassword = !controller.showPassword,
             ),
-            //^ forgot password
             40.verticalSpace,
             //^ create account btn
             CustomButton(
               onPressed: () async => controller.registerFunction(),
               text: 'Create Account',
               width: double.infinity,
-              height: 45,
+              height: 40,
               threeRadius: 5,
               lastRadius: 5,
               fontSize: 25,
               backgroundColor: AppColors.mainColor,
             ),
-            // //^ or text
-            // const CustomText(
-            //   text:
-            //       'ــــــــــــــــــــــــــــــــــ OR ــــــــــــــــــــــــــــــــ',
-            //   textAlign: TextAlign.center,
-            //   color: AppColors.mainColor,
-            //   fontWeight: FontWeight.w700,
-            // ),
-            // //^ offline game text
-            // const CustomText(
-            //   text: 'Offline Game for playing without internet',
-            //   color: AppColors.mainColor,
-            //   fontWeight: FontWeight.w500,
-            //   fontSize: 20,
-            //   textAlign: TextAlign.center,
-            // ),
-            // 10.verticalSpace,
-            // //^ offline game btn
-            // CustomButton(
-            //   onPressed: () => Get.offAllNamed(AppRoute.guestLogInView),
-            //   text: 'Offline Game',
-            //   width: double.infinity,
-            //   height: 45,
-            //   threeRadius: 5,
-            //   lastRadius: 5,
-            //   fontSize: 25,
-            //   backgroundColor: AppColors.kWhite,
-            //   textColor: AppColors.mainColor,
-            // ),
           ],
         ),
       ),
