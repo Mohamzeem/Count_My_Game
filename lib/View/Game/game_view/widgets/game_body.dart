@@ -38,7 +38,7 @@ class GameBody extends GetWidget<GameController> {
                 children: [
                   //^ team items
                   const GameTeams(),
-                  20.verticalSpace,
+                  30.verticalSpace,
                   //^ add score + field
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,7 +69,7 @@ class GameBody extends GetWidget<GameController> {
                       )
                     ],
                   ),
-                  20.verticalSpace,
+                  15.verticalSpace,
                   //^info undo
                   Row(
                     children: [
@@ -86,7 +86,7 @@ class GameBody extends GetWidget<GameController> {
                       ),
                     ],
                   ),
-                  75.verticalSpace,
+                  60.verticalSpace,
                   CustomButton(
                     onPressed: () => controller.closeAndDeleteGame(),
                     text: 'Close and Delete Game',
